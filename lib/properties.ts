@@ -6,7 +6,7 @@ export interface Property {
   propertyType: string;
   location: string;
   price: number;
-  description: string;
+  description?: string;
   bedrooms?: number;
   bathrooms?: number;
   area?: number;
@@ -115,6 +115,8 @@ const properties: Property[] = [
     ],
   },
 ];
+
+
 
 export function getProperty(id: string): Property | undefined {
   // const res = await axios.get('/api/property/[id])

@@ -2,8 +2,13 @@ import { NextResponse } from "next/server";
 import { PrismaClient } from '@prisma/client';
 
 export async function DELETE(req: Request, { params }:{params: { id: string}}){
+  try {
+    
+  } catch (error) {
+    
+  }
   console.log(params)
-  const { id } = params
+  const { id } = params;
   console.log(id);
 
   const prisma = new PrismaClient();
