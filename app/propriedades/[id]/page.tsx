@@ -8,12 +8,11 @@ import { getProperty, getAllPropertyIds } from '@/lib/properties';
 export async function generateStaticParams() {
   const propertyIds = getAllPropertyIds();
   return propertyIds.map((id) => ({
-    id: id,
+    id: id.toString(),
   }));
 }
 
 export default function PropertyPage({ params }: { params: { id: string } }) {
-  // Fetch property data from API will be await getProperty
   const property = getProperty(params.id);
 
   if (!property) {
@@ -21,7 +20,7 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className="pt-16 pb-12">
+    <div className="pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <PropertyHeader property={property} />
         <PropertyGallery images={property.images} />

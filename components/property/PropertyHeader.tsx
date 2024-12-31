@@ -12,8 +12,8 @@ export default function PropertyHeader({ property }: { property: Property }) {
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
     toast({
-      title: 'Link copiado!',
-      description: 'O link foi copiado para sua área de transferência.',
+      title: "Link copiado!",
+      description: "O link foi copiado para sua área de transferência.",
     });
   };
 
@@ -21,7 +21,7 @@ export default function PropertyHeader({ property }: { property: Property }) {
     <div className="mb-8">
       <div className="flex items-center gap-2 text-muted-foreground mb-2">
         <Building2 className="h-4 w-4" />
-        <span>{property.propertyType}</span>
+        <span>{property.type}</span>
         <span>•</span>
         <MapPin className="h-4 w-4" />
         <span>{property.location}</span>

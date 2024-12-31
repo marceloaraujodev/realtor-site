@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Building2, Menu, X } from 'lucide-react';
+import { Building2, Menu, Plus, X } from 'lucide-react';
 import { Button } from './ui/button';
 
 export default function Header() {
@@ -38,7 +38,12 @@ export default function Header() {
                 {item.name}
               </Link>
             ))}
-            <Button>Fale Conosco</Button>
+            <Link href="/propriedades/novo">
+              <Button>
+                <Plus className="h-4 w-4 mr-2" />
+                Novo Imóvel
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
@@ -71,7 +76,12 @@ export default function Header() {
                   {item.name}
                 </Link>
               ))}
-              <Button className="w-full">Fale Conosco</Button>
+              <Link href="/propriedades/novo" onClick={() => setIsMenuOpen(false)}>
+                <Button className="w-full">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Novo Imóvel
+                </Button>
+              </Link>
             </div>
           </div>
         )}

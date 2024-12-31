@@ -16,6 +16,7 @@ export interface PropertyData {
   bathrooms: number;
   area: number;
   totalArea: number;
+  privateArea: number;
   garage: number;
   features: Feature[];
   images: Image[];
