@@ -5,12 +5,21 @@ import { FormData } from "@/types/formTypes";
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
-  // try {
+  try {
     const propertyData: FormData = await req.json();
     console.log(propertyData);
-    console.log(propertyData.features)
+    // console.log(propertyData.features)
  
     const propertyType = propertyData.propertyType || PropertyType.Apartamento; // Default to 'Apartamento' if no value is provided
+
+
+    // // Upload images to storage and get their URLs
+    // const uploadedImages = await Promise.all(
+    //   propertyData.images.map(async (image) => {
+    //     const url = await uploadFileToStorage(image.file); // Implement this utility to upload files and return their URLs
+    //     return { url };
+    //   })
+    // );
 
     // Start a transaction
     const result = await prisma.$transaction(async (prisma) => {
@@ -29,25 +38,26 @@ export async function POST(req: Request) {
           totalArea: +propertyData.totalArea,
           privateArea: +propertyData.privateArea,
           images: {
-            create: propertyData.images.map((image) => ({ url: image.url })),
+            create: [], // use uploadedImages here
           }
         }
       });
 
-      const features: { name: string; propertyId: number }[] = propertyData.features?.map((feature) => {
-        console.log('this is feature inside features after new property', feature)
-    
+      // console.log('this is propertyData:', propertyData);
+      // console.log('this is propertyData.features:', propertyData.features)
+
+      const features = propertyData.features?.map((feature) => {
         return {
-          name: feature.value,
-          propertyId: newProperty.id,
-        }
-      }) || []
-      console.log('this is features -----', features);
+          name: feature.name, 
+          propertyId: newProperty.id, 
+        };
+      }) || [];
+      // console.log('this is features inside the map -----', features);
 
       // Create the features in the database
-      if(features.length > 0){
+      if (features.length > 0) {
         await prisma.feature.createMany({
-          data: features
+          data: features,
         });
       }
       return newProperty; // Return the newly created property
@@ -58,18 +68,18 @@ export async function POST(req: Request) {
       newProperty: result,
     }, { status: 201 });
 
-  // } catch (error: unknown) {
-  //   if (error instanceof Error) {
-  //     return NextResponse.json({
-  //       message: 'Internal server error',
-  //       error: error.stack,
-  //       errorMessage: error.message,
-  //     }, { status: 500 });
-  //   }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json({
+        message: 'Internal server error',
+        error: error.stack,
+        errorMessage: error.message,
+      }, { status: 500 });
+    }
 
-  //   return NextResponse.json({
-  //     message: 'Internal server error',
-  //     error: 'Unknown error occurred',
-  //   }, { status: 500 });
-  // }
+    return NextResponse.json({
+      message: 'Internal server error',
+      error: 'Unknown error occurred',
+    }, { status: 500 });
+  }
 }

@@ -8,8 +8,7 @@ import { PropertyFeaturesProps } from '@/types/formTypes';
 import { useFormContext, useFieldArray } from 'react-hook-form';
 
 export function PropertyFeatures({ register, control }: PropertyFeaturesProps) {
-  const { setValue, getValues } = useFormContext();
-  
+
   // Use useFieldArray to manage features as an array
   const { fields, append, remove } = useFieldArray({
     control,
@@ -18,12 +17,14 @@ export function PropertyFeatures({ register, control }: PropertyFeaturesProps) {
 
   // Function to handle adding a feature
   const addFeature = () => {
-    const newFeature = (document.getElementById('newFeature') as HTMLInputElement)?.value.trim();
+    const newFeature = (
+      document.getElementById('newFeature') as HTMLInputElement
+    )?.value.trim();
     console.log('new feature input', newFeature);
 
     if (newFeature) {
       // Add the new feature to the array
-      append({value: newFeature}); // 'append' adds a new feature to the array
+      append({ name: newFeature }); // 'append' adds a new feature to the array
     }
   };
 
@@ -51,14 +52,12 @@ export function PropertyFeatures({ register, control }: PropertyFeaturesProps) {
             fields.map((field, index) => (
               <div
                 key={field.id} // Unique key to identify each feature
-                className="flex items-center gap-2 bg-secondary px-3 py-1 rounded-full"
-              >
-                <span>{field.value}</span>
+                className="flex items-center gap-2 bg-secondary px-3 py-1 rounded-full">
+                <span>{field.name}</span>
                 <button
                   type="button"
                   onClick={() => removeFeature(index)} // Remove feature
-                  className="text-muted-foreground hover:text-foreground"
-                >
+                  className="text-muted-foreground hover:text-foreground">
                   <X className="h-4 w-4" />
                 </button>
               </div>

@@ -13,8 +13,8 @@ export interface FormData {
   area: string;
   totalArea: string;
   privateArea: string;
-  features?: { value: string }[];
-  images: { url: string }[];
+  features?: { name: string }[];
+  images: { file: File; preview: string }[];
 }
 
 export interface PropertyBasicInfoProps {
@@ -36,4 +36,3 @@ export interface PropertyImagesProps {
   register: UseFormRegister<FormData>;
   control: Control<FormData>;
 }
-
