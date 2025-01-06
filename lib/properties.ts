@@ -7,7 +7,7 @@ export interface Property {
   location: string;
   price: number;
   description?: string;
-  bedrooms?: number;
+  bedrooms: number;
   bathrooms?: number;
   area?: number;
   privateArea?: number;
@@ -61,7 +61,7 @@ export const properties: Property[] = [
     Primeiro piso com living amplo, cozinha gourmet integrada, 3 suítes. Segundo piso com área de lazer privativa, piscina e espaço gourmet.
 
     Acabamento premium em todos os ambientes.`,
-    bedrooms: 3,
+    bedrooms: 4,
     bathrooms: 4,
     area: 280,
     garage: 3,
@@ -93,7 +93,7 @@ export const properties: Property[] = [
     Casa com projeto arquitetônico moderno, integração total com a natureza e acabamento de altíssimo padrão. Ambientes amplos e iluminados.
 
     Área externa com piscina, jardim e espaço gourmet completo.`,
-    bedrooms: 4,
+    bedrooms: 5,
     bathrooms: 5,
     area: 450,
     garage: 4,

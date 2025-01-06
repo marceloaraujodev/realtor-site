@@ -14,7 +14,7 @@ import {
 export default function SearchProperties() {
   const router = useRouter();
   const [filters, setFilters] = useState({
-    type: '',
+    propertyType: '',
     bedrooms: '',
     priceRange: '',
     location: '',
@@ -30,7 +30,7 @@ export default function SearchProperties() {
       <div className="bg-white rounded-lg shadow-lg p-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Select
-            onValueChange={(value) => setFilters({ ...filters, type: value })}
+            onValueChange={(value) => setFilters({ ...filters, propertyType: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Tipo de Imóvel" />
