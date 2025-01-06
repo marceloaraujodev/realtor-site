@@ -1,5 +1,6 @@
 'use client';
-
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -15,7 +16,14 @@ import { PropertyBasicInfoProps } from '@/types/formTypes';
 import { PropertyType } from '@prisma/client';
 
 
-export function PropertyBasicInfo({ register, errors }: PropertyBasicInfoProps) {
+export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicInfoProps) {
+  const [propertyType, setPropertyType] = useState<string>();
+
+  const handleSelectChange = (value: string) => {
+    const propertyTypeValue = value as PropertyType
+    setPropertyType(value);
+    setValue('propertyType', propertyTypeValue, { shouldValidate: true }); // Update the form value
+  };
 
   return (
     <Card>
@@ -53,7 +61,7 @@ export function PropertyBasicInfo({ register, errors }: PropertyBasicInfoProps) 
 
         <div className="space-y-2">
           <Label htmlFor="propertyType">Tipo de Imóvel</Label>
-          <Select {...register('propertyType')}>
+          <Select onValueChange={handleSelectChange}>
             <SelectTrigger>
               <SelectValue placeholder="Selecione o tipo" />
             </SelectTrigger>

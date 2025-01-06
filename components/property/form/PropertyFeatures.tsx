@@ -12,9 +12,9 @@ export function PropertyFeatures({ register, control }: PropertyFeaturesProps) {
   // Use useFieldArray to manage features as an array
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'features', // This should be 'features', not 'images'
+    name: 'features', 
   });
-
+ console.log(fields)
   // Function to handle adding a feature
   const addFeature = () => {
     const newFeature = (
@@ -25,6 +25,7 @@ export function PropertyFeatures({ register, control }: PropertyFeaturesProps) {
     if (newFeature) {
       // Add the new feature to the array
       append({ name: newFeature }); // 'append' adds a new feature to the array
+      (document.getElementById('newFeature') as HTMLInputElement).value = '';
     }
   };
 
@@ -40,9 +41,9 @@ export function PropertyFeatures({ register, control }: PropertyFeaturesProps) {
           <Input
             id="newFeature"
             placeholder="Ex: Piscina, Academia, etc."
-            {...register('features', { required: false })} // Register 'features' as an array
+            // Register 'features' as an array
           />
-          <Button type="button" onClick={addFeature}>
+          <Button type="button" onClick={() => addFeature()}>
             Adicionar
           </Button>
         </div>

@@ -1,4 +1,4 @@
-import { UseFormRegister, FieldErrors, Control } from 'react-hook-form';
+import { UseFormRegister, FieldErrors, Control, UseFormSetValue  } from 'react-hook-form';
 import { PropertyType } from './property';
 
 export interface FormData {
@@ -20,6 +20,7 @@ export interface FormData {
 export interface PropertyBasicInfoProps {
   register: UseFormRegister<FormData>;
   errors: FieldErrors<FormData>;
+  setValue: UseFormSetValue<FormData>;
 }
 
 export interface PropertyDetailsProps {

@@ -22,4 +22,4 @@ export interface PropertyData {
   images: Image[];
 }
 
-export type PropertyType = 'Casa' | 'Apartamento' | 'Galpão' | 'Sala' | 'Loft' | 'Terreno';
+export type PropertyType = '' | 'Casa' | 'Apartamento' | 'Galpão' | 'Sala' | 'Loft' | 'Terreno';

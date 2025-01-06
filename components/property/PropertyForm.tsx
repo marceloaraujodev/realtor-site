@@ -11,6 +11,8 @@ import axios from 'axios'
 
 
 
+
+
 export function PropertyForm() {
   const methods = useForm<FormData>({
     defaultValues: {
@@ -18,7 +20,7 @@ export function PropertyForm() {
       location: 'Centro, Balneário Camboriú',
       price: '5000000',
       description: 'lindo apartamento completo, vista pro mar',
-      propertyType: 'Apartamento',
+      propertyType: '',
       bedrooms: '4',
       bathrooms: '5',
       garage: '3',
@@ -28,10 +30,12 @@ export function PropertyForm() {
       features: [], // Initialize as an empty array
       images: [],   // Initialize as an empty array
     },
+    mode: 'onBlur'
   });
   const {
     register,
     handleSubmit,
+    setValue,
     control,
     formState: { isSubmitting, errors},
   } = methods;
@@ -39,6 +43,10 @@ export function PropertyForm() {
   // is submiting is not really being used, but have already sert up for in case I neee it
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
+    if(!data.propertyType ){
+      alert('Selecione o tipo do imóvel')
+      return;
+    }
     try {
       const res = await axios.post('/api/propriedades/create', data);
       if (res.status === 200) {
@@ -61,7 +69,7 @@ export function PropertyForm() {
       </TabsList>
 
       <TabsContent value="basic">
-        <PropertyBasicInfo register={register} errors={errors} />
+        <PropertyBasicInfo register={register} errors={errors} setValue={setValue} />
       </TabsContent>
 
       <TabsContent value="details">
