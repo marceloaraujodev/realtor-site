@@ -5,33 +5,34 @@ import { Button } from './ui/button';
 import Link from 'next/link';
 import { formatCurrency } from '@/lib/utils';
 import type { Property } from '@/lib/properties';
+import { getAllPropertyIds, getProperty, properties } from '@/lib/properties';
 
-const properties: Property[] = [
-  {
-    id: '1',
-    title: 'Apartamento de Luxo',
-    location: 'Centro, Balneário Camboriú',
-    price: 1200000,
-    type: 'Apartamento',
-    images: ['https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80']
-  },
-  {
-    id: '2',
-    title: 'Cobertura Duplex',
-    location: 'Barra Sul, Balneário Camboriú',
-    price: 2500000,
-    type: 'Apartamento',
-    images: ['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80']
-  },
-  {
-    id: '3',
-    title: 'Casa com Vista para o Mar',
-    location: 'Pioneiros, Balneário Camboriú',
-    price: 3100000,
-    type: 'Casa',
-    images: ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80']
-  }
-];
+// const properties: Property[] = [
+//   {
+//     id: '1',
+//     title: 'Apartamento de Luxo',
+//     location: 'Centro, Balneário Camboriú',
+//     price: 1200000,
+//     propertyType: 'Apartamento',
+//     images: ['https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80']
+//   },
+//   {
+//     id: '2',
+//     title: 'Cobertura Duplex',
+//     location: 'Barra Sul, Balneário Camboriú',
+//     price: 2500000,
+//     propertyType: 'Apartamento',
+//     images: ['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80']
+//   },
+//   {
+//     id: '3',
+//     title: 'Casa com Vista para o Mar',
+//     location: 'Pioneiros, Balneário Camboriú',
+//     price: 3100000,
+//     propertyType: 'Casa',
+//     images: ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80']
+//   }
+// ];
 
 export default function PropertyGrid() {
   return (

@@ -36,9 +36,9 @@ export default function SearchProperties() {
               <SelectValue placeholder="Tipo de Imóvel" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="apartment">Apartamento</SelectItem>
-              <SelectItem value="house">Casa</SelectItem>
-              <SelectItem value="land">Terreno</SelectItem>
+              <SelectItem value="Apartamento">Apartamento</SelectItem>
+              <SelectItem value="Casa">Casa</SelectItem>
+              <SelectItem value="Terreno">Terreno</SelectItem>
             </SelectContent>
           </Select>
 

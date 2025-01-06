@@ -16,7 +16,7 @@ export interface Property {
   images: string[];
 }
 
-const properties: Property[] = [
+export const properties: Property[] = [
   {
     id: '1',
     title: 'Apartamento de Luxo',
@@ -129,3 +129,4 @@ export function getAllPropertyIds(): string[] {
   // const properties = res.data;
   return properties.map((property) => property.id);
 }
+
