@@ -6,7 +6,9 @@ export async function PATCH(req: Request, {params}: {params: {id: string}}){
   try {
     console.log(params)
     const { id } = params;
-  
+    const { price } = await req.json()
+    console.log(price) 
+
     const prisma = new PrismaClient();
   
     const numericId = parseInt(id)
@@ -15,11 +17,14 @@ export async function PATCH(req: Request, {params}: {params: {id: string}}){
     const propertyUpdated = await prisma.property.update({
      where: {id: numericId},
       data: {
-        price: 250000
+        price: price
       },
     })
   
-    return NextResponse.json({message: 'propriedade atualizada com sucesso', propertyUpdated});
+    return NextResponse.json({
+      message: 'propriedade atualizada com sucesso', 
+      propertyUpdated
+    });
     
   } catch (error) {
     

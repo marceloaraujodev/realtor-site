@@ -1,5 +1,9 @@
 import Link from 'next/link';
-import { Building2, Facebook, Instagram, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { Building2, Facebook, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { FaInstagram } from "react-icons/fa6";
+import { FaWhatsapp } from "react-icons/fa";
+import { FaFacebookF } from "react-icons/fa";
+
 
 export default function Footer() {
   return (
@@ -21,7 +25,6 @@ export default function Footer() {
             <ul className="space-y-2">
               <li><Link href="/propriedades" className="text-gray-400 hover:text-white">Propriedades</Link></li>
               <li><Link href="/sobre" className="text-gray-400 hover:text-white">Sobre Nós</Link></li>
-              <li><Link href="/blog" className="text-gray-400 hover:text-white">Blog</Link></li>
               <li><Link href="/contato" className="text-gray-400 hover:text-white">Contato</Link></li>
             </ul>
           </div>
@@ -47,14 +50,14 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Redes Sociais</h3>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white">
-                <Instagram className="h-6 w-6" />
+              <a href="https://www.instagram.com/dayse_fedrigo" target="_blank" className="text-gray-400 hover:text-white">
+               <FaInstagram className="h-6 w-6" />
               </a>
               <a href="#" className="text-gray-400 hover:text-white">
-                <Facebook className="h-6 w-6" />
+               <FaWhatsapp className="h-6 w-6" />
               </a>
               <a href="#" className="text-gray-400 hover:text-white">
-                <Linkedin className="h-6 w-6" />
+              <FaFacebookF className="h-6 w-6" />
               </a>
             </div>
           </div>
