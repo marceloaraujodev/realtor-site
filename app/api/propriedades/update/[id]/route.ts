@@ -1,8 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { errorResponse } from "@/utils/errorResponse";
 
-export async function PATCH(req: Request, {params}: {params: {id: string}}){
+export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
   try {
     console.log(params)
     const { id } = params;

@@ -78,8 +78,13 @@ export const properties: Property[] = [
     images: [
       'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
       'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
-      'https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
       'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+      'https://assets.vogue.com/photos/64c81cfc9392c584d37d73bd/master/w_1280,c_limit/230215_RWG_GOD_Furniture_Lighting_GH_SET01_SHOT_01_WINDOW_SET_NaturallyElegantCraft1_729_HERO.jpg',
+      'https://i.pinimg.com/736x/e7/ca/11/e7ca111d3d32c100a44a00901b6b0fff.jpg',
+      'https://asset-ng.skoiy.com/9b80a6f781ff336f/0uotvkoxipal.jpg?w=970&q=90&fm=webp',
+      'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+      'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+      
     ],
   },
   {

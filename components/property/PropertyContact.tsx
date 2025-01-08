@@ -6,6 +6,7 @@ import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import type { Property } from '@/lib/properties';
+import axios from 'axios';
 
 export default function PropertyContact({ property }: { property: Property }) {
   const [formData, setFormData] = useState({
@@ -16,18 +17,32 @@ export default function PropertyContact({ property }: { property: Property }) {
   });
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Mensagem enviada!",
-      description: "Em breve entraremos em contato.",
-    });
+
     setFormData({
       name: '',
       email: '',
       phone: '',
       message: `Olá, gostaria de mais informações sobre o imóvel "${property.title}".`
     });
+    
+    const res = await axios.post('/api/propriedades/contact', {
+      ...formData,
+    })
+    console.log(res)
+
+    if (res.status === 200) {
+      toast({
+        title: "Mensagem enviada!",
+        description: "Em breve entraremos em contato.",
+      });
+    }else{
+      toast({
+        title: "Erro ao enviar a mensagem!",
+        description: "Por favor, tente novamente.",
+      });
+    }
   };
 
   return (

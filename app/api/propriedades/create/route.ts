@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient, PropertyType } from '@prisma/client';
 import { FormData } from "@/types/formTypes";
 
 const prisma = new PrismaClient();
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   // try {
     const propertyData: FormData = await req.json();
     console.log(propertyData);
