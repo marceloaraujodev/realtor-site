@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Building2, Facebook, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
+import { Building2, Linkedin, Mail, MapPin, Phone } from 'lucide-react';
 import { FaInstagram } from "react-icons/fa6";
 import { FaWhatsapp } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
