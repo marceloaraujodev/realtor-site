@@ -1,7 +1,8 @@
 import { NextResponse, NextRequest } from "next/server";
 import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken'
-import { PrismaClient } from "@prisma/client";
+import { mongooseConnect } from "@/lib/mongooseConnect";
+import User from "@/models/user";
 
 import dotenv from 'dotenv'
 
@@ -24,7 +25,7 @@ class AppError extends Error {
 
 // need to fix error handling all errors will be at the internal server error 
 export async function POST(req: NextRequest){
-  const prisma = new PrismaClient();
+  await mongooseConnect();
   try {
     const SECRET = process.env.JWT_SECRET; 
     if (!SECRET) {
@@ -39,10 +40,8 @@ export async function POST(req: NextRequest){
       }, { status: 400 });
     }
   
-    const user = await prisma.user.findUnique({
-      where: {
-        email: data.email
-      }
+    const user = await User.findOne({
+      email: data.email
     })
 
     if(!user) throw new AppError("User not found", 404);
@@ -77,7 +76,6 @@ export async function POST(req: NextRequest){
     
   } catch (error) {
     console.log(error)
-    prisma.$disconnect()
     return NextResponse.json({
       error: error
     })
