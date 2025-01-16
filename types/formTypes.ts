@@ -1,5 +1,5 @@
-import { UseFormRegister, FieldErrors, Control, UseFormSetValue  } from 'react-hook-form';
-import { PropertyType } from './property';
+import { UseFormRegister, FieldErrors, Control, UseFormSetValue } from "react-hook-form";
+import { PropertyType } from "./propertyType";
 
 export interface FormData {
   title: string;
