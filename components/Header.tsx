@@ -4,9 +4,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Building2, Menu, Plus, X } from 'lucide-react';
 import { Button } from './ui/button';
+// import { useSession } from "next-auth/react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  // const { data: session, status } = useSession();
+
+  // console.log(session)
 
   const navigation = [
     { name: 'Início', href: '/' },

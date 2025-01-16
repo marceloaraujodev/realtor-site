@@ -64,7 +64,7 @@ export async function POST(req: NextRequest){
       {expiresIn: '1h'}
     )
 
-    const response = NextResponse.json({
+    return NextResponse.json({
       message: 'User created successfully',
       user: {
         id: newUser._id,
@@ -73,14 +73,6 @@ export async function POST(req: NextRequest){
         username: newUser.username,
       },
     })
-
-    response.cookies.set('authToken', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', 
-      maxAge: 60 * 60, // 1hr
-    })
-  
-    return response
 
   } catch (error) {
     console.log(error)
