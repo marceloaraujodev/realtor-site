@@ -1,22 +1,23 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { Building2, Menu, Plus, X } from 'lucide-react';
-import { Button } from './ui/button';
-// import { useSession } from "next-auth/react";
+import { useState } from "react";
+import Link from "next/link";
+import { Building2, Menu, Plus, X } from "lucide-react";
+import { Button } from "./ui/button";
+import { useSession } from "next-auth/react";
+import { signOut } from 'next-auth/react';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
 
-  // console.log(session)
+  // console.log(session);
 
   const navigation = [
-    { name: 'Início', href: '/' },
-    { name: 'Propriedades', href: '/propriedades' },
+    { name: "Início", href: "/" },
+    { name: "Propriedades", href: "/propriedades" },
     // { name: 'Sobre Nós', href: '/sobre' },
-    { name: 'Contato', href: '/contato' },
+    { name: "Contato", href: "/contato" },
   ];
 
   return (
@@ -33,34 +34,35 @@ export default function Header() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="text-sm font-medium text-gray-700 hover:text-primary"
-              >
+              <Link key={item.name} href={item.href} className="text-sm font-medium text-gray-700 hover:text-primary">
                 {item.name}
               </Link>
             ))}
-            <Link href="/propriedades/novo">
-              <Button>
-                <Plus className="h-4 w-4 mr-2" />
-                Novo Imóvel
-              </Button>
-            </Link>
+
+            {session ? (
+              <>
+                <Link href="/propriedades/novo">
+                  <Button>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Novo Imóvel
+                  </Button>
+                </Link>
+            
+                  <Button onClick={() => signOut()}>
+                    Logout
+                  </Button>
+              </>
+            ) : (
+              <Link href="/login">
+                <Button>Login</Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden">
-            <button
-              type="button"
-              className="text-gray-700"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+            <button type="button" className="text-gray-700" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
           </div>
         </div>
@@ -74,17 +76,28 @@ export default function Header() {
                   key={item.name}
                   href={item.href}
                   className="text-base font-medium text-gray-700 hover:text-primary px-2"
-                  onClick={() => setIsMenuOpen(false)}
-                >
+                  onClick={() => setIsMenuOpen(false)}>
                   {item.name}
                 </Link>
               ))}
-              <Link href="/propriedades/novo" onClick={() => setIsMenuOpen(false)}>
-                <Button className="w-full">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Novo Imóvel
-                </Button>
-              </Link>
+
+              {session ? (
+                <>
+                <Link href="/propriedades/novo" onClick={() => setIsMenuOpen(false)}>
+                  <Button className="w-full">
+                    <Plus className="h-4 w-4 mr-2" />
+                    Novo Imóvel
+                  </Button>
+                </Link>
+                <Button onClick={() => signOut()}>
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                  <Button className="w-full">Login</Button>
+                </Link>
+              )}
             </div>
           </div>
         )}

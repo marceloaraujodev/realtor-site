@@ -1,11 +1,12 @@
 import './globals.css';
-import { SessionProvider } from "next-auth/react";
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-// import { getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth';
 import { Toaster } from '@/components/ui/toaster';
+import SessionProviderWrapper from '@/components/SessionProviderWrapper';
+import { authOptions } from './api/auth/[...nextauth]/route';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,16 +20,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // const session = getServerSession();
+  const session = getServerSession(authOptions);
+
   return (
     <html lang="pt-BR" className="h-full">
       <body className={`${inter.className} min-h-full flex flex-col`}>
-        {/* <SessionProvider> */}
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <Toaster />
-        {/* </SessionProvider> */}
+        <SessionProviderWrapper session={session}>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+          <Toaster />
+        </SessionProviderWrapper>
       </body>
     </html>
   );
