@@ -21,7 +21,7 @@ export default function PropertyHeader({ property }: { property: Property }) {
     <div className="mb-8">
       <div className="flex items-center gap-2 text-muted-foreground mb-2">
         <Building2 className="h-4 w-4" />
-        <span>{property.type}</span>
+        <span>propetyType here</span>
         <span>•</span>
         <MapPin className="h-4 w-4" />
         <span>{property.location}</span>
