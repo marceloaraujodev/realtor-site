@@ -28,7 +28,8 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
     });
     
   } catch (error) {
-    
+    console.log(error)
+    return NextResponse.json({ message: 'Falha ao atualizar a propriedade' }, {status: 500});
   }
 
 }
