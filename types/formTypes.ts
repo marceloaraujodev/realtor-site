@@ -1,12 +1,12 @@
 import { UseFormRegister, FieldErrors, Control, UseFormSetValue } from "react-hook-form";
-import { PropertyType } from "./propertyType";
+import { IpropertyType } from "./propertyType";
 
 export interface FormData {
   title: string;
   location: string;
   price: string;
   description: string;
-  propertyType: PropertyType;
+  propertyType: IpropertyType["propertyType"];
   bedrooms: string;
   bathrooms: string;
   garage: string;
