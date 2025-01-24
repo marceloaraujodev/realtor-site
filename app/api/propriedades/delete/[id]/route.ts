@@ -1,13 +1,13 @@
 import { NextResponse, NextRequest } from "next/server";
-import { PrismaClient } from '@prisma/client';
+import { mongooseConnect } from "@/lib/mongooseConnect";
+import Property from "@/models/property";
 
 export async function DELETE(req: NextRequest, { params }:{params: { id: string}}){
   try {
+    await mongooseConnect();
     console.log(params)
     const { id } = params;
     console.log(id);
-  
-    const prisma = new PrismaClient();
   
     const numericId: number = parseInt(id);
   
@@ -15,9 +15,7 @@ export async function DELETE(req: NextRequest, { params }:{params: { id: string}
       return NextResponse.json({error: 'Invalid id format'}, {status: 400})
     }
   
-    await prisma.property.delete({
-      where: { id: numericId }
-    });
+    await Property.findByIdAndDelete({_id: numericId})
   
     return NextResponse.json({message: 'Property item deleted successfully'})
     

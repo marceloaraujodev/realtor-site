@@ -17,15 +17,22 @@ export function PropertyFeatures({ register, control }: PropertyFeaturesProps) {
  console.log(fields)
   // Function to handle adding a feature
   const addFeature = () => {
-    const newFeature = (
-      document.getElementById('newFeature') as HTMLInputElement
-    )?.value.trim();
-    console.log('new feature input', newFeature);
-
+    const inputElement = document.getElementById('newFeature') as HTMLInputElement;
+    const newFeature = inputElement?.value.trim();
+  
     if (newFeature) {
-      // Add the new feature to the array
-      append({ name: newFeature }); // 'append' adds a new feature to the array
-      (document.getElementById('newFeature') as HTMLInputElement).value = '';
+      // Split the input string by commas and trim each part
+      const features = newFeature.split(',').map((feature) => feature.trim());
+  
+      // Add each feature to the array
+      features.forEach((feature) => {
+        if (feature) {
+          append({ name: feature }); // Append each individual feature
+        }
+      });
+  
+      // Clear the input field
+      inputElement.value = '';
     }
   };
 
