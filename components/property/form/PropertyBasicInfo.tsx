@@ -12,7 +12,7 @@ import { IpropertyType } from "../../../types/propertyType";
 export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicInfoProps) {
   const [propertyType, setPropertyType] = useState<string>();
 
-  const handleSelectChange = (value: string) => {
+  const handleSelectChange = (value: IpropertyType['propertyType']) => {
     const propertyTypeValue = value as IpropertyType["propertyType"];
     setPropertyType(value);
     setValue("propertyType", value, { shouldValidate: true });

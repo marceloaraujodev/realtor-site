@@ -43,7 +43,7 @@ const authOptions: NextAuthOptions = {
           id: user._id.toString(),
           email: user.email,
           name: user.name,
-        } as CustomUser;
+        } 
       },
     }),
   ],
@@ -51,20 +51,19 @@ const authOptions: NextAuthOptions = {
     strategy: "jwt", // Use JWT session strategy
   },
   callbacks: {
-    async jwt({ token, user }: { token: JWT; user?: CustomUser | AdapterUser }) {
+    async jwt({ token, user }) {
       if (user) {
-        // Handle user object to ensure compatibility with AdapterUser and CustomUser
-        token.id = user.id as string;
+        token.id = user.id;
         token.email = user.email || "";
         token.name = user.name || "";
       }
       return token;
     },
-    async session({ session, token }: { session: Session; token: JWT }) {
+    async session({ session, token }) {
       session.user = {
         id: token.id as string,
-        email: token.email || "", // Ensure email is never null/undefined
-        name: token.name || "", // Ensure name is never null/undefined
+        email: token.email || "",
+        name: token.name || "",
       };
       return session;
     },
@@ -76,4 +75,4 @@ const authOptions: NextAuthOptions = {
 const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
-export { authOptions };
+

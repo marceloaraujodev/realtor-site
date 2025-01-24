@@ -20,7 +20,7 @@ export function PropertyForm() {
       location: 'Centro, Balneário Camboriú',
       price: '5000000',
       description: 'lindo apartamento completo, vista pro mar',
-      propertyType: '',
+      propertyType: 'Apartamento',
       bedrooms: '4',
       bathrooms: '5',
       garage: '3',

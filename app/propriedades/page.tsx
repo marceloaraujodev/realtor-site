@@ -1,4 +1,3 @@
-import PropertyGrid from '@/components/PropertyGrid';
 import SearchProperties from '@/components/SearchProperties';
 import PropertyGridSearch from '@/components/PropertyGridSearch';
 
