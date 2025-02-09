@@ -27,6 +27,11 @@ const PropertySchema: Schema<IProperty> = new Schema<IProperty>(
       type: String,
       required: true,
     },
+    propertyId: {
+      type: String,
+      required: true,
+      unique: true,
+    },
     location: {
       type: String,
       required: true,
@@ -58,9 +63,11 @@ const PropertySchema: Schema<IProperty> = new Schema<IProperty>(
       enum: ["Casa", "Apartamento", "Galpão", "Sala", "Loft", "Terreno"],
       required: true,
     },
-    features: {
-      type: [String],
-    },
+    features: [
+      {
+        name: {type: String}
+      }
+    ],
     images: {
       type: [String],
     },

@@ -3,7 +3,7 @@ import { FormData } from "@/types/formTypes";
 import { mongooseConnect } from "@/lib/mongooseConnect";
 import multer from "multer";
 import Property from "@/models/property";
-import { S3Client, PutObjectCommand, ListBucketsCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, ListBucketsCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from 'uuid';
 import Sharp from 'sharp';
 
@@ -56,8 +56,6 @@ export async function POST(req: NextRequest) {
     // need to seriealize this to see in the postman response
     const images = formData.getAll("images").filter((value): value is File => value instanceof File);
 
-    console.log(images);
-
     // Convert numeric fields to numbers if needed
     const propertyData = {
       ...formEntries,
@@ -74,28 +72,9 @@ export async function POST(req: NextRequest) {
     if (!title || !location || !price || !propertyType) {
       return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
     }
-    const text = 'text'
-    console.log(text);
-    // const newProperty = await Property.create({
-    //   title,
-    //   location,
-    //   price,
-    //   bedrooms,
-    //   bathrooms,
-    //   garage,
-    //   area,
-    //   totalArea,
-    //   privateArea,
-    //   propertyType,
-    //   features,
-    //   images,
-    //   description,
-    // });
-
-
 
     // add images to s3
-    const propertyId = uuidv4();
+    const propertyId = uuidv4(); // creates unique id for the entire property folder
     const uploadedImages = await Promise.all(
       images.map(async (file: File) => {
         const arrayBuffer = await file.arrayBuffer();
@@ -104,7 +83,8 @@ export async function POST(req: NextRequest) {
         const compressedBuffer = await compressImage(buffer)
 
         // Upload to S3
-        const s3Key = `propriedades/${propertyId}`;
+        const uniqueId = uuidv4(); // creates unique id for the file
+        const s3Key = `propriedades/${propertyId}/${uniqueId}`;
         const uploadParams = {
           Bucket: bucketName,
           Key: s3Key,
@@ -113,6 +93,7 @@ export async function POST(req: NextRequest) {
         };
           // upload file to s3 bucket
         await s3Client.send(new PutObjectCommand(uploadParams));
+        console.log('image uploaded successfully', s3Key);
 
         return s3Key
       })
@@ -120,17 +101,19 @@ export async function POST(req: NextRequest) {
 
     if(uploadedImages.length === 0) throw new Error("No images uploaded");
 
+    // creates database document for property
     const newProperty = await Property.create({
       ...propertyData,
-      propertyId,
+      propertyId: propertyId,
       images: uploadedImages,
-    })
+    });
 
-    // update s3Key for new property
+    console.log('property uploaded successfully')
 
     return NextResponse.json({
       message: "Success",
-      newProperty
+      newProperty,
+      s3Key: uploadedImages
     });
   } catch (error) {
     console.error("Error creating property:", error);
@@ -191,4 +174,10 @@ export async function POST(req: NextRequest) {
         .resize({ width: 1200 }) // Resize to a max width (optional) move to .env
         .toFormat("webp", { quality: 80 }) // Convert to WebP with 80% quality
         .toBuffer();
-  }
+ }
+
+ async function listObjects(bucketName: string) {
+  const command = new ListObjectsV2Command({ Bucket: bucketName });
+  const data = await s3Client.send(command);
+  return data.Contents;
+}
