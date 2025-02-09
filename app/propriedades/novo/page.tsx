@@ -7,6 +7,12 @@ import { useSession } from 'next-auth/react';
 export default function NewPropertyPage() {
   const { data: session, status } = useSession();
 
+    // Wait for session to load before making a redirect decision
+    if (status === "loading") {
+      // Show a loading message or spinner and make sure the page doesnt shrink vertically
+      return <p>Carregando...</p>; 
+    }
+
   if (!session) {
     redirect('/'); // Redirect to home page if user is not logged in
   }

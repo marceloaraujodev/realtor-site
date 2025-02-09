@@ -15,12 +15,13 @@ import axios from 'axios'
 
 export function PropertyForm() {
   const methods = useForm<FormData>({
+    // form default values should be empty strings
     defaultValues: {
       title: 'Apartamento vista mar avenida Atlântica',
       location: 'Centro, Balneário Camboriú',
       price: '5000000',
       description: 'lindo apartamento completo, vista pro mar',
-      propertyType: 'Apartamento',
+      propertyType: undefined,
       bedrooms: '4',
       bathrooms: '5',
       garage: '3',

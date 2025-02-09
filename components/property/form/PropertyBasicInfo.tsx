@@ -18,6 +18,8 @@ export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicI
     setValue("propertyType", value, { shouldValidate: true });
   };
 
+  // console.log('test', propertyType);
+
   return (
     <Card>
       <CardContent className="pt-6 space-y-4">
