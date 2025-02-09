@@ -3,6 +3,7 @@ import mongoose, { Schema, Document, Model } from 'mongoose';
 // Define a TypeScript interface for the property model
 export interface IProperty extends Document {
   title: string;
+  propertyId: string;
   location: string;
   price: number;
   bedrooms?: number;
