@@ -19,92 +19,95 @@ export async function POST(req: NextRequest) {
   await mongooseConnect();
   const bucketName: string = process.env.AWS_BUCKET_NAME!;
   const region: string = process.env.AWS_REGION!;
-  try {
-    const formData = await req.formData();
+  const formData = await req.formData();
+  console.log(formData);
 
-    const formEntries = Object.fromEntries(formData.entries());
+  // try {
+  //   const formData = await req.formData();
 
-    // extract values from formData
-    const {
-      title,
-      propertyType,
-      location,
-      price,
-      description,
-      bedrooms,
-      bathrooms,
-      garage,
-      area,
-      totalArea,
-      privateArea,
-    } = formEntries;
+  //   const formEntries = Object.fromEntries(formData.entries());
 
-    // need to seriealize this to see in the postman response
-    const images = formData.getAll("images").filter((value): value is File => value instanceof File);
+  //   // extract values from formData
+  //   const {
+  //     title,
+  //     propertyType,
+  //     location,
+  //     price,
+  //     description,
+  //     bedrooms,
+  //     bathrooms,
+  //     garage,
+  //     area,
+  //     totalArea,
+  //     privateArea,
+  //   } = formEntries;
 
-    // Convert numeric fields to numbers if needed
-    const propertyData = {
-      ...formEntries,
-      price: Number(price),
-      bedrooms: Number(bedrooms),
-      bathrooms: Number(bathrooms),
-      garage: Number(garage),
-      area: Number(area),
-      totalArea: Number(totalArea),
-      privateArea: Number(privateArea),
-      features: formData.getAll('features').map((feature) => ({ name: feature })),
-    };
+  //   // need to seriealize this to see in the postman response
+  //   const images = formData.getAll("images").filter((value): value is File => value instanceof File);
 
-    if (!title || !location || !price || !propertyType) {
-      return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
-    }
+  //   // Convert numeric fields to numbers if needed
+  //   const propertyData = {
+  //     ...formEntries,
+  //     price: Number(price),
+  //     bedrooms: Number(bedrooms),
+  //     bathrooms: Number(bathrooms),
+  //     garage: Number(garage),
+  //     area: Number(area),
+  //     totalArea: Number(totalArea),
+  //     privateArea: Number(privateArea),
+  //     features: formData.getAll('features').map((feature) => ({ name: feature })),
+  //   };
 
-    // add images to s3
-    const propertyId = uuidv4(); // creates unique id for the entire property folder
-    const uploadedImages = await Promise.all(
-      images.map(async (file: File) => {
-        const arrayBuffer = await file.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer); // Convert to Node.js Buffer
+  //   if (!title || !location || !price || !propertyType) {
+  //     return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
+  //   }
 
-        const compressedBuffer = await compressImage(buffer)
+  //   // add images to s3
+  //   const propertyId = uuidv4(); // creates unique id for the entire property folder
+  //   const uploadedImages = await Promise.all(
+  //     images.map(async (file: File) => {
+  //       const arrayBuffer = await file.arrayBuffer();
+  //       const buffer = Buffer.from(arrayBuffer); // Convert to Node.js Buffer
 
-        // Upload to S3
-        const uniqueId = uuidv4(); // creates unique id for the file
-        const s3Key = `propriedades/${propertyId}/${uniqueId}`;
-        const uploadParams = {
-          Bucket: bucketName,
-          Key: s3Key,
-          Body: compressedBuffer,
-          ContentType: file.type,
-        };
-          // upload file to s3 bucket
-        await s3Client.send(new PutObjectCommand(uploadParams));
-        console.log('image uploaded successfully', s3Key);
+  //       const compressedBuffer = await compressImage(buffer)
 
-        return s3Key
-      })
-    );
+  //       // Upload to S3
+  //       const uniqueId = uuidv4(); // creates unique id for the file
+  //       const s3Key = `propriedades/${propertyId}/${uniqueId}`;
+  //       const uploadParams = {
+  //         Bucket: bucketName,
+  //         Key: s3Key,
+  //         Body: compressedBuffer,
+  //         ContentType: file.type,
+  //       };
+  //         // upload file to s3 bucket
+  //       await s3Client.send(new PutObjectCommand(uploadParams));
+  //       console.log('image uploaded successfully', s3Key);
 
-    if(uploadedImages.length === 0) throw new Error("No images uploaded");
+  //       return s3Key
+  //     })
+  //   );
 
-    // creates database document for property
-    const newProperty = await Property.create({
-      ...propertyData,
-      propertyId: propertyId,
-      images: uploadedImages,
-    });
+  //   if(uploadedImages.length === 0) throw new Error("No images uploaded");
 
-    console.log('property uploaded successfully')
+  //   // creates database document for property
+  //   const newProperty = await Property.create({
+  //     ...propertyData,
+  //     propertyId: propertyId,
+  //     images: uploadedImages,
+  //   });
 
-    return NextResponse.json({
-      message: "Success",
-      newProperty,
-      s3Key: uploadedImages
-    });
-  } catch (error) {
-    console.error("Error creating property:", error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
-  }
+  //   console.log('property uploaded successfully')
+
+  //   return NextResponse.json({
+  //     message: "Success",
+  //     newProperty,
+  //     s3Key: uploadedImages
+  //   });
+  // } catch (error) {
+  //   console.error("Error creating property:", error);
+  //   return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  // }
 }
 
 // Function to upload an image to a specific S3 bucket

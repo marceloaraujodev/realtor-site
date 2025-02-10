@@ -15,6 +15,7 @@ export interface FormData {
   privateArea: string;
   features?: { name: string }[];
   images: { file: File; preview: string }[];
+  cover: number;
 }
 
 export interface PropertyBasicInfoProps {

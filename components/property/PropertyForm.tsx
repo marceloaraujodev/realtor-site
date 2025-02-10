@@ -49,7 +49,7 @@ export function PropertyForm() {
       return;
     }
     try {
-      const res = await axios.post('/api/propriedades/create', data);
+      const res = await axios.post('http://localhost:3000/api/propriedades/create', data);
       if (res.status === 200) {
         alert('Propriedade salva com sucesso!');
       }
