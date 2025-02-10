@@ -9,15 +9,11 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
     await mongooseConnect();
     console.log(params)
     const { id } = params;
-    const { price } = await req.json()
-    
-  
-    const numericId = parseInt(id)
-    console.log(numericId, typeof numericId)
+    const { price } = await req.json();
 
-
+    // will need to update this to get any fields that are being updated  and received
     const propertyUpdated = await Property.findOneAndUpdate(
-      {_id: numericId}, 
+      {_id: id}, 
       {price: price},
       {new: true}
     )

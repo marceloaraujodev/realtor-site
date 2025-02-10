@@ -9,13 +9,16 @@ export async function DELETE(req: NextRequest, { params }:{params: { id: string}
     const { id } = params;
     console.log(id);
   
-    const numericId: number = parseInt(id);
+   // Validate if id is a valid MongoDB ObjectId mdb _id is always a 24 digit string
+   if (!id || id.length !== 24) {
+    return NextResponse.json({ error: "Invalid id format" }, { status: 400 });
+  }
   
-    if(isNaN(numericId)){
-      return NextResponse.json({error: 'Invalid id format'}, {status: 400})
+    const deletedProperty = await Property.findByIdAndDelete(id);
+
+    if (!deletedProperty) {
+      return NextResponse.json({ error: "Property not found" }, { status: 404 });
     }
-  
-    await Property.findByIdAndDelete({_id: numericId})
   
     return NextResponse.json({message: 'Property item deleted successfully'})
     

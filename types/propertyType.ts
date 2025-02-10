@@ -1,5 +1,7 @@
 export interface IpropertyType {
+  _id: string;
   title: string;
+  propertyId: string;
   location: string;
   price: number;
   bedrooms?: number;

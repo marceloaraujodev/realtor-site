@@ -1,31 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import { FormData } from "@/types/formTypes";
 import { mongooseConnect } from "@/lib/mongooseConnect";
-import multer from "multer";
 import Property from "@/models/property";
 import { S3Client, PutObjectCommand, ListBucketsCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from 'uuid';
 import Sharp from 'sharp';
 
-// Disable Next.js default body parser (see previous step)
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
 
 const s3Client = new S3Client({
   region: process.env.AWS_REGION!,
   credentials: {
     accessKeyId: process.env.AWS_ACCESS_KEY!, // Replace with your AWS Access Key ID
     secretAccessKey: process.env.AWS_SECRET_KEY!, // Replace with your AWS Secret Access Key
-    
   }
 });
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
-
 
 export async function POST(req: NextRequest) {  
   await mongooseConnect();
@@ -33,8 +21,6 @@ export async function POST(req: NextRequest) {
   const region: string = process.env.AWS_REGION!;
   try {
     const formData = await req.formData();
-  
-    // console.log(formData);
 
     const formEntries = Object.fromEntries(formData.entries());
 
