@@ -1,7 +1,9 @@
 import { Bed, Bath, Maximize2, Car } from 'lucide-react';
-import type { Property } from '@/lib/properties';
+import { PropertyProps } from '@/types/propertyType';
 
-export default function PropertyDetails({ property }: { property: Property }) {
+
+export default function PropertyDetails({ property }: PropertyProps){
+
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -54,9 +56,10 @@ export default function PropertyDetails({ property }: { property: Property }) {
         <h2 className="text-xl font-semibold mb-4">Características</h2>
         <ul className="grid grid-cols-2 gap-2">
           {property.features?.map((feature) => (
-            <li key={feature} className="flex items-center gap-2">
-              <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-              {feature}
+            <li key={feature.name} className="flex items-center gap-2">
+              <div className="h-1.5 w-1.5 rounded-full bg-primary"/>
+              {feature.name}
+              
             </li>
           ))}
         </ul>

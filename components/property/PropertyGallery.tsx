@@ -5,17 +5,16 @@ import Image from 'next/image';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '../ui/dialog';
 import { cn } from '@/lib/utils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { PropertyGalleryProps } from '@/types/propertyType';
 
-interface PropertyGalleryProps {
-  images: string[];
-}
 
 export default function PropertyGallery({ images }: PropertyGalleryProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-  
 
-  const mainImages = images.slice(0, 5);
-  const thumbnailImages = images.slice(5);
+  const imageUrls:string[] = images.map(imageKey => `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${imageKey}`);
+
+  const mainImages = imageUrls.slice(0, 5);
+  const thumbnailImages = imageUrls.slice(5);
 
   const combinedImages = [...mainImages, ...thumbnailImages];
 

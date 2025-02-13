@@ -4,9 +4,9 @@ import { Building2, MapPin, Share2 } from 'lucide-react';
 import { Button } from '../ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { formatCurrency } from '@/lib/utils';
-import type { Property } from '@/lib/properties';
+import { PropertyProps } from '@/types/propertyType';
 
-export default function PropertyHeader({ property }: { property: Property }) {
+export default function PropertyHeader({ property }: PropertyProps) {
   const { toast } = useToast();
 
   const handleShare = () => {

@@ -3,21 +3,22 @@ import PropertyHeader from '@/components/property/PropertyHeader';
 import PropertyGallery from '@/components/property/PropertyGallery';
 import PropertyDetails from '@/components/property/PropertyDetails';
 import PropertyContact from '@/components/property/PropertyContact';
-import { getProperty, getAllPropertyIds } from '@/lib/properties';
+import { getProperty } from '@/lib/properties';
 
-export async function generateStaticParams() {
-  const propertyIds = getAllPropertyIds();
-  return propertyIds.map((id) => ({
-    id: id.toString(),
-  }));
-}
 
-export default function PropertyPage({ params }: { params: { id: string } }) {
-  const property = getProperty(params.id);
+// export async function generateStaticParams() {
+//   const propertyIds = getAllPropertyIds();
+//   return propertyIds.map((id) => ({
+//     id: id.toString(),
+//   }));
+// }
 
-  if (!property) {
-    notFound();
-  }
+export default async function PropertyPage({ params }: { params: { id: string } }) {
+  const res = await getProperty(params.id);
+  const property = res.data;
+  // console.log('this is res in property page', res);
+  // console.log('images', res.data.images);
+
 
   return (
     <div className="pt-24 pb-12">

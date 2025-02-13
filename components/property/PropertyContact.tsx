@@ -5,10 +5,11 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import type { Property } from '@/lib/properties';
+import { PropertyDetailsProps } from '@/types/propertyType';
 import axios from 'axios';
 
-export default function PropertyContact({ property }: { property: Property }) {
+export default function PropertyContact({ property }: PropertyDetailsProps) {
+  console.log('this should be property.tile here', property)
   const [formData, setFormData] = useState({
     name: '',
     email: '',

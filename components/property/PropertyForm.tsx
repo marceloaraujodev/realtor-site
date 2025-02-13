@@ -9,10 +9,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { FormData } from '@/types/formTypes';
 import axios from 'axios'
 
-
-
-
-
 export function PropertyForm() {
   const methods = useForm<FormData>({
     // form default values should be empty strings

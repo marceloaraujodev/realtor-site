@@ -4,17 +4,9 @@ import { Card } from './ui/card';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { formatCurrency } from '@/lib/utils';
-import type { Property } from '@/lib/properties';
-// import { getAllPropertyIds, getProperty, properties } from '@/lib/properties';
-import { IpropertyType } from '@/types/propertyType';
+import { PropertiesProps } from '@/types/propertyType';
 
-
-interface PropertyGridProps {
-  properties: IpropertyType[]; // Expecting an array of properties
-}
-
-export default function PropertyGrid({ properties }: PropertyGridProps) {
-
+export default async function PropertyGrid({ properties }: PropertiesProps) {
 
   return (
     <section className="py-16 bg-gray-50">
@@ -23,7 +15,7 @@ export default function PropertyGrid({ properties }: PropertyGridProps) {
           Imóveis em Destaque
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* loops through all properties */}
+      
           {properties.map((property, index) => {
             const urlpath = `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/`;
             const imageUrl = property.images?.[0]
