@@ -13,7 +13,7 @@ export interface IpropertyType {
   privateArea?: number;
   propertyType: "Casa" | "Apartamento" | "Galpão" | "Sala" | "Loft" | "Terreno";
   features?: {name: string, _id: string}[];
-  images?: string[];
+  images?: { id: string; url: string }[];
   description?: string;
   createdAt?: Date;
   updatedAt?: Date;

@@ -1,27 +1,9 @@
 import mongoose, { Schema, Document, Model } from 'mongoose';
-
+import { IPropertyModel } from './interfaces';
 // Define a TypeScript interface for the property model
-export interface IProperty extends Document {
-  title: string;
-  propertyId: string;
-  location: string;
-  price: number;
-  bedrooms?: number;
-  bathrooms?: number;
-  garage?: number;
-  area?: number;
-  totalArea?: number;
-  privateArea?: number;
-  propertyType: "Casa" | "Apartamento" | "Galpão" | "Sala" | "Loft" | "Terreno";
-  features?: string[];
-  images?: string[];
-  description?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
 
 // Define the Mongoose schema
-const PropertySchema: Schema<IProperty> = new Schema<IProperty>(
+const PropertySchema: Schema<IPropertyModel> = new Schema<IPropertyModel>(
   {
     title: {
       type: String,
@@ -68,9 +50,8 @@ const PropertySchema: Schema<IProperty> = new Schema<IProperty>(
         name: {type: String}
       }
     ],
-    images: {
-      type: [String],
-    },
+    images: [ String ],
+    cover: { type: String }, // Store the `id` of the cover image
     description: {
       type: String,
     },
@@ -81,7 +62,7 @@ const PropertySchema: Schema<IProperty> = new Schema<IProperty>(
 );
 
 // Export the model with type safety
-const Property: Model<IProperty> =
-  mongoose.models.Property || mongoose.model<IProperty>('Property', PropertySchema);
+const Property: Model<IPropertyModel> =
+  mongoose.models.Property || mongoose.model<IPropertyModel>('Property', PropertySchema);
 
 export default Property;

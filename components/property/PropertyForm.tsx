@@ -6,12 +6,27 @@ import { PropertyFeatures } from './form/PropertyFeatures';
 import { PropertyImages } from './form/PropertyImages';
 import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { FormData } from '@/types/formTypes';
+import type { FormData } from '@/types/formTypes';
 import axios from 'axios'
 
 export function PropertyForm() {
   const methods = useForm<FormData>({
     // form default values should be empty strings
+    // defaultValues: {
+    //   title: '',
+    //   location: '',
+    //   price: '',
+    //   description: '',
+    //   propertyType: undefined,
+    //   bedrooms: '',
+    //   bathrooms: '',
+    //   garage: '',
+    //   area: '',
+    //   totalArea: '',
+    //   privateArea: '',
+    //   features: [], // Initialize as an empty array
+    //   images: [],   // Initialize as an empty array
+    // },
     defaultValues: {
       title: 'Apartamento vista mar avenida Atlântica',
       location: 'Centro, Balneário Camboriú',
@@ -29,6 +44,8 @@ export function PropertyForm() {
     },
     mode: 'onBlur'
   });
+
+
   const {
     register,
     handleSubmit,
@@ -40,18 +57,43 @@ export function PropertyForm() {
   // is submiting is not really being used, but have already sert up for in case I neee it
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
+
     if(!data.propertyType ){
       alert('Selecione o tipo do imóvel')
       return;
     }
-    try {
-      const res = await axios.post('http://localhost:3000/api/propriedades/create', data);
-      if (res.status === 200) {
-        alert('Propriedade salva com sucesso!');
-      }
-    } catch (error) {
-      console.error('Error saving property:', error);
-    }
+
+    const formData = new FormData();
+    // append non-file data
+    console.log('this is data-=-=-', data)
+    // Append non-file fields
+    // Object.entries(data).forEach(([key, value]) => {
+    //   console.log('----', key, value);
+    //   if (key !== 'images') {
+    //     formData.append(key, value);
+    //   }
+    // });
+
+    // // Append images with their IDs
+    // data.images?.forEach((image, index) => {
+    //   console.log('===', image, index)
+    //   formData.append(`images[${index}][id]`, image.id); // Append ID
+    //   formData.append(`images[${index}][image]`, image.file); // Append File
+    // });
+
+    // try {
+    //   const res = await axios.post('http://localhost:3000/api/propriedades/create', formData, {
+    //     headers: {
+    //       'Content-Type': 'multipart/form-data', // Specify content type
+    //     },
+    //   });
+    //   if (res.status === 200) {
+    //     alert('Propriedade salva com sucesso!');
+    //   }
+    //   console.log('this is data that will be sent to backend', data)
+    // } catch (error) {
+    //   console.error('Error saving property:', error);
+    // }
   };
 
   return (

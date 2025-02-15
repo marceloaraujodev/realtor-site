@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useForm, useFormContext, useWatch } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,15 +10,18 @@ import { PropertyBasicInfoProps } from "@/types/formTypes";
 import { IpropertyType } from "../../../types/propertyType";
 
 export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicInfoProps) {
-  const [propertyType, setPropertyType] = useState<string>();
+    // Use useFormContext to access the control
+    const { control } = useFormContext();
+
+    // Subscribe to propertyType changes using useWatch
+    const propertyType = useWatch({
+      control,
+      name: "propertyType",
+    });
 
   const handleSelectChange = (value: IpropertyType['propertyType']) => {
-    const propertyTypeValue = value as IpropertyType["propertyType"];
-    setPropertyType(value);
     setValue("propertyType", value, { shouldValidate: true });
   };
-
-  // console.log('test', propertyType);
 
   return (
     <Card>
@@ -28,7 +31,7 @@ export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicI
           <Input
             id="title"
             {...register("title", { required: "Título é obrigatório" })}
-            placeholder="Ex: Apartamento de Luxo com Vista para o Mar"
+            placeholder="Ex: Apartamento de Luxo com Vista para o Mar" 
           />
           {errors.title && <span>{errors.title.message}</span>}
         </div>
@@ -56,7 +59,7 @@ export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicI
 
         <div className="space-y-2">
           <Label htmlFor="propertyType">Tipo de Imóvel</Label>
-          <Select onValueChange={handleSelectChange}>
+          <Select value={propertyType || ""} onValueChange={handleSelectChange}>
             <SelectTrigger>
               <SelectValue placeholder="Selecione o tipo" />
             </SelectTrigger>

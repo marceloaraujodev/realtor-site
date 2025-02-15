@@ -14,7 +14,7 @@ export interface FormData {
   totalArea: string;
   privateArea: string;
   features?: { name: string }[];
-  images: { file: File; preview: string }[];
+  images: { imgId: string, file: File }[];
   cover: number;
 }
 

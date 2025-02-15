@@ -17,7 +17,7 @@ export default function NewPropertyPage() {
     redirect('/'); // Redirect to home page if user is not logged in
   }
 
-  console.log(session)
+  // console.log(session)
   return (
     <div className="pt-24 pb-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
