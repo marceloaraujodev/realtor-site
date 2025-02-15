@@ -2,26 +2,23 @@
 import { useState } from "react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { formatCurrency } from "@/lib/utils";
 import { PropertiesProps } from '@/types/propertyType';
 
 export default function PropertyGridSearch({ properties}: PropertiesProps) {
-  console.log('properties on grid search', properties)
-  const [propertiesSearchDisplay, setPropertiesSearchDisplay] = useState([]);
-  const router = useRouter();
-  const searchParams = useSearchParams();
+  // console.log('properties on grid search', properties)
 
-  console.log(searchParams);
+  const searchParams = useSearchParams();
 
   // Get query parameters
   const propertyType = searchParams.get("propertyType");
   const bedrooms = searchParams.get("bedrooms");
   const priceRange = searchParams.get("priceRange");
   const location = searchParams.get("location");
-
-  console.log(propertyType);
+  
+  // console.log(propertyType);
 
   // Filter properties based on query params
   const filteredProperties = properties.filter((property) => {
@@ -35,6 +32,7 @@ export default function PropertyGridSearch({ properties}: PropertiesProps) {
     // Check price range
     const isPriceMatch =
       !priceRange ||
+      (priceRange === 'all') ||
       (priceRange === "0-500000" && property.price <= 500000) ||
       (priceRange === "500000-1000000" && property.price > 500000 && property.price <= 1000000) ||
       (priceRange === "1000000-2000000" && property.price > 1000000 && property.price <= 2000000) ||
@@ -46,6 +44,9 @@ export default function PropertyGridSearch({ properties}: PropertiesProps) {
     return isPropertyTypeMatch && isBedroomsMatch && isPriceMatch && isLocationMatch;
   });
 
+  const urlpath = `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/`;
+  // propriedades/184b3122-7338-44f5-a3c0-ce1f7d2f8a21/7357b71f-3014-480a-93b9-3d7f48583908
+
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -56,7 +57,7 @@ export default function PropertyGridSearch({ properties}: PropertiesProps) {
               <Card key={property._id} className="overflow-hidden">
                 <Link href={`/propriedades/${property._id}`} className="block">
                   <div className="aspect-video relative">
-                    <img src={property.images?.[0]} alt={property.title} className="object-cover w-full h-full" />
+                    <img src={`${urlpath}${property.images?.[0]}`} alt={property.title} className="object-cover w-full h-full" />
                   </div>
                   <div className="p-4">
                     <h3 className="text-xl font-semibold mb-2">{property.title}</h3>

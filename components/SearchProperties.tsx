@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from './ui/button';
 import {
   Select,
@@ -11,8 +11,10 @@ import {
   SelectValue,
 } from './ui/select';
 
+
 export default function SearchProperties() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [filters, setFilters] = useState({
     propertyType: '',
     bedrooms: '',
@@ -20,16 +22,28 @@ export default function SearchProperties() {
     location: '',
   });
 
+  useEffect(() => {
+    // if (searchParams.toString()) {
+    //   router.replace('/propriedades'); // Clears all query parameters
+    // }
+  }, [])
+
   const handleSearch = () => {
     const queryParams = new URLSearchParams(filters);
     router.push(`/propriedades?${queryParams.toString()}`);
   };
+
+  const clearSearch = () => {
+    router.replace('/propriedades'); // Clears all query parameters
+    setFilters({ propertyType: '', bedrooms: '', priceRange: '', location: '' });
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-10">
       <div className="bg-white rounded-lg shadow-lg p-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Select
+            value={filters.propertyType} // Bind value to state
             onValueChange={(value) => setFilters({ ...filters, propertyType: value })}
           >
             <SelectTrigger>
@@ -43,6 +57,7 @@ export default function SearchProperties() {
           </Select>
 
           <Select
+            value={filters.bedrooms}
             onValueChange={(value) => setFilters({ ...filters, bedrooms: value })}
           >
             <SelectTrigger>
@@ -57,12 +72,14 @@ export default function SearchProperties() {
           </Select>
 
           <Select
+            value={filters.priceRange} // Bind value to state
             onValueChange={(value) => setFilters({ ...filters, priceRange: value })}
           >
             <SelectTrigger>
               <SelectValue placeholder="Faixa de Preço" />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem value="all">Todos</SelectItem>
               <SelectItem value="0-500000">Até R$ 500.000</SelectItem>
               <SelectItem value="500000-1000000">R$ 500.000 - R$ 1.000.000</SelectItem>
               <SelectItem value="1000000-2000000">R$ 1.000.000 - R$ 2.000.000</SelectItem>
@@ -70,9 +87,14 @@ export default function SearchProperties() {
             </SelectContent>
           </Select>
 
-          <Button className="w-full" onClick={handleSearch}>
-            Pesquisar
-          </Button>
+          <div className="flex space-x-4 w-full justify-center md:justify-start">
+        <Button className="w-1/2" onClick={handleSearch}>
+          Pesquisar
+        </Button>
+        <Button className="w-1/4" onClick={clearSearch}> 
+          Limpar
+        </Button>
+      </div>
         </div>
       </div>
     </div>

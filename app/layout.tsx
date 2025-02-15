@@ -6,6 +6,8 @@ import Footer from '@/components/Footer';
 import { getServerSession } from 'next-auth';
 import { Toaster } from '@/components/ui/toaster';
 import SessionProviderWrapper from '@/components/SessionProviderWrapper';
+import './globals.css';
+
 
 const inter = Inter({ subsets: ['latin'] });
 
