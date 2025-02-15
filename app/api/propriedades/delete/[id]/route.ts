@@ -15,12 +15,11 @@ export async function DELETE(req: NextRequest, { params }:{params: { id: string}
   }
   
     const deletedProperty = await Property.findByIdAndDelete(id);
-
-    if (!deletedProperty) {
-      return NextResponse.json({ error: "Property not found" }, { status: 404 });
-    }
   
-    return NextResponse.json({message: 'Property item deleted successfully'})
+    return NextResponse.json({
+      message: 'Property item deleted successfully',
+      deletedProperty,
+    })
     
   } catch (error) {
     return NextResponse.json({message: 'Error deleting property item', error})
