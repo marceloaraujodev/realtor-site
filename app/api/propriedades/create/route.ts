@@ -44,111 +44,96 @@ export async function POST(req: NextRequest) {
       cover,
     } = formEntries;
 
-  
+    const features: string[] = [];
+    for (const [key, value] of Array.from(formData.entries())) {
+      const match = key.match(/^features\[(\d+)\]$/);
+      if (match) {
+        const index = Number(match[1]);
+        features[index] = value as string;
+      }
+}
 
-     // Extract images array
-    const images: string[] = [];
-    const imageEntries = Array.from(formData.entries()).filter(([key]) =>
-      key.startsWith('images[') || key === 'cover'
-    );
 
-    console.log('this is image entries----', imageEntries)
+    const imagesObjects: { id: string; file: File | null }[] = [];
 
-
-    // // Group images by their index
-    // const groupedImages: Record<string, { id?: string; image?: File }> = {};
-    // for (const [key, value] of imageEntries) {
-    //   const match = key.match(/images\[(\d+)\]\[(id|image)\]/);
-    //   if (match) {
-    //     const index = match[1];
-    //     const field = match[2];
-
-    //     if (!groupedImages[index]) {
-    //       groupedImages[index] = {};
-    //     }
-
-    //     if (field === 'id') {
-    //       groupedImages[index].id = value as string; // id is always a string
-    //     } else if (field === 'image' && value instanceof File) {
-    //       groupedImages[index].image = value; // Ensure value is a File
-    //     }
-    //   }
-    // }
-
-    // // Convert grouped images into the [id: string, file: File] format
-    // for (const index in groupedImages) {
-    //   const { id, image } = groupedImages[index];
-    //   if (id && image instanceof File) {
-    //     images.push({ id, image });
-    //   }
-    // }
-
-    // console.log('Parsed Images:----', images);  
-    // // creates unique id for the property folder
-    // const propertyId = uuidv4(); 
+    for (const [key, value] of Array.from(formData.entries())) { // Convert iterator to array
+      const match = key.match(/images\[(\d+)\]\[(id|image)\]/); // Extract 
+      // console.log('match', match);
+      // index and type
+      if (!match) continue;
     
-    // // Convert numeric fields to numbers if needed
-    // const propertyData = {
-    //   ...formEntries,
-    //   cover: cover,
-    //   propertyId: propertyId,
-    //   price: Number(price),
-    //   bedrooms: Number(bedrooms),
-    //   bathrooms: Number(bathrooms),
-    //   garage: Number(garage),
-    //   area: Number(area),
-    //   totalArea: Number(totalArea),
-    //   privateArea: Number(privateArea),
-    //   features: formData.getAll('features').map((feature) => ({ name: feature })),
-    // };
+      const index = Number(match[1]);
+      const type = match[2];
+      // console.log('type', type);
+      // console.log('index', index)
+    
+      if (!imagesObjects[index]) imagesObjects[index] = { id: "", file: null };
+    
+      if (type === "id") imagesObjects[index].id = value as string;
+      if (type === "image" && value instanceof File) imagesObjects[index].file = value;
+    }
+    
+    console.log("imgObjects:", imagesObjects);
+    const propertyId = uuidv4();
+    const images = await Promise.all(imagesObjects.map( async (image) => {
+      if (!image.file) return null;
+      const arrayBuffer = await image.file.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      const optimizedImage = await compressImage(buffer);
+      const s3Key = `propriedades/${propertyId}/${image.id}`; // generate 
 
-    // console.log('this is porperty data', propertyData)
+      const uploadParams = {
+        Bucket: bucketName,
+        Key: s3Key,
+        Body: optimizedImage,
+        ContentType: image.file.type,
+      };
+
+      // // // upload file to s3 bucket
+      // await s3Client.send(new PutObjectCommand(uploadParams));
+      // console.log('image uploaded successfully', s3Key);
+
+      return s3Key;
+    }))
+
+    // const features = formData.getAll('features').map((feature) => {
+    //   console.log('feature', feature);
+    //   return ({ name: feature })
+    // })
+        
+    // Convert numeric fields to numbers if needed
+    const propertyData = {
+      ...formEntries,
+      propertyId: propertyId,
+      price: Number(price),
+      cover: cover,
+      bedrooms: Number(bedrooms),
+      bathrooms: Number(bathrooms),
+      garage: Number(garage),
+      area: Number(area),
+      totalArea: Number(totalArea),
+      privateArea: Number(privateArea),
+      features,
+      images,
+    };
+
+    console.log('this is porperty data', propertyData)
     // console.log('propertyData.cover', propertyData.cover)
 
-    // if (!title || !location || !price || !propertyType) {
-    //   return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
-    // }
+    if (!title || !location || !price || !propertyType) {
+      return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
+    }
 
-    
-    // // add images to s3
-    // const uploadedImages = await Promise.all(
-    //   images.map(async (file: {id: string, image: File}) => {
-    //     // reads content of the file into a array of bytes
-    //     const arrayBuffer = await file.image.arrayBuffer();
-    //     // converts array buffer into a buffer object
-    //     const buffer = Buffer.from(arrayBuffer); 
-
-    //     const compressedBuffer = await compressImage(buffer)
-
-    //     // Upload to S3
-    //     const s3Key = `propriedades/${propertyId}/${file.id}`;
-    //     const uploadParams = {
-    //       Bucket: bucketName,
-    //       Key: s3Key,
-    //       Body: compressedBuffer,
-    //       ContentType: file.image.type,
-    //     };
-    //     //   // upload file to s3 bucket
-    //     // await s3Client.send(new PutObjectCommand(uploadParams));
-    //     // console.log('image uploaded successfully', s3Key);
-
-    //     return s3Key
-    //   })
-    // );
-    // console.log('uploaded images', uploadedImages)
-    // if(uploadedImages.length === 0) throw new Error("No images uploaded");
 
     // // creates database document for property
     // const newProperty = await Property.create({
     //   ...propertyData,
-    //   propertyId: propertyId,
-    //   images: uploadedImages,
     // });
 
     // console.log('this should be new property:', newProperty);
 
-    // console.log('property uploaded successfully')
-    // console.log(uploadedImages);
+    console.log('property uploaded successfully')
+
 
     return NextResponse.json({
       message: "Success",

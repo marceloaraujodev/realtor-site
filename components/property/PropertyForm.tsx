@@ -67,33 +67,38 @@ export function PropertyForm() {
     // append non-file data
     console.log('this is data-=-=-', data)
     // Append non-file fields
-    // Object.entries(data).forEach(([key, value]) => {
-    //   console.log('----', key, value);
-    //   if (key !== 'images') {
-    //     formData.append(key, value);
-    //   }
-    // });
+    Object.entries(data).forEach(([key, value]) => {
+      console.log('----', key, value);
+      if (key !== 'images') {
+        formData.append(key, value);
+      }
+    });
 
-    // // Append images with their IDs
-    // data.images?.forEach((image, index) => {
-    //   console.log('===', image, index)
-    //   formData.append(`images[${index}][id]`, image.id); // Append ID
-    //   formData.append(`images[${index}][image]`, image.file); // Append File
-    // });
+     // Append features as separate strings
+    data.features?.forEach((feature, index) => {
+      formData.append(`features[${index}]`, feature.name); // Append each feature's name
+    });
 
-    // try {
-    //   const res = await axios.post('http://localhost:3000/api/propriedades/create', formData, {
-    //     headers: {
-    //       'Content-Type': 'multipart/form-data', // Specify content type
-    //     },
-    //   });
-    //   if (res.status === 200) {
-    //     alert('Propriedade salva com sucesso!');
-    //   }
-    //   console.log('this is data that will be sent to backend', data)
-    // } catch (error) {
-    //   console.error('Error saving property:', error);
-    // }
+    // Append images with their IDs
+    data.images?.forEach((image, index) => {
+      console.log('===', image, index)
+      formData.append(`images[${index}][id]`, image.imgId); // Append ID
+      formData.append(`images[${index}][image]`, image.file); // Append File
+    });
+
+    try {
+      const res = await axios.post('http://localhost:3000/api/propriedades/create', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data', // Specify content type
+        },
+      });
+      if (res.status === 200) {
+        alert('Propriedade salva com sucesso!');
+      }
+      console.log('this is data that will be sent to backend', data)
+    } catch (error) {
+      console.error('Error saving property:', error);
+    }
   };
 
   return (
