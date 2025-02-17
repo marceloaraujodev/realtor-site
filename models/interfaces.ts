@@ -5,9 +5,9 @@ export interface IPropertyModel {
   location: string;
   price: number;
   bedrooms?: number;
+  suites?: number;
   bathrooms?: number;
   garage?: number;
-  area?: number;
   totalArea?: number;
   privateArea?: number;
   propertyType: "Casa" | "Apartamento" | "Galpão" | "Sala" | "Loft" | "Terreno";

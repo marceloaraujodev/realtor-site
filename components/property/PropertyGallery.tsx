@@ -11,7 +11,7 @@ import { PropertyGalleryProps } from '@/types/propertyType';
 export default function PropertyGallery({ images }: PropertyGalleryProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
-  const imageUrls:string[] = images.map(imageKey => `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${imageKey}`);
+  const imageUrls:string[] = images?.map(imageKey => `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${imageKey.url}`) || [];
 
   const mainImages = imageUrls.slice(0, 5);
   const thumbnailImages = imageUrls.slice(5);

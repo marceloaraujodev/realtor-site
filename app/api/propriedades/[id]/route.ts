@@ -4,16 +4,16 @@ import { mongooseConnect } from "@/lib/mongooseConnect";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }){
   await mongooseConnect();
-  console.log(params);
+  // console.log(params);
   const { id } = params;
   const property = await Property.findById({_id: id})
   if(!property){
     return NextResponse.json({success: false, message: 'Property not found'}, {status: 404})
   }
-  console.log(property);
+  // console.log(property);
 
 return NextResponse.json({
   success: true,
-  data:property,
+  data:property, 
 })
 }

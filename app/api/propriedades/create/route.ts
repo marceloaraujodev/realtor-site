@@ -38,10 +38,10 @@ export async function POST(req: NextRequest) {
       bedrooms,
       bathrooms,
       garage,
-      area,
       totalArea,
       privateArea,
       cover,
+      suites
     } = formEntries;
 
     const features: string[] = [];
@@ -89,9 +89,9 @@ export async function POST(req: NextRequest) {
         ContentType: image.file.type,
       };
 
-      // // // upload file to s3 bucket
-      // await s3Client.send(new PutObjectCommand(uploadParams));
-      // console.log('image uploaded successfully', s3Key);
+      // // upload file to s3 bucket
+      await s3Client.send(new PutObjectCommand(uploadParams));
+      console.log('image uploaded successfully', s3Key);
 
       return s3Key;
     }))
@@ -103,14 +103,17 @@ export async function POST(req: NextRequest) {
         
     // Convert numeric fields to numbers if needed
     const propertyData = {
-      ...formEntries,
+      title,
+      propertyType,
+      location,
+      description,
       propertyId: propertyId,
       price: Number(price),
       cover: cover,
       bedrooms: Number(bedrooms),
+      suites: Number(suites),
       bathrooms: Number(bathrooms),
       garage: Number(garage),
-      area: Number(area),
       totalArea: Number(totalArea),
       privateArea: Number(privateArea),
       features,
@@ -125,10 +128,10 @@ export async function POST(req: NextRequest) {
     }
 
 
-    // // creates database document for property
-    // const newProperty = await Property.create({
-    //   ...propertyData,
-    // });
+    // creates database document for property
+    const newProperty = await Property.create({
+      ...propertyData,
+    });
 
     // console.log('this should be new property:', newProperty);
 
@@ -137,8 +140,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       message: "Success",
-      // newProperty,
-      // s3Key: uploadedImages,
+      newProperty,
+      s3Key: images,
     });
   } catch (error) {
     console.error("Error creating property:", error);

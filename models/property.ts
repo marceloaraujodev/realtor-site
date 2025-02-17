@@ -25,13 +25,13 @@ const PropertySchema: Schema<IPropertyModel> = new Schema<IPropertyModel>(
     bedrooms: {
       type: Number,
     },
+    suites: {
+      type: Number,
+    },
     bathrooms: {
       type: Number,
     },
     garage: {
-      type: Number,
-    },
-    area: {
       type: Number,
     },
     totalArea: {

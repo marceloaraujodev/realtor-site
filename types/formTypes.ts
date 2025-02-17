@@ -8,9 +8,9 @@ export interface FormData {
   description: string;
   propertyType: IpropertyType["propertyType"];
   bedrooms: string;
+  suites: string;
   bathrooms: string;
   garage: string;
-  area: string;
   totalArea: string;
   privateArea: string;
   features?: { name: string }[];

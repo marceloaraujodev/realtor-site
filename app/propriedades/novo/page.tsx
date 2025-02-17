@@ -1,6 +1,6 @@
 'use client';
 import { redirect } from 'next/navigation';
-import { PropertyForm } from '@/components/property/PropertyForm';
+import PropertyForm from '@/components/property/PropertyForm';
 import { useSession } from 'next-auth/react';
 
 

@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import type { FormData } from '@/types/formTypes';
 import axios from 'axios'
 
-export function PropertyForm() {
+export default function PropertyForm() {
   const methods = useForm<FormData>({
     // form default values should be empty strings
     // defaultValues: {
@@ -36,7 +36,6 @@ export function PropertyForm() {
       bedrooms: '4',
       bathrooms: '5',
       garage: '3',
-      area: '120',
       totalArea: '120',
       privateArea: '120',
       features: [], // Initialize as an empty array

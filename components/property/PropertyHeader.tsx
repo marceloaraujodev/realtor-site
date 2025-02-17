@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 
 import { Building2, MapPin, Share2 } from 'lucide-react';
 import { Button } from '../ui/button';

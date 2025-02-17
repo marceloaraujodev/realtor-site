@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { formatCurrency } from '@/lib/utils';
 import { PropertiesProps } from '@/types/propertyType';
 
-export default async function PropertyGrid({ properties }: PropertiesProps) {
+export default function PropertyGrid({ properties }: PropertiesProps) {
 
   return (
     <section className="py-16 bg-gray-50">

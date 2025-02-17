@@ -19,6 +19,14 @@ export function PropertyDetails({ register, errors }: PropertyDetailsProps) {
               {...register('bedrooms')}
             />
           </div>
+          <div className="space-y-2">
+            <Label htmlFor="suites">Suites</Label>
+            <Input
+              id="suites"
+              type="number"
+              {...register('suites')}
+            />
+          </div>
 
           <div className="space-y-2">
             <Label htmlFor="bathrooms">Banheiros</Label>
@@ -35,16 +43,6 @@ export function PropertyDetails({ register, errors }: PropertyDetailsProps) {
               id="garage"
               type="number"
               {...register('garage')}
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="area">Área</Label>
-            <Input
-              id="area"
-              type="number"
-              {...register('area')}
-              placeholder="m²"
             />
           </div>
 

@@ -8,7 +8,6 @@ export interface IpropertyType {
   bedrooms?: number;
   bathrooms?: number;
   garage?: number;
-  area?: number;
   totalArea?: number;
   privateArea?: number;
   propertyType: "Casa" | "Apartamento" | "Galpão" | "Sala" | "Loft" | "Terreno";
@@ -20,7 +19,7 @@ export interface IpropertyType {
 }
 
 export interface PropertyGalleryProps {
-  images: string[];
+  images?: { id: string; url: string }[];
 }
 
 export interface PropertyProps {
