@@ -22,10 +22,8 @@ export default function PropertyHeader({ property }: PropertyProps) {
   };
 
   const handleEdit = () => {
-    const id = property.propertyId
-    // grab id and redirect to the form basic info page
-    router.push(`/propriedades/edit/${id}`) // create the edit, just copy propertyForm component
-    // load the details from the property
+   // grab id and redirect to the form basic info page
+   router.push(`/propriedades/edit?id=${property.propertyId}`);
 
     console.log(property.propertyId)
   }
