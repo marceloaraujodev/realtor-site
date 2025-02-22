@@ -6,23 +6,33 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { PropertyBasicInfoProps } from "@/types/formTypes";
+import { PropertyBasicInfoProps, FormData } from "@/types/formTypes";
 import { IpropertyType } from "../../../types/propertyType";
 
 export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicInfoProps) {
-    // Use useFormContext to access the control
-    const { control } = useFormContext();
+  // Use useFormContext to access the control
+  const { control } = useFormContext();
 
-    // Subscribe to propertyType changes using useWatch
-    const propertyType = useWatch({
-      control,
-      name: "propertyType",
-    });
+  // Subscribe to propertyType changes using useWatch
+  const propertyType = useWatch({
+    control,
+    name: "propertyType",
+  });
 
-  const handleSelectChange = (value: IpropertyType['propertyType']) => {
-    setValue("propertyType", value, { shouldValidate: true });
+  const listingType = useWatch({
+    control,
+    name: "listingType",
+  });
+
+  /* takes either of the values and returns a function that sets the value
+    Why Use Two Arrow Functions?  
+    onValueChange only accepts a function with one argument (value: string), we need to first specify which field we are updating (propertyType or listingType).
+  */
+  const handleSelect = (field: keyof FormData) => (value: string) => {
+    setValue(field, value, { shouldValidate: true });
   };
-
+      
+      
   return (
     <Card>
       <CardContent className="pt-6 space-y-4">
@@ -59,7 +69,8 @@ export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicI
 
         <div className="space-y-2">
           <Label htmlFor="propertyType">Tipo de Imóvel</Label>
-          <Select value={propertyType || ""} onValueChange={handleSelectChange}>
+          <Select value={propertyType || ""} onValueChange={handleSelect("propertyType")}>
+
             <SelectTrigger>
               <SelectValue placeholder="Selecione o tipo" />
             </SelectTrigger>
@@ -70,6 +81,21 @@ export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicI
               <SelectItem value="Sala">Sala</SelectItem>
               <SelectItem value="Loft">Loft</SelectItem>
               <SelectItem value="Terreno">Terreno</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-2" data-name="listying type sale or rent">
+          <Label htmlFor="listingType">Tipo de Listagem</Label>
+          <Select value={listingType || ""} onValueChange={handleSelect("listingType")}>
+
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione o tipo" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="Venda">Venda</SelectItem>
+              <SelectItem value="Aluguel">Aluguel</SelectItem>
+
             </SelectContent>
           </Select>
         </div>

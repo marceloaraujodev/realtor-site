@@ -10,9 +10,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
+import { PropertiesProps } from '@/types/propertyType';
+
+// properties grid search is the one which actually searches for properties
+// properties grid only displays all the properties
 
 
-export default function SearchProperties() {
+export default function SearchProperties({properties}: PropertiesProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [filters, setFilters] = useState({
@@ -26,7 +30,10 @@ export default function SearchProperties() {
     // if (searchParams.toString()) {
     //   router.replace('/propriedades'); // Clears all query parameters
     // }
-  }, [])
+    console.log(properties)
+    console.log('filers', filters)
+  }, [filters])
+
 
   const handleSearch = () => {
     const queryParams = new URLSearchParams(filters);

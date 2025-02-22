@@ -6,6 +6,9 @@ import Link from 'next/link';
 import { formatCurrency } from '@/lib/utils';
 import { PropertiesProps } from '@/types/propertyType';
 
+// properties grid search is the one which actually searches for properties
+// properties grid only displays all the properties
+
 export default function PropertyGrid({ properties }: PropertiesProps) {
 
 console.log(properties)
@@ -41,7 +44,7 @@ console.log(properties)
                     <h3 className="text-xl font-semibold mb-4">
                       {property.title}
                     </h3>
-                    <p data-name="venda ou aluguel" className='text-xs'>{property.propertyType} á {property.listingType}</p>
+                    <p data-name="venda ou aluguel" className='text-xs'>{property.listingType === 'venda' ? `${property.propertyType} á ${property.listingType}` : `${property.propertyType} para ${property.listingType}` }</p>
                     <div data-name="icons div" className='flex justify-start mt-6 mb-4 space-x-6'>
                       <div className='flex items-center'>
                         <svg data-name='bedrooms' className='h-5 w-5' version="1.1" id="Layer_1" 
@@ -93,9 +96,11 @@ console.log(properties)
                     <p className="text-primary font-bold mb-4">
                       {formatCurrency(property.price)}
                     </p>
+                    <p className='text-sm'>Condominío</p>
+                    <p className='text-xs font-bold mt-1 mb-4'>R$500</p>
                     <div className='w-full'>
                       <Button className="w-1/2 mr-6">Ver Detalhes</Button>
-                      <Button className="px-5">ligar</Button>
+                      <Button className="px-5">WhatsApp</Button>
                     </div>
                   </div>
                 </Link>

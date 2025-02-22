@@ -6,7 +6,8 @@ export interface FormData {
   location: string;
   price: string;
   description: string;
-  propertyType: IpropertyType["propertyType"];
+  propertyType: "Casa" | "Apartamento" | "Galpão" | "Sala" | "Loft" | "Terreno";
+  listingType: "venda" | "aluguel";
   bedrooms: string;
   suites: string;
   bathrooms: string;

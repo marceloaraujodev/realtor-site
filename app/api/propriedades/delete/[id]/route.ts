@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { mongooseConnect } from "@/lib/mongooseConnect";
 import Property from "@/models/property";
+import { deletePropertyImages } from "@/utils/aws/deletePropertyImages";
 
 export async function DELETE(req: NextRequest, { params }:{params: { id: string}}){
   try {
@@ -9,13 +10,17 @@ export async function DELETE(req: NextRequest, { params }:{params: { id: string}
     const { id } = params;
     console.log(id);
   
-   // Validate if id is a valid MongoDB ObjectId mdb _id is always a 24 digit string
-   if (!id || id.length !== 24) {
+   // propertyId is used here
+   if (!id) {
     return NextResponse.json({ error: "Invalid id format" }, { status: 400 });
   }
   
-    const deletedProperty = await Property.findByIdAndDelete(id);
-  
+    // delete database property record
+    const deletedProperty = await Property.deleteOne({propertyId: id});
+
+    // deletes images from s3 bucket
+    await deletePropertyImages(id)
+
     return NextResponse.json({
       message: 'Property item deleted successfully',
       deletedProperty,

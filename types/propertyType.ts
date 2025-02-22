@@ -10,13 +10,13 @@ export interface IpropertyType {
   garage?: number;
   totalArea?: number;
   privateArea?: number;
-  propertyType: "Casa" | "Apartamento" | "Galpão" | "Sala" | "Loft" | "Terreno";
   features?: {name: string, _id: string}[];
   images?: { id: string; url: string }[];
   description?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  listingType: "Venda" | "Aluguel"; 
+  propertyType: "Casa" | "Apartamento" | "Galpão" | "Sala" | "Loft" | "Terreno";
+  listingType: "venda" | "aluguel"; 
   condominion?: number;
 }
 
