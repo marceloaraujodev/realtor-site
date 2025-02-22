@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler, FormProvider  } from 'react-hook-form';
 import { PropertyBasicInfo } from './form/PropertyBasicInfo';
 import { PropertyDetails } from './form/PropertyDetails';
@@ -7,9 +8,11 @@ import { PropertyImages } from './form/PropertyImages';
 import { Button } from '../ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import type { FormData } from '@/types/formTypes';
+import { useRouter } from 'next/navigation';
 import axios from 'axios'
 
 export default function PropertyForm() {
+  const [isRedirecting, setIsRedirecting] = useState<boolean>(false)
   const methods = useForm<FormData>({
     // form default values should be empty strings
     // defaultValues: {
@@ -44,6 +47,13 @@ export default function PropertyForm() {
     mode: 'onBlur'
   });
 
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isRedirecting) {
+      router.push('/propriedades');
+    }
+  }, [isRedirecting]);
 
   const {
     register,
@@ -93,6 +103,7 @@ export default function PropertyForm() {
       });
       if (res.status === 200) {
         alert('Propriedade salva com sucesso!');
+        setIsRedirecting(true); // Redirect to properties list after successful save
       }
       console.log('this is data that will be sent to backend', data)
     } catch (error) {

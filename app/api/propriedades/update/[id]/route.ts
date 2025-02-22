@@ -7,14 +7,16 @@ import Property from "@/models/property";
 export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
   try {
     await mongooseConnect();
-    console.log(params)
+    const data = await req.json();
     const { id } = params;
-    const { price } = await req.json();
+
+    console.log(params)
+    console.log(data)
 
     // will need to update this to get any fields that are being updated  and received
     const propertyUpdated = await Property.findOneAndUpdate(
-      {_id: id}, 
-      {price: price},
+      {propertyId: id}, 
+      data,
       {new: true}
     )
   

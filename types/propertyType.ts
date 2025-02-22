@@ -16,6 +16,8 @@ export interface IpropertyType {
   description?: string;
   createdAt?: Date;
   updatedAt?: Date;
+  listingType: "Venda" | "Aluguel"; 
+  condominion?: number;
 }
 
 export interface PropertyGalleryProps {

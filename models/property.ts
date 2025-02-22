@@ -51,6 +51,10 @@ const PropertySchema: Schema<IPropertyModel> = new Schema<IPropertyModel>(
     description: {
       type: String,
     },
+    listingType: {
+      type: String,
+      enum: ["venda", "aluguel"],
+    },
   },
   {
     timestamps: true, // Automatically adds `createdAt` and `updatedAt`

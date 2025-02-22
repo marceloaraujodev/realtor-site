@@ -7,6 +7,7 @@ import { formatCurrency } from '@/lib/utils';
 import { PropertiesProps } from '@/types/propertyType';
 
 export default function PropertyGrid({ properties }: PropertiesProps) {
+
 console.log(properties)
   return (
     <section className="py-16 bg-gray-50">
@@ -40,6 +41,7 @@ console.log(properties)
                     <h3 className="text-xl font-semibold mb-4">
                       {property.title}
                     </h3>
+                    <p data-name="venda ou aluguel" className='text-xs'>{property.propertyType} á {property.listingType}</p>
                     <div data-name="icons div" className='flex justify-start mt-6 mb-4 space-x-6'>
                       <div className='flex items-center'>
                         <svg data-name='bedrooms' className='h-5 w-5' version="1.1" id="Layer_1" 
@@ -60,7 +62,7 @@ console.log(properties)
                         <span className='ml-2 text-sm'>{property.bathrooms}</span>
                       </div>
 
-                      <div className='flex items-center'>
+                      <div className='flex items-center justify-start'>
                         <svg className="h-5 w-5 text-gray-600 fill-current" data-name="garage"
                           version="1.1"
                           id="Layer_1"
@@ -91,7 +93,10 @@ console.log(properties)
                     <p className="text-primary font-bold mb-4">
                       {formatCurrency(property.price)}
                     </p>
-                    <Button className="w-full">Ver Detalhes</Button>
+                    <div className='w-full'>
+                      <Button className="w-1/2 mr-6">Ver Detalhes</Button>
+                      <Button className="px-5">ligar</Button>
+                    </div>
                   </div>
                 </Link>
               </Card>

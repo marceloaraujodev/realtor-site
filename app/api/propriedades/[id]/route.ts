@@ -12,7 +12,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   }
   // console.log(property);
 
-return NextResponse.json({
+  return NextResponse.json({
   success: true,
   data:property, 
 })

@@ -1,5 +1,5 @@
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from '../firebaseConfig'; // Import the new storage instance
+import { storage } from '../../firebaseConfig'; // Import the new storage instance
 
 export async function uploadFileToNewFirebase(file: File): Promise<string> {
   try {

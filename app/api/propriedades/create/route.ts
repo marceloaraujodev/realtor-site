@@ -120,7 +120,7 @@ export async function POST(req: NextRequest) {
       images,
     };
 
-    console.log('this is porperty data', propertyData)
+    // console.log('this is porperty data', propertyData)
     // console.log('propertyData.cover', propertyData.cover)
 
     if (!title || !location || !price || !propertyType) {
