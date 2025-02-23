@@ -18,7 +18,6 @@ import { PropertiesProps } from '@/types/propertyType';
 
 export default function SearchProperties({properties}: PropertiesProps) {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const [filters, setFilters] = useState({
     propertyType: '',
     bedrooms: '',

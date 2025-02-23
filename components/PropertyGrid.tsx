@@ -27,8 +27,8 @@ console.log(properties)
               : undefined;
 
             return (
-              <Card key={property._id} className="overflow-hidden">
-                <Link href={`/propriedades/${property._id}`} className="block">
+              <Card key={property.propertyId} className="overflow-hidden">
+                <Link href={`/propriedades/${property.propertyId}`} className="block">
                   <div className="aspect-video relative">
                     {imageUrl ? (
                       <img

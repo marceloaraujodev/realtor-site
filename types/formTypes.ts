@@ -1,6 +1,6 @@
 import { UseFormRegister, FieldErrors, Control, UseFormSetValue } from "react-hook-form";
-import { IpropertyType } from "./propertyType";
 
+// for the form validation
 export interface FormData {
   title: string;
   location: string;

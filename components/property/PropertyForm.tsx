@@ -10,8 +10,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import type { FormData } from '@/types/formTypes';
 import { useRouter } from 'next/navigation';
 import axios from 'axios'
+import { PropertyFormProp } from '@/types/propertyType';
+import { usePathname } from 'next/navigation';
+import { siteUrl } from '@/app/config';
 
-export default function PropertyForm() {
+export default function PropertyForm({property}: PropertyFormProp) {
   const [isRedirecting, setIsRedirecting] = useState<boolean>(false)
   const methods = useForm<FormData>({
     // form default values should be empty strings
@@ -30,6 +33,7 @@ export default function PropertyForm() {
     //   features: [], // Initialize as an empty array
     //   images: [],   // Initialize as an empty array
     // },
+    // thos below are just for testing purposes
     defaultValues: {
       title: 'Apartamento vista mar avenida Atlântica',
       location: 'Centro, Balneário Camboriú',
@@ -49,12 +53,21 @@ export default function PropertyForm() {
 
   const router = useRouter();
 
+  // grabs the url path and checks if the form is being edit
+  const pathname = usePathname();
+  const isEditingForm = pathname.includes('/edit/');
+  console.log( siteUrl, isEditingForm ? 
+    `/api/propriedades/edit/${property?.propertyId}` 
+    : `/api/propriedades/create`)
+
+  // if isRedirecting is true send user to /properiedades
   useEffect(() => {
     if (isRedirecting) {
       router.push('/propriedades');
     }
   }, [isRedirecting]);
 
+  // register the methods for react hook form
   const {
     register,
     handleSubmit,
@@ -96,11 +109,21 @@ export default function PropertyForm() {
     });
 
     try {
-      const res = await axios.post('http://localhost:3000/api/propriedades/create', formData, {
+      const endpoint = isEditingForm ? 
+      `/api/propriedades/edit/${property?.propertyId}` 
+      : `/api/propriedades/create`;
+      const method = isEditingForm ? 'PATCH' : 'POST';
+
+      // make this request url dynamic so I can send create or edit requests
+      const res = await axios({
+        method,
+        url: siteUrl + endpoint,
+        data: formData, // Send form data as FormData object
         headers: {
           'Content-Type': 'multipart/form-data', // Specify content type
         },
       });
+
       if (res.status === 200) {
         alert('Propriedade salva com sucesso!');
         setIsRedirecting(true); // Redirect to properties list after successful save
@@ -140,9 +163,15 @@ export default function PropertyForm() {
     </Tabs>
 
     <div className="flex justify-end">
-      <Button type="submit" size="lg" disabled={isSubmitting}>
+      {isEditingForm ? (
+              <Button type="submit" size="lg" disabled={isSubmitting}>
+              {isSubmitting ? 'Salvando...' : 'Salvar Edição'}
+            </Button>
+      ) : (
+        <Button type="submit" size="lg" disabled={isSubmitting}>
         {isSubmitting ? 'Salvando...' : 'Salvar Propriedade'}
       </Button>
+      )}
     </div>
   </form>
   </FormProvider>

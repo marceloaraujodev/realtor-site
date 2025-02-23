@@ -2,47 +2,59 @@
 
 import { redirect } from 'next/navigation';
 import PropertyForm from '@/components/property/PropertyForm';
-import { PropertyProps } from '@/types/propertyType';
-import { useParams } from 'next/navigation';
 import { getProperty } from '@/lib/properties';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { mockProperties } from '@/mockData';
 
-export default async function EditPropertyPage({ searchParams }: { searchParams: {id?: string}}) {
+
+// this just grabs the information so next builds the routes, it does not pass data to the component
+export async function generateStaticParams() {
+  if (process.env.NODE_ENV === 'production') {
+    return mockProperties.map((property) => ({
+      id: property.propertyId,
+    }));
+  }
+
+  try {
+    const res = await fetch(`http://localhost:3000/api/propriedades`);
+    const properties = await res.json();
+    return properties.map((property: { propertyId: string }) => ({
+      id: property.propertyId,
+    }));
+  } catch (error) {
+    console.error('Error fetching properties:', error);
+    return [];
+  }
+
+}
+
+
+export default async function EditPropertyPage({params} : {params: {id: string}}) {
   // when this page loads we need to grab the props, figure it out a way to get it form the propertyHeader or fetch on page load. 
   const session = await getServerSession(authOptions);
-
-  const propertyId = searchParams?.id;
-
 
   if (!session) {
     redirect('/'); // Redirect to home page if user is not logged in
   }
 
-  if (!propertyId) {
-    redirect('/');
-  }
-
-  const property = await getProperty(propertyId);
+  const property = await getProperty(params.id);
+  console.log(property);
 
   if (!property) {
     return <p>Propriedade não encontrada.</p>;
   }
- 
-    // Wait for session to load before making a redirect decision
-    if (status === "loading") {
-      // Show a loading message or spinner and make sure the page doesnt shrink vertically
-      return <p>Carregando...</p>; 
-    }
-
 
 
   // console.log(session)
   return (
     <div className="pt-24 pb-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <PropertyForm />
+        <PropertyForm property={property} />
       </div>
     </div>
   );
 }
+
+// 🚀 Forces Next.js to fetch fresh data on every request (SSR)
+export const dynamic = 'force-dynamic';

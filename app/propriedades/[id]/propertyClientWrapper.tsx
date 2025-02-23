@@ -18,15 +18,10 @@ export default function PropertyClientWrapper({ property }: Props) {
   // const features = property.features?.map((feature, index) => ({name: feature, _id: feature + index.toString()}) ) 
 
     // Transform features
-    const features =
-    // Check if `property.features` is an array and if all items in the array are strings.
-    // If either condition fails, return `undefined`.
-    Array.isArray(property.features) && property.features.every((f) => typeof f === 'string')
-      ? property.features.map((feature, index) => ({
-          name: feature,
-          _id: `${feature}-${index}`,
-        }))
-      : undefined;
+    const features = property.features?.map((feature) => ({
+      name: feature.name, 
+      _id: feature._id,
+    })) ?? [];
 
   return (
     <div className="pt-24 pb-12">

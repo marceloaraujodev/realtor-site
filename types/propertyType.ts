@@ -20,18 +20,27 @@ export interface IpropertyType {
   condominion?: number;
 }
 
-export interface PropertyGalleryProps {
-  images?: { id: string; url: string }[];
-}
 
+
+// for single property
 export interface PropertyProps {
   property: IpropertyType;
 }
 
-export interface PropertyFeatures {
-  features: {name: string, _id: string}[];
-}
-
+// for an array of properties
 export interface PropertiesProps {
   properties: IpropertyType[]; // Expecting an array of properties
+}
+
+export interface PropertyFeatures {
+  features?: {name: string, _id: string}[];
+}
+
+export interface PropertyGalleryProps {
+  images?: { id: string; url: string }[];
+}
+
+// props for the form 
+export interface PropertyFormProp {
+  property?: IpropertyType;
 }

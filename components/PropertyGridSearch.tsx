@@ -54,8 +54,8 @@ export default function PropertyGridSearch({ properties}: PropertiesProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {filteredProperties.length > 0 ? (
             filteredProperties.map((property) => (
-              <Card key={property._id} className="overflow-hidden">
-                <Link href={`/propriedades/${property._id}`} className="block">
+              <Card key={property.propertyId} className="overflow-hidden">
+                <Link href={`/propriedades/${property.propertyId}`} className="block">
                   <div className="aspect-video relative">
                     <img src={`${urlpath}${property.images?.[0]}`} alt={property.title} className="object-cover w-full h-full" />
                   </div>

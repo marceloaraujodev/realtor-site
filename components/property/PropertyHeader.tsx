@@ -23,7 +23,8 @@ export default function PropertyHeader({ property }: PropertyProps) {
 
   const handleEdit = () => {
    // grab id and redirect to the form basic info page
-   router.push(`/propriedades/edit?id=${property.propertyId}`);
+   router.push(`/propriedades/edit/${property.propertyId}`);
+  //  router.push(`/propriedades/edit/555`);
 
     console.log(property.propertyId)
   }

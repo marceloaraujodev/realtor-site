@@ -7,7 +7,7 @@ import SearchProperties from '@/components/SearchProperties';
 import axios from 'axios';
 
 async function getProperties(){
-  const res = await fetch('http://localhost:3000/api/propriedades/all', {
+  const res = await fetch('http://localhost:3000/api/propriedades', {
     cache: "no-store", // Prevent caching if data updates frequently
   });
   if (!res.ok) {
