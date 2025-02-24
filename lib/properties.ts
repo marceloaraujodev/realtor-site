@@ -1,18 +1,15 @@
 import axios from 'axios';
 import { IpropertyType } from '@/types/propertyType';
 import { mockProperties } from '@/mockData';
+import { siteUrl } from '@/config';
 
 // this is helpers for the frontend 
 export async function getProperty(id: string){
-  if (process.env.NODE_ENV === 'production') {
-    // Use mock data during build
-    return mockProperties.find(p => p.propertyId === id) || null;
-  }
 
   try {
-    const res = await axios.get(`http://localhost:3000/api/propriedades/${id}`)
+    const res = await axios.get(`${siteUrl}/api/propriedades/${id}`)
     const property = res.data.data;
-  
+
     // property.images.map((image: string) => console.log('image:', {id: image.split('/').pop(), url: image}))
     return {
       ...property,
@@ -23,25 +20,22 @@ export async function getProperty(id: string){
     }
     
   } catch (error) {
-    return mockProperties
+    console.log(error);
+    throw new Error('could not fetch property');
   }
 }
 
 export async function getAllProperties(): Promise<IpropertyType[]>{
-  if (process.env.NODE_ENV === 'production') {
-    // Use mock data during build
-    return mockProperties || null;
-  }
 
   try {
-    const res = await axios.get('http://localhost:3000/api/propriedades');
+    const res = await axios.get(`${siteUrl}/api/propriedades`);
     // console.log('this is res for getAll properties:', res.data);
   
     return res.data;
   } catch (error) {
     console.log(error);
-    // throw new Error('Failed to fetch properties');
-    return mockProperties;
+    throw new Error('Failed to fetch properties');
+    // return mockProperties;
   }
 }
 

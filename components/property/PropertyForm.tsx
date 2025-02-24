@@ -12,44 +12,53 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios'
 import { PropertyFormProp } from '@/types/propertyType';
 import { usePathname } from 'next/navigation';
-import { siteUrl } from '@/app/config';
+import { siteUrl } from '@/config';
 
 export default function PropertyForm({property}: PropertyFormProp) {
   const [isRedirecting, setIsRedirecting] = useState<boolean>(false)
   const methods = useForm<FormData>({
     // form default values should be empty strings
-    // defaultValues: {
-    //   title: '',
-    //   location: '',
-    //   price: '',
-    //   description: '',
-    //   propertyType: undefined,
-    //   bedrooms: '',
-    //   bathrooms: '',
-    //   garage: '',
-    //   area: '',
-    //   totalArea: '',
-    //   privateArea: '',
-    //   features: [], // Initialize as an empty array
-    //   images: [],   // Initialize as an empty array
-    // },
-    // thos below are just for testing purposes
     defaultValues: {
-      title: 'Apartamento vista mar avenida Atlântica',
-      location: 'Centro, Balneário Camboriú',
-      price: '5000000',
-      description: 'lindo apartamento completo, vista pro mar',
+      title: '',
+      location: '',
+      price: '',
+      description: '',
       propertyType: undefined,
-      bedrooms: '4',
-      bathrooms: '5',
-      garage: '3',
-      totalArea: '120',
-      privateArea: '120',
+      bedrooms: '',
+      bathrooms: '',
+      garage: '',
+      totalArea: '',
+      privateArea: '',
       features: [], // Initialize as an empty array
       images: [],   // Initialize as an empty array
     },
+    // thos below are just for testing purposes
+    // defaultValues: {
+      //   title: 'Apartamento vista mar avenida Atlântica',
+      //   location: 'Centro, Balneário Camboriú',
+      //   price: '5000000',
+      //   description: 'lindo apartamento completo, vista pro mar',
+      //   propertyType: undefined,
+      //   bedrooms: '4',
+      //   bathrooms: '5',
+      //   garage: '3',
+      //   totalArea: '120',
+      //   privateArea: '120',
+      //   features: [], // Initialize as an empty array
+      //   images: [],   // Initialize as an empty array
+    // },
     mode: 'onBlur'
   });
+  console.log('this is property', property)
+
+    // register the methods for react hook form
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    control,
+    formState: { isSubmitting, errors},
+  } = methods;
 
   const router = useRouter();
 
@@ -67,14 +76,30 @@ export default function PropertyForm({property}: PropertyFormProp) {
     }
   }, [isRedirecting]);
 
-  // register the methods for react hook form
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    control,
-    formState: { isSubmitting, errors},
-  } = methods;
+  // pre loads the data from property props when the user is editing
+  useEffect(() => {
+    if (property) {
+      setValue('title', property.title || '');
+      setValue('location', property.location || '');
+      setValue('price', property.price.toString() || '');
+      setValue('description', property.description || '');
+      setValue('propertyType', property.propertyType || undefined);
+      setValue('bedrooms', property.bedrooms?.toString() || '');
+      setValue('bathrooms', property.bathrooms?.toString() || '');
+      setValue('garage', property.garage?.toString() || '');
+      setValue('totalArea', property.totalArea?.toString() || '');
+      setValue('privateArea', property.privateArea?.toString() || '');
+      setValue('features', property.features || []);
+      // setValue('images', property.images?.map((image)=> {
+      //   return {
+      //     id: image.id,
+      //     url: image.url ||
+      //   }
+      // }));
+    }
+  }, [property, setValue]);
+
+
 
   // is submiting is not really being used, but have already sert up for in case I neee it
 

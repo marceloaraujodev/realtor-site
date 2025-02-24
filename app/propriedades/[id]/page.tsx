@@ -6,18 +6,14 @@ import PropertyForm from '@/components/property/PropertyForm';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { mockProperties } from '@/mockData';
+import { siteUrl } from '@/config';
 
 
 // Generate static paths for all properties to be pre-rendered
 export async function generateStaticParams() {
-  if (process.env.NODE_ENV === 'production') {
-    return mockProperties.map((property) => ({
-      id: property.propertyId,
-    }));
-  }
 
   try {
-    const res = await fetch(`http://localhost:3000/api/propriedades`);
+    const res = await fetch(`${siteUrl}/api/propriedades`);
     const properties = await res.json();
     return properties.map((property: { propertyId: string }) => ({
       id: property.propertyId,

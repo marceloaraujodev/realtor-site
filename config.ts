@@ -2,9 +2,9 @@
 import dotenv from 'dotenv';
 
 dotenv.config();
-
+const NODE_ENV = process.env.NODE_ENV || 'production';
 // Set up MODE (default to production if not explicitly set)
-const MODE = process.env.NODE_ENV === 'development' ? 'dev' : 'production';
+const MODE = NODE_ENV === 'development' ? 'dev' : 'production';
 
 console.log('this is process.env.NODE_ENV', process.env.NODE_ENV)
 
