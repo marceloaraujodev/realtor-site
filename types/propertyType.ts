@@ -1,4 +1,4 @@
-// for the database 
+// for the database
 export interface IpropertyType {
   _id: string;
   title: string;
@@ -10,17 +10,16 @@ export interface IpropertyType {
   garage?: number;
   totalArea?: number;
   privateArea?: number;
-  features?: {name: string, _id: string}[];
+  features?: { name: string }[];
   images?: { id: string; url: string }[];
   description?: string;
+  cover?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  propertyType: "Casa" | "Apartamento" | "Galpão" | "Sala" | "Loft" | "Terreno";
-  listingType: "venda" | "aluguel"; 
+  propertyType: 'Casa' | 'Apartamento' | 'Galpão' | 'Sala' | 'Loft' | 'Terreno';
+  listingType: 'venda' | 'aluguel';
   condominion?: number;
 }
-
-
 
 // for single property
 export interface PropertyProps {
@@ -33,14 +32,14 @@ export interface PropertiesProps {
 }
 
 export interface PropertyFeatures {
-  features?: {name: string, _id: string}[];
+  features?: { name: string; _id: string }[];
 }
 
 export interface PropertyGalleryProps {
   images?: { id: string; url: string }[];
 }
 
-// props for the form 
+// props for the form
 export interface PropertyFormProp {
-  property?: IpropertyType;
+  existingProperty?: IpropertyType;
 }

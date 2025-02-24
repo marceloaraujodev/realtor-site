@@ -45,8 +45,7 @@ const PropertySchema: Schema<IPropertyModel> = new Schema<IPropertyModel>(
       enum: ["Casa", "Apartamento", "Galpão", "Sala", "Loft", "Terreno"],
       required: true,
     },
-    features: [ String ],
-    images: [ String ],
+    images: [{ id: String, url: String }],
     cover: { type: String }, // Store the `id` of the cover image
     description: {
       type: String,
@@ -55,6 +54,9 @@ const PropertySchema: Schema<IPropertyModel> = new Schema<IPropertyModel>(
       type: String,
       enum: ["venda", "aluguel"],
     },
+    features: [{ 
+      name: { type: String } 
+    }], 
   },
   {
     timestamps: true, // Automatically adds `createdAt` and `updatedAt`

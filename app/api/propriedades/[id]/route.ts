@@ -14,7 +14,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     if(!property){
       return NextResponse.json({success: false, message: 'Property not found'}, {status: 404})
     }
-    // console.log(property);
+    // console.log('PROPERTY IN THE BACKEND', property);
   
     return NextResponse.json({
     success: true,

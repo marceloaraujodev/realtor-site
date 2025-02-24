@@ -7,7 +7,7 @@ export interface FormData {
   price: string;
   description: string;
   propertyType: "Casa" | "Apartamento" | "Galpão" | "Sala" | "Loft" | "Terreno";
-  listingType: "venda" | "aluguel";
+  listingType: "venda" | "aluguel"; 
   bedrooms: string;
   suites: string;
   bathrooms: string;
@@ -15,8 +15,8 @@ export interface FormData {
   totalArea: string;
   privateArea: string;
   features?: { name: string }[];
-  images: { imgId: string, file: File }[];
-  cover: number;
+  images: { imgId: string; file?: File; url?: string }[];
+  cover: string;
 }
 
 export interface PropertyBasicInfoProps {

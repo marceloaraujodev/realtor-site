@@ -22,8 +22,8 @@ console.log(properties)
       
           {properties.map((property, index) => {
             const urlpath = `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/`;
-            const imageUrl = property.images?.[0]
-              ? `${urlpath}${property.images[0]}`
+            const imageUrl = property.images?.map(i => i.url)[0]
+              ? `${urlpath}${property.images.map(i => i.url)[0]}`
               : undefined;
 
             return (

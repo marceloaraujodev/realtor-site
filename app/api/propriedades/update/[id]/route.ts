@@ -7,22 +7,24 @@ import Property from "@/models/property";
 export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
   try {
     await mongooseConnect();
-    const data = await req.json();
-    const { id } = params;
+    const formData = await req.formData(); // react hook form default is json no formData
 
-    console.log(params)
-    console.log(data)
+    console.log("Raw FormData entries:", Array.from(formData.entries()));
+    // const { id } = params;
+    console.log('TESTING')
+    // console.log(params)
 
-    // will need to update this to get any fields that are being updated  and received
-    const propertyUpdated = await Property.findOneAndUpdate(
-      {propertyId: id}, 
-      data,
-      {new: true}
-    )
+
+    // // will need to update this to get any fields that are being updated  and received
+    // const propertyUpdated = await Property.findOneAndUpdate(
+    //   {propertyId: id}, 
+    //   data,
+    //   {new: true}
+    // )
   
     return NextResponse.json({
       message: 'propriedade atualizada com sucesso', 
-      propertyUpdated
+      // propertyUpdated
     });
     
   } catch (error) {

@@ -57,7 +57,7 @@ export default function PropertyGridSearch({ properties}: PropertiesProps) {
               <Card key={property.propertyId} className="overflow-hidden">
                 <Link href={`/propriedades/${property.propertyId}`} className="block">
                   <div className="aspect-video relative">
-                    <img src={`${urlpath}${property.images?.[0]}`} alt={property.title} className="object-cover w-full h-full" />
+                    <img src={`${urlpath}${property.images?.map(i => i.url)[0]}`} alt={property.title} className="object-cover w-full h-full" />
                   </div>
                   <div className="p-4">
                     <h3 className="text-xl font-semibold mb-2">

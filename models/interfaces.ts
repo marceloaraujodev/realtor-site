@@ -17,6 +17,6 @@ export interface IPropertyModel {
   description?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  listingType: "Venda" | "Aluguel"; 
+  listingType: "venda" | "aluguel"; 
   condominio?: number;
 }

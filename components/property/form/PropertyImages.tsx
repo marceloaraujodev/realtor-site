@@ -22,19 +22,36 @@ export function PropertyImages({ register, control }: PropertyImagesProps) {
   });
   console.log('this is fields', fields);
 
+  // useEffect(() => {
+  //   // Create preview objects for each field
+  //   const newPreviews = fields.map((field) => {
+  //     if (!field.file) return null; // Skip fields without a file
+
+  //     // Generate a preview URL for the file
+  //     const previewUrl = URL.createObjectURL(field.file);
+  //     return { id: field.imgId, url: previewUrl }; // here is the issue rhf ids!!!
+  //   }).filter(Boolean); // Remove any null values
+
+  //   // Update the previews state
+  //   setPreviews(newPreviews as { id: string; url: string }[]);
+  // }, [fields]); // Trigger this effect whenever `fields` changes
+
+
   useEffect(() => {
-    // Create preview objects for each field
     const newPreviews = fields.map((field) => {
-      if (!field.file) return null; // Skip fields without a file
-
-      // Generate a preview URL for the file
-      const previewUrl = URL.createObjectURL(field.file);
-      return { id: field.imgId, url: previewUrl }; // here is the issue rhf ids!!!
-    }).filter(Boolean); // Remove any null values
-
-    // Update the previews state
-    setPreviews(newPreviews as { id: string; url: string }[]);
-  }, [fields]); // Trigger this effect whenever `fields` changes
+      // If a new file is present, generate a preview URL
+      if (field.file) {
+        return { id: field.imgId, url: URL.createObjectURL(field.file) };
+      }
+      // Otherwise, if a URL exists (preloaded image), use that
+      else if (field.url) {
+        return { id: field.imgId, url: `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${field.url}` };
+      }
+      return null;
+    }).filter(Boolean) as { id: string; url: string }[];
+    setPreviews(newPreviews);
+    
+  }, [fields]);
 
   const cover = watch("cover");
   console.log('this is cover', cover);
@@ -48,7 +65,7 @@ export function PropertyImages({ register, control }: PropertyImagesProps) {
       const id = uuidv4(); // Generate unique ID
       const previewUrl = URL.createObjectURL(file);
       
-      // prev url is only need in the frontend
+      // Explicitly store imgId in React Hook Form
       append({ imgId: id, file });
 
       setPreviews((prev) => [...prev, { id, url: previewUrl }]);

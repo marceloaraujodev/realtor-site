@@ -13,9 +13,9 @@ export async function getProperty(id: string){
     // property.images.map((image: string) => console.log('image:', {id: image.split('/').pop(), url: image}))
     return {
       ...property,
-      images: property.images.map((image: string) => ({
-        id: image.split('/').pop() || '', // the last part of the string is the id of the images
-        url: image // this is the full path of the url
+      images: property.images.map((image: {id: string, url: string}) => ({
+        id: image.id, // the last part of the string is the id of the images
+        url: image.url // this is the full path of the url
       }))
     }
     
@@ -29,7 +29,7 @@ export async function getAllProperties(): Promise<IpropertyType[]>{
 
   try {
     const res = await axios.get(`${siteUrl}/api/propriedades`);
-    // console.log('this is res for getAll properties:', res.data);
+    console.log('this is res for getAll properties:', res.data);
   
     return res.data;
   } catch (error) {

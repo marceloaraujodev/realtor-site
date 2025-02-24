@@ -93,8 +93,8 @@ export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicI
               <SelectValue placeholder="Selecione o tipo" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Venda">Venda</SelectItem>
-              <SelectItem value="Aluguel">Aluguel</SelectItem>
+              <SelectItem value="venda">Venda</SelectItem>
+              <SelectItem value="aluguel">Aluguel</SelectItem>
 
             </SelectContent>
           </Select>
