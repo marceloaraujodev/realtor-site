@@ -19,6 +19,7 @@ export interface IpropertyType {
   propertyType: 'Casa' | 'Apartamento' | 'Galpão' | 'Sala' | 'Loft' | 'Terreno';
   listingType: 'venda' | 'aluguel';
   condominion?: number;
+  suites?: number;
 }
 
 // for single property
@@ -32,7 +33,7 @@ export interface PropertiesProps {
 }
 
 export interface PropertyFeatures {
-  features?: { name: string; _id: string }[];
+  features?: { name: string }[];
 }
 
 export interface PropertyGalleryProps {
@@ -42,4 +43,8 @@ export interface PropertyGalleryProps {
 // props for the form
 export interface PropertyFormProp {
   existingProperty?: IpropertyType;
+}
+
+export interface PropertyDetailsProps extends PropertyProps {
+  features?: { name: string; }[];
 }

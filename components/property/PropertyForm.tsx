@@ -52,7 +52,7 @@ export default function PropertyForm({
     // },
     mode: 'onBlur',
   });
-  console.log('this is property', existingProperty);
+  // console.log('this is property', existingProperty);
 
   // register the methods for react hook form
   const {
@@ -97,7 +97,9 @@ export default function PropertyForm({
         garage: existingProperty.garage?.toString() || '',
         totalArea: existingProperty.totalArea?.toString() || '',
         privateArea: existingProperty.privateArea?.toString() || '',
+        listingType: existingProperty.listingType,
         cover: existingProperty.cover,
+        suites: existingProperty.suites,
         images:
           existingProperty.images?.map((image) => ({
             imgId: image.id, // Convert 'id' to 'imgId'
@@ -116,10 +118,12 @@ export default function PropertyForm({
   // is submiting is not really being used, but have already sert up for in case I neee it
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    if (!data.propertyType) {
-      alert('Selecione o tipo do imóvel');
-      return;
-    }
+    console.log('this is data from on submit', data)
+    // if (!data.propertyType) {
+    //   alert('Selecione o tipo do imóvel');
+    //   return;
+    // }
+    // return data
 
     const formData = new FormData();
 
@@ -141,13 +145,13 @@ export default function PropertyForm({
     // Append images with their IDs
     data.images?.forEach((image, index) => {
       console.log('===', image, index);
-      formData.append(`images[${index}][id]`, image.imgId); // Append ID
       if(image.file){
+        formData.append(`images[${index}][id]`, image.imgId); // Append ID
         formData.append(`images[${index}][image]`, image.file); // Append File
       }
     });
 
-    console.log('this is data image after appending ids', data.images);
+    // console.log('this is data image after appending ids', data.images);
 
     try {
       const endpoint = isEditingForm

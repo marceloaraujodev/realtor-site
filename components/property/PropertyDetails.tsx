@@ -1,8 +1,8 @@
 import { Bed, Bath, Maximize2, Car } from 'lucide-react';
 import { PropertyProps } from '@/types/propertyType';
-
+// import { PropertyDetailsProps } from '@/types/formTypes';
 interface PropertyDetailsProps extends PropertyProps {
-  features?: { name: string; _id: string }[];
+  features?: { name: string; }[];
 }
 
 export default function PropertyDetails({ property, features }: PropertyDetailsProps) {
@@ -76,8 +76,8 @@ export default function PropertyDetails({ property, features }: PropertyDetailsP
       <div>
         <h2 className="text-xl font-semibold mb-4">Características</h2>
         <ul className="grid grid-cols-2 gap-2">
-          {features?.map((feature: { name: string; _id: string }) => (
-            <li key={feature._id} className="flex items-center gap-2">
+          {features?.map((feature: { name: string; }, index) => (
+            <li key={index} className="flex items-center gap-2">
               <div className="h-1.5 w-1.5 rounded-full bg-primary" />
               <span>{feature.name}</span> {/* Render the feature name */}
             </li>

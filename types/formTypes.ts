@@ -9,7 +9,7 @@ export interface FormData {
   propertyType: "Casa" | "Apartamento" | "Galpão" | "Sala" | "Loft" | "Terreno";
   listingType: "venda" | "aluguel"; 
   bedrooms: string;
-  suites: string;
+  suites?: number;
   bathrooms: string;
   garage: string;
   totalArea: string;

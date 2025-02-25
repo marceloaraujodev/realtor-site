@@ -22,6 +22,7 @@ export function PropertyImages({ register, control }: PropertyImagesProps) {
   });
   console.log('this is fields', fields);
 
+  // was working just keeping for reference until i finish testing
   // useEffect(() => {
   //   // Create preview objects for each field
   //   const newPreviews = fields.map((field) => {

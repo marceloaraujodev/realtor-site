@@ -43,7 +43,8 @@ export async function POST(req: NextRequest) {
       totalArea,
       privateArea,
       cover,
-      suites
+      suites,
+      listingType,
     } = formEntries;
 
     const features: string[] = [];
@@ -55,7 +56,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-
+    // loops through all images
     for (const [key, value] of Array.from(formData.entries())) {
       const match = key.match(/images\[(\d+)\]\[(id|image)\]/);
 
@@ -72,8 +73,6 @@ export async function POST(req: NextRequest) {
 
     console.log("Extracted images:", imagesObjectsArr); // correct 
     
-
-
     // uploads all images and returns a array of objects ready for the database upload
     const images = await Promise.all(imagesObjectsArr.map( async (image) => {
       if (!image.file) return null;
@@ -100,7 +99,7 @@ export async function POST(req: NextRequest) {
       };
     }))
         
-    // Convert numeric fields to numbers if needed
+    // Creates the propertyData to submit to db
     const propertyData = {
       title,
       propertyType,
@@ -116,9 +115,9 @@ export async function POST(req: NextRequest) {
       totalArea: Number(totalArea),
       privateArea: Number(privateArea),
       features,
+      listingType,
       images,
     };
-
 
     if (!title || !location || !price || !propertyType) {
       return NextResponse.json({ message: "Missing required fields" }, { status: 400 });

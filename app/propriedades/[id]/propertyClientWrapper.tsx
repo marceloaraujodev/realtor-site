@@ -20,7 +20,7 @@ export default function PropertyClientWrapper({ property }: Props) {
     // Transform features
     const features = property.features?.map((feature) => ({
       name: feature.name, 
-      _id: feature._id,
+      // _id: feature._id,
     })) ?? [];
 
   return (
