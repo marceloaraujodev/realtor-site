@@ -1,17 +1,38 @@
 'use client';
-
+import { useEffect, useState } from 'react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { formatCurrency } from '@/lib/utils';
 import { PropertiesProps } from '@/types/propertyType';
 
+
 // properties grid search is the one which actually searches for properties
 // properties grid only displays all the properties
 
 export default function PropertyGrid({ properties }: PropertiesProps) {
+  const [refreshedProperties, setRefreshedProperties] = useState(properties);
+  const [loading, setLoading] = useState(true);
 
-// console.log(properties)
+   // Fetch properties and set state
+   useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        console.log('Properties updated in PropertyGrid:', properties);
+      } catch (error) {
+        console.error('Failed to fetch properties:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProperties();
+  }, [refreshedProperties]);  // Empty dependency array means this runs only once when the component mounts
+
+  // You can also add a dependency on properties if you want to trigger fetching when the properties change
+  // }, [properties]);
+
+console.log('propertyGrid hit')
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

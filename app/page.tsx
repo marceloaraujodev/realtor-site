@@ -9,6 +9,7 @@ import { getAllProperties } from '@/utils/properties';
 
 export default async function Home() {
   const properties = await getAllProperties(); // Fetch properties
+  console.log('Here')
   return (
     <div className="pt-16">
       <Hero />

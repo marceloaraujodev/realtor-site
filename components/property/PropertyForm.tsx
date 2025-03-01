@@ -152,7 +152,7 @@ export default function PropertyForm({
       console.log('this is metod',method)
       // make this request url dynamic so I can send create or edit requests
       const res = await axios({
-        method: 'POST',
+        method,
         url: siteUrl + endpoint,
         data: formData, // Send form data as FormData object
         headers: {
