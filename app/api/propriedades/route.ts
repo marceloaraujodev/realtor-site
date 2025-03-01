@@ -6,6 +6,7 @@ export async function GET(req: NextRequest) {
   try {
     await mongooseConnect();
     const properties = await Property.find();
+    console.log(properties);
     return NextResponse.json(properties);
   } catch (error) {
     const err = error as Error;  // Type assertion
