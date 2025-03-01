@@ -28,7 +28,7 @@ export async function getAllProperties(): Promise<IpropertyType[]>{
   console.log('ENTERING GET ALL PROPERTIES')
   try {
     const res = await axios.get(`${siteUrl}/api/propriedades`);
-  
+    console.log(res.data)
     return res.data;
   } catch (error) {
     console.log(error);
