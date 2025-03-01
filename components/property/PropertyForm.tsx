@@ -144,6 +144,8 @@ export default function PropertyForm({
         : `/api/propriedades/create`;
       const method = isEditingForm ? 'PATCH' : 'POST';
 
+      console.log('this is the endpoint', endpoint)
+
       // make this request url dynamic so I can send create or edit requests
       const res = await axios({
         method,
