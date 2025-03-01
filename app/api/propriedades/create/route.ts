@@ -17,134 +17,136 @@ const s3Client = new S3Client({
 });
 
 export async function POST(req: NextRequest) {  
-  await mongooseConnect();
-  const bucketName: string = process.env.AWS_BUCKET_NAME!;
-  const region: string = process.env.AWS_REGION!;
 
-  const formData = await req.formData(); // react hook form default is json no formData
+  return NextResponse.json({message: 'success'})
+  // await mongooseConnect();
+  // const bucketName: string = process.env.AWS_BUCKET_NAME!;
+  // const region: string = process.env.AWS_REGION!;
 
-  console.log("Raw FormData entries:", Array.from(formData.entries()));
-  const formEntries = Object.fromEntries(formData.entries());
-  // Prepare to capture all the images from the form data
-  const imagesObjectsArr: { id: string; file: File | null }[] = [];
-  const propertyId = uuidv4();
+  // const formData = await req.formData(); // react hook form default is json no formData
 
-  try {
-    // // extract values from formData
-    const {
-      title,
-      propertyType,
-      location,
-      price,
-      description,
-      bedrooms,
-      bathrooms,
-      garage,
-      totalArea,
-      privateArea,
-      cover,
-      suites,
-      listingType,
-      condominio,
-    } = formEntries;
+  // console.log("Raw FormData entries:", Array.from(formData.entries()));
+  // const formEntries = Object.fromEntries(formData.entries());
+  // // Prepare to capture all the images from the form data
+  // const imagesObjectsArr: { id: string; file: File | null }[] = [];
+  // const propertyId = uuidv4();
 
-      // loops throuth each features [] from formdata and creates an array of features objects
-    const features: {name: string}[] = [];
-    for (const [key, value] of Array.from(formData.entries())) {
-      const match = key.match(/^features\[(\d+)\]$/);
-      if (match) {
-        features.push({name: value as string})
-      }
-    }
+  // try {
+  //   // // extract values from formData
+  //   const {
+  //     title,
+  //     propertyType,
+  //     location,
+  //     price,
+  //     description,
+  //     bedrooms,
+  //     bathrooms,
+  //     garage,
+  //     totalArea,
+  //     privateArea,
+  //     cover,
+  //     suites,
+  //     listingType,
+  //     condominio,
+  //   } = formEntries;
 
-    // loops through all images
-    for (const [key, value] of Array.from(formData.entries())) {
-      const match = key.match(/images\[(\d+)\]\[(id|image)\]/);
+  //     // loops throuth each features [] from formdata and creates an array of features objects
+  //   const features: {name: string}[] = [];
+  //   for (const [key, value] of Array.from(formData.entries())) {
+  //     const match = key.match(/^features\[(\d+)\]$/);
+  //     if (match) {
+  //       features.push({name: value as string})
+  //     }
+  //   }
 
-      if (!match) continue;
+  //   // loops through all images
+  //   for (const [key, value] of Array.from(formData.entries())) {
+  //     const match = key.match(/images\[(\d+)\]\[(id|image)\]/);
+
+  //     if (!match) continue;
       
-      const index = Number(match[1]);
-      const type = match[2];
+  //     const index = Number(match[1]);
+  //     const type = match[2];
       
-      if (!imagesObjectsArr[index]) imagesObjectsArr[index] = { id: "", file: null };
+  //     if (!imagesObjectsArr[index]) imagesObjectsArr[index] = { id: "", file: null };
       
-      if (type === "id") imagesObjectsArr[index].id = value as string;
-      if (type === "image" && value instanceof File) imagesObjectsArr[index].file = value;
-    }
+  //     if (type === "id") imagesObjectsArr[index].id = value as string;
+  //     if (type === "image" && value instanceof File) imagesObjectsArr[index].file = value;
+  //   }
 
-    console.log("Extracted images:", imagesObjectsArr); // correct 
+  //   console.log("Extracted images:", imagesObjectsArr); // correct 
     
-    // uploads all images and returns a array of objects ready for the database upload
-    const images = await Promise.all(imagesObjectsArr.map( async (image) => {
-      if (!image.file) return null;
-      const arrayBuffer = await image.file.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-      const optimizedImage = await compressImage(buffer);
-      const s3Key = `propriedades/${propertyId}/${image.id}`; // generate 
+  //   // uploads all images and returns a array of objects ready for the database upload
+  //   const images = await Promise.all(imagesObjectsArr.map( async (image) => {
+  //     if (!image.file) return null;
+  //     const arrayBuffer = await image.file.arrayBuffer();
+  //     const buffer = Buffer.from(arrayBuffer);
+  //     const optimizedImage = await compressImage(buffer);
+  //     const s3Key = `propriedades/${propertyId}/${image.id}`; // generate 
 
-      const uploadParams = {
-        Bucket: bucketName,
-        Key: s3Key,
-        Body: optimizedImage,
-        ContentType: image.file.type,
-      };
+  //     const uploadParams = {
+  //       Bucket: bucketName,
+  //       Key: s3Key,
+  //       Body: optimizedImage,
+  //       ContentType: image.file.type,
+  //     };
 
-      // // upload file to s3 bucket
-      await s3Client.send(new PutObjectCommand(uploadParams));
-      console.log('image uploaded successfully', s3Key);
+  //     // // upload file to s3 bucket
+  //     await s3Client.send(new PutObjectCommand(uploadParams));
+  //     console.log('image uploaded successfully', s3Key);
 
-      // format for the database 
-      return {
-        id: image.id,
-        url: s3Key,
-      };
-    }))
+  //     // format for the database 
+  //     return {
+  //       id: image.id,
+  //       url: s3Key,
+  //     };
+  //   }))
         
-    // Creates the propertyData to submit to db
-    const propertyData = {
-      title,
-      propertyType,
-      location,
-      description,
-      propertyId: propertyId,
-      price: Number(price),
-      cover: cover,
-      bedrooms: Number(bedrooms),
-      suites: Number(suites),
-      bathrooms: Number(bathrooms),
-      garage: Number(garage),
-      totalArea: Number(totalArea),
-      privateArea: Number(privateArea),
-      condominio: Number(condominio),
-      features,
-      listingType,
-      images,
-    };
+  //   // Creates the propertyData to submit to db
+  //   const propertyData = {
+  //     title,
+  //     propertyType,
+  //     location,
+  //     description,
+  //     propertyId: propertyId,
+  //     price: Number(price),
+  //     cover: cover,
+  //     bedrooms: Number(bedrooms),
+  //     suites: Number(suites),
+  //     bathrooms: Number(bathrooms),
+  //     garage: Number(garage),
+  //     totalArea: Number(totalArea),
+  //     privateArea: Number(privateArea),
+  //     condominio: Number(condominio),
+  //     features,
+  //     listingType,
+  //     images,
+  //   };
 
-    if (!title || !location || !price || !propertyType) {
-      return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
-    }
+  //   if (!title || !location || !price || !propertyType) {
+  //     return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
+  //   }
 
-    console.log('CONDOMINIO', propertyData.condominio)
-    // creates database document for property
-    const newProperty = await Property.create({
-      ...propertyData,
-    });
+  //   console.log('CONDOMINIO', propertyData.condominio)
+  //   // creates database document for property
+  //   const newProperty = await Property.create({
+  //     ...propertyData,
+  //   });
 
-    return NextResponse.json({
-      message: "Success",
-      newProperty,
-      s3Key: images,
-    });
-  } catch (error) {
-    console.error("Error creating property:", error);
-    await Promise.all(imagesObjectsArr.map(async (image) => {
-      if (image.id) {
-        await deletePropertyImages(propertyId); // Ensure images are deleted
-      }
-    }));
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
-  }
+  //   return NextResponse.json({
+  //     message: "Success",
+  //     newProperty,
+  //     s3Key: images,
+  //   });
+  // } catch (error) {
+  //   console.error("Error creating property:", error);
+  //   await Promise.all(imagesObjectsArr.map(async (image) => {
+  //     if (image.id) {
+  //       await deletePropertyImages(propertyId); // Ensure images are deleted
+  //     }
+  //   }));
+  //   return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  // }
 }
 
 
