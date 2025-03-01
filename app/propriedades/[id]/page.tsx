@@ -2,10 +2,8 @@
 import { getProperty } from '@/utils/properties';
 import PropertyClientWrapper from './propertyClientWrapper';
 import { redirect } from 'next/navigation';
-import PropertyForm from '@/components/property/PropertyForm';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { mockProperties } from '@/mockData';
 import { siteUrl } from '@/config';
 
 // Generate static paths for all properties to be pre-rendered

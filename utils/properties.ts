@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { IpropertyType } from '@/types/propertyType';
-import { mockProperties } from '@/mockData';
 import { siteUrl } from '@/config';
 
 // this is helpers for the frontend 
@@ -34,7 +33,6 @@ export async function getAllProperties(): Promise<IpropertyType[]>{
   } catch (error) {
     console.log(error);
     throw new Error('Failed to fetch properties');
-    // return mockProperties;
   }
 }
 

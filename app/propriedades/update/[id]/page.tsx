@@ -5,7 +5,6 @@ import PropertyForm from '@/components/property/PropertyForm';
 import { getProperty } from '@/utils/properties';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { mockProperties } from '@/mockData';
 import { siteUrl } from '@/config';
 
 // this just grabs the information so next builds the routes, it does not pass data to the component
