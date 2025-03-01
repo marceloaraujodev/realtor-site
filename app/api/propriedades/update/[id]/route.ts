@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { mongooseConnect } from "@/lib/mongooseConnect";
 import Property from "@/models/property";
-import { S3Client} from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { compressImage } from "@/utils/compressImages";
 import { deletePropertyImages } from "@/utils/aws/deletePropertyImages";
 
@@ -92,9 +92,14 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
         ContentType: image.file.type,
       };
 
-      // // upload file to s3 bucket
-      // await s3Client.send(new PutObjectCommand(uploadParams));
-      console.log('image uploaded successfully', s3Key);
+      // upload file to s3 bucket
+      try {
+        await s3Client.send(new PutObjectCommand(uploadParams));
+        console.log('image uploaded successfully', s3Key);
+      } catch (error) {
+        console.error("Error uploading image to S3:", error);
+        throw new Error("Failed to upload image to S3");
+      }
 
       // format for the database 
       return {
@@ -157,11 +162,12 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
     });
   } catch (error) {
     console.error("Error creating property:", error);
-    await Promise.all(imagesObjectsArr.map(async (image) => {
-      if (image.id) {
-        await deletePropertyImages(propertyId); // Ensure images are deleted
-      }
-    }));
+    // Cleanup uploaded images on error
+    try {
+      await deletePropertyImages(propertyId);
+    } catch (cleanupError) {
+      console.error("Error during cleanup:", cleanupError);
+    }
     // return NextResponse.json({ error: "Internal server error" }, { status: 400 });
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }

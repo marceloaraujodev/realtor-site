@@ -1,15 +1,20 @@
 // config.js
-import dotenv from 'dotenv';
-
-dotenv.config();
 const NODE_ENV = process.env.NODE_ENV || 'production';
-// Set up MODE (default to production if not explicitly set)
-const MODE = NODE_ENV === 'development' ? 'dev' : 'production';
 
-console.log('this is process.env.NODE_ENV', process.env.NODE_ENV)
+// Determine the base URL based on the environment
+const siteUrl = NODE_ENV === 'development' 
+  ? process.env.NEXT_PUBLIC_BASE_URL_DEV 
+  : process.env.NEXT_PUBLIC_BASE_URL;
 
-// Define reusable variables based on MODE
-const siteUrl = MODE === 'dev' ? process.env.NEXT_PUBLIC_BASE_URL_DEV : process.env.NEXT_PUBLIC_BASE_URL;
+// Validate that the siteUrl is defined
+if (!siteUrl) {
+  throw new Error(
+    `Base URL is not defined for environment: ${NODE_ENV}. ` +
+    `Please check your .env file.`
+  );
+}
 
+console.log('Running in environment:', NODE_ENV);
+console.log('Resolved siteUrl:', siteUrl);
 
-export { MODE, siteUrl};
+export { siteUrl };

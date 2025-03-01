@@ -19,8 +19,8 @@ export async function getProperty(id: string){
     }
     
   } catch (error) {
-    console.log(error);
-    throw new Error('could not fetch property');
+   console.error("Error fetching property:", error);
+    throw new Error(`Failed to fetch property`);
   }
 }
 
