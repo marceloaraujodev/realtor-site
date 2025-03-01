@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import PropertyForm from '@/components/property/PropertyForm';
-import { getProperty } from '@/lib/properties';
+import { getProperty } from '@/utils/properties';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { mockProperties } from '@/mockData';
@@ -35,7 +35,7 @@ export default async function EditPropertyPage({
   }
 
   const property = await getProperty(params.id);
-  console.log(property);
+  // console.log(property);
 
   if (!property) {
     return <p>Propriedade não encontrada.</p>;

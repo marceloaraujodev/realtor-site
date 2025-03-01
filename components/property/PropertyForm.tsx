@@ -13,43 +13,45 @@ import axios from 'axios';
 import { PropertyFormProp } from '@/types/propertyType';
 import { usePathname } from 'next/navigation';
 import { siteUrl } from '@/config';
+import { useToast } from '@/hooks/use-toast';
 
 export default function PropertyForm({
   existingProperty,
 }: PropertyFormProp) {
-  const [isRedirecting, setIsRedirecting] = useState<boolean>(false);
-  const [existingImages, setExistingImages] = useState<{ url: string; key: string }[]>([]);
+  const { toast } = useToast();
+
+
   const methods = useForm<FormData>({
     // form default values should be empty strings
-    defaultValues: {
-      title: '',
-      location: '',
-      price: '',
-      description: '',
-      propertyType: undefined,
-      bedrooms: '',
-      bathrooms: '',
-      garage: '',
-      totalArea: '',
-      privateArea: '',
-      features: [], // Initialize as an empty array
-      images: [], // Initialize as an empty array
-    },
-    // thos below are just for testing purposes
     // defaultValues: {
-    //   title: 'Apartamento vista mar avenida Atlântica',
-    //   location: 'Centro, Balneário Camboriú',
-    //   price: '5000000',
-    //   description: 'lindo apartamento completo, vista pro mar',
+    //   title: '',
+    //   location: '',
+    //   price: '',
+    //   description: '',
     //   propertyType: undefined,
-    //   bedrooms: '4',
-    //   bathrooms: '5',
-    //   garage: '3',
-    //   totalArea: '120',
-    //   privateArea: '120',
+    //   bedrooms: '',
+    //   bathrooms: '',
+    //   garage: '',
+    //   totalArea: '',
+    //   privateArea: '',
     //   features: [], // Initialize as an empty array
-    //   images: [],   // Initialize as an empty array
+    //   images: [], // Initialize as an empty array
     // },
+    // thos below are just for testing purposes
+    defaultValues: {
+      title: 'Apartamento vista mar avenida Atlântica',
+      location: 'Centro, Balneário Camboriú',
+      price: '5000000',
+      description: 'lindo apartamento completo, vista pro mar',
+      propertyType: undefined,
+      bedrooms: '4',
+      bathrooms: '5',
+      garage: '3',
+      totalArea: '120',
+      privateArea: '120',
+      features: [], // Initialize as an empty array
+      images: [],   // Initialize as an empty array
+    },
     mode: 'onBlur',
   });
   // console.log('this is property', existingProperty);
@@ -69,19 +71,6 @@ export default function PropertyForm({
   // grabs the url path and checks if the form is being edit
   const pathname = usePathname();
   const isEditingForm = pathname.includes('/update/');
-  console.log(
-    siteUrl,
-    isEditingForm
-      ? `/api/propriedades/update/${existingProperty?.propertyId}`
-      : `/api/propriedades/create`
-  );
-
-  // if isRedirecting is true send user to /properiedades
-  useEffect(() => {
-    if (isRedirecting) {
-      router.push('/propriedades');
-    }
-  }, [isRedirecting]);
 
   // pre loads the data from property props when the user is editing
   useEffect(() => {
@@ -100,6 +89,7 @@ export default function PropertyForm({
         listingType: existingProperty.listingType,
         cover: existingProperty.cover,
         suites: existingProperty.suites,
+        condominio: existingProperty.condominio,
         images:
           existingProperty.images?.map((image) => ({
             imgId: image.id, // Convert 'id' to 'imgId'
@@ -119,11 +109,6 @@ export default function PropertyForm({
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     console.log('this is data from on submit', data)
-    // if (!data.propertyType) {
-    //   alert('Selecione o tipo do imóvel');
-    //   return;
-    // }
-    // return data
 
     const formData = new FormData();
 
@@ -169,15 +154,19 @@ export default function PropertyForm({
         },
       });
 
-      console.log('res from axios edit', res)
-      console.log('this is the endpoint', endpoint)
-
       if (res.status === 200) {
-        alert('Propriedade salva com sucesso!');
-        setIsRedirecting(true); // Redirect to properties list after successful save
+        router.push('/propriedades');
+        toast({
+          title: 'Propriedade salva!',
+          description: 'Propriedade salva com sucesso!',
+        });
       }
       console.log('this is data that will be sent to backend', data);
     } catch (error) {
+      toast({
+        title: 'Tente novament!',
+        description: 'Não foi possivel salvar a propriedade.',
+      });
       console.error('Error saving property:', error);
     }
   };

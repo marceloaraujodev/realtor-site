@@ -15,15 +15,22 @@ export async function DELETE(req: NextRequest, { params }:{params: { id: string}
     return NextResponse.json({ error: "Invalid id format" }, { status: 400 });
   }
   
-    // delete database property record
+    // // delete database property record
     const deletedProperty = await Property.deleteOne({propertyId: id});
+    // const property = await Property.findOne({ propertyId: id }); test
+    // console.log(property)
+
+    // Check if the property was actually deleted before proceeding
+    if (deletedProperty.deletedCount === 0) {
+      return NextResponse.json({ error: "Property not found or already deleted" }, { status: 404 });
+    }
 
     // deletes images from s3 bucket
     await deletePropertyImages(id)
 
     return NextResponse.json({
       message: 'Property item deleted successfully',
-      deletedProperty,
+      deleteCount: deletedProperty.deletedCount
     })
     
   } catch (error) {

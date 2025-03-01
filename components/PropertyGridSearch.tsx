@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { useSearchParams } from "next/navigation";
@@ -8,7 +8,16 @@ import { formatCurrency } from "@/lib/utils";
 import { PropertiesProps } from '@/types/propertyType';
 
 export default function PropertyGridSearch({ properties}: PropertiesProps) {
-  // console.log('properties on grid search', properties)
+  console.log('properties on grid search', properties)
+  // const [propertiesCount, setPropertiesCount] = useState(properties.length);
+
+  // useEffect(() => {
+  //   console.log('useeffect on property grid search')
+  //   if(properties.length !== propertiesCount){
+  //     setPropertiesCount(properties.length)
+  //     console.log('should re render, properties changed')
+  //   }
+  // }, [properties])
 
   const searchParams = useSearchParams();
 
@@ -60,8 +69,8 @@ export default function PropertyGridSearch({ properties}: PropertiesProps) {
                     <img src={`${urlpath}${property.images?.map(i => i.url)[0]}`} alt={property.title} className="object-cover w-full h-full" />
                   </div>
                   <div className="p-4">
-                    <h3 className="text-xl font-semibold mb-2">
-                    {property.title.length > 30 ? `${property.title.substring(0, 25)}...` : property.title}
+                    <h3 className="text-xl font-semibold mb-2 overflow-hidden whitespace-nowrap text-ellipsis">
+                    {property.title.length > 30 ? `${property.title}` : property.title}
                     </h3>
                     <p data-name="venda ou aluguel" className='text-xs'>{property.listingType === 'venda' ? `${property.propertyType} á ${property.listingType}` : `${property.propertyType} para ${property.listingType}` }</p>
                     <div data-name="icons div" className='flex justify-start mt-6 mb-4 space-x-6'>
@@ -115,7 +124,7 @@ export default function PropertyGridSearch({ properties}: PropertiesProps) {
                     <p className="text-gray-600 mb-2">{property.location}</p>
                     <p className="text-primary font-bold mb-4">{formatCurrency(property.price)}</p>
                     <p className='text-sm'>Condominío</p>
-                    <p className='text-xs font-bold mt-1 mb-4'>R$500</p>
+                    <p className='text-xs font-bold mt-1 mb-4 min-h-[20px]'>R${property.condominio}</p>
                     <div className='w-full'>
                       <Button className="w-1/2 mr-6">Ver Detalhes</Button>
                       <Button className="px-5">WhatsApp</Button>

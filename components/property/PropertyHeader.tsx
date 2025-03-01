@@ -7,6 +7,8 @@ import { formatCurrency } from '@/lib/utils';
 import { PropertyProps } from '@/types/propertyType';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import { siteUrl } from '@/config';
 
 export default function PropertyHeader({ property }: PropertyProps) {
   const { toast } = useToast();
@@ -23,14 +25,29 @@ export default function PropertyHeader({ property }: PropertyProps) {
 
   const handleEdit = () => {
    // grab id and redirect to the form basic info page
-   router.push(`/propriedades/update/${property.propertyId}`);
+   router.push(`${siteUrl}/propriedades/update/${property.propertyId}`);
   //  router.push(`/propriedades/update/555`);
 
     console.log(property.propertyId)
   }
-  const handleDelete = () => {
+  const handleDelete = async () => {
     // grab id and send request to delete property to the backend
-    console.log(property.propertyId)
+    const res = await axios.delete(`${siteUrl}/api/propriedades/delete/${property.propertyId}`)
+    if (res.status === 200) {
+      toast({
+        title: 'Propriedade removida!',
+        description: 'Propriedade removida com sucesso.',
+      });
+      router.push('/propriedades');
+    }else{
+      console.log('deletion failed')
+      toast({
+        title: 'Falha ao excluir!',
+        description: 'Ocorreu um erro ao tentar excluir a propriedade.',
+      });
+    }
+    console.log('property id', property.propertyId)
+    console.log('res', res)
   }
 
   return (

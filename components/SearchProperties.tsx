@@ -29,7 +29,7 @@ export default function SearchProperties({properties}: PropertiesProps) {
     // if (searchParams.toString()) {
     //   router.replace('/propriedades'); // Clears all query parameters
     // }
-    console.log(properties)
+    // console.log(properties)
     console.log('filers', filters)
   }, [filters])
 
@@ -97,7 +97,7 @@ export default function SearchProperties({properties}: PropertiesProps) {
         <Button className="w-1/2" onClick={handleSearch}>
           Pesquisar
         </Button>
-        <Button className="w-1/4" onClick={clearSearch}> 
+        <Button className="w-1/3 " onClick={clearSearch}> 
           Limpar
         </Button>
       </div>

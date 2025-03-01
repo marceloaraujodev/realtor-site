@@ -56,7 +56,7 @@ export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicI
           {errors.location && <span>{errors.location.message}</span>}
         </div>
 
-        <div className="space-y-2">
+        <div data-name='price' className="space-y-2">
           <Label htmlFor="price">Preço</Label>
           <Input
             id="price"
@@ -65,6 +65,17 @@ export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicI
             placeholder="Valor em reais"
           />
           {errors.price && <span>{errors.price.message}</span>}
+        </div>
+
+        <div data-name='condominio' className="space-y-2">
+          <Label htmlFor="condominio">Condomínio</Label>
+          <Input
+            id="condominio"
+            type="number"
+            {...register("condominio")}
+            placeholder="Valor em reais"
+          />
+          {errors.condominio && <span>{errors.condominio.message}</span>}
         </div>
 
         <div className="space-y-2">

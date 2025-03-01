@@ -14,6 +14,7 @@ export interface IpropertyType {
   images?: { id: string; url: string }[];
   description?: string;
   cover?: string;
+  condominio?: number;
   createdAt?: Date;
   updatedAt?: Date;
   propertyType: 'Casa' | 'Apartamento' | 'Galpão' | 'Sala' | 'Loft' | 'Terreno';

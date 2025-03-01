@@ -4,18 +4,32 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { useToast } from '@/hooks/use-toast';
+import axios from 'axios';
 
 export default function Newsletter() {
   const [email, setEmail] = useState('');
   const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    toast({
-      title: "Inscrição realizada!",
-      description: "Você receberá nossas melhores ofertas em seu e-mail.",
-    });
-    setEmail('');
+      console.log('submit')
+    try {
+      await axios.post(`/api/newsletter/register`, {
+        email
+      })
+      toast({
+        title: "Inscrição realizada!",
+        description: "Você receberá nossas melhores ofertas em seu e-mail.",
+      });
+      setEmail('');
+    } catch (error) {
+      toast({
+        title: "Error!",
+        description: "Não conseguimos cadastrar o seu email tente por favor novamente.",
+      });
+      console.log(error)
+    }
+    
   };
 
   return (

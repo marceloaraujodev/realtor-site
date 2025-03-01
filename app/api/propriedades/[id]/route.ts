@@ -16,10 +16,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     }
     // console.log('PROPERTY IN THE BACKEND', property);
   
-    return NextResponse.json({
-    success: true,
-    data:property, 
-  })
+    return NextResponse.json(property)
     
   } catch (error) {
     console.log(error);

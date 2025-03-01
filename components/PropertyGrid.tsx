@@ -11,7 +11,7 @@ import { PropertiesProps } from '@/types/propertyType';
 
 export default function PropertyGrid({ properties }: PropertiesProps) {
 
-console.log(properties)
+// console.log(properties)
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,7 +41,7 @@ console.log(properties)
                     )}
                   </div>
                   <div className="p-4">
-                    <h3 className="text-xl font-semibold mb-4">
+                    <h3 className="text-xl font-semibold mb-2 overflow-hidden whitespace-nowrap text-ellipsis">
                       {property.title}
                     </h3>
                     <p data-name="venda ou aluguel" className='text-xs'>{property.listingType === 'venda' ? `${property.propertyType} á ${property.listingType}` : `${property.propertyType} para ${property.listingType}` }</p>
@@ -97,7 +97,7 @@ console.log(properties)
                       {formatCurrency(property.price)}
                     </p>
                     <p className='text-sm'>Condominío</p>
-                    <p className='text-xs font-bold mt-1 mb-4'>R$500</p>
+                    <p className='text-xs font-bold mt-1 mb-4 min-h-[20px]'>R${property.condominio}</p>
                     <div className='w-full'>
                       <Button className="w-1/2 mr-6">Ver Detalhes</Button>
                       <Button className="px-5">WhatsApp</Button>

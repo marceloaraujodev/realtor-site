@@ -45,14 +45,15 @@ export async function POST(req: NextRequest) {
       cover,
       suites,
       listingType,
+      condominio,
     } = formEntries;
 
-    const features: string[] = [];
+      // loops throuth each features [] from formdata and creates an array of features objects
+    const features: {name: string}[] = [];
     for (const [key, value] of Array.from(formData.entries())) {
       const match = key.match(/^features\[(\d+)\]$/);
       if (match) {
-        const index = Number(match[1]);
-        features[index] = value as string;
+        features.push({name: value as string})
       }
     }
 
@@ -114,6 +115,7 @@ export async function POST(req: NextRequest) {
       garage: Number(garage),
       totalArea: Number(totalArea),
       privateArea: Number(privateArea),
+      condominio: Number(condominio),
       features,
       listingType,
       images,
@@ -123,6 +125,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
     }
 
+    console.log('CONDOMINIO', propertyData.condominio)
     // creates database document for property
     const newProperty = await Property.create({
       ...propertyData,

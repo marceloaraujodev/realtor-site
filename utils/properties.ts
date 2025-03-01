@@ -5,10 +5,10 @@ import { siteUrl } from '@/config';
 
 // this is helpers for the frontend 
 export async function getProperty(id: string){
-
+  console.log('ENTERING GET PROPERTY');
   try {
     const res = await axios.get(`${siteUrl}/api/propriedades/${id}`)
-    const property = res.data.data;
+    const property = res.data;
 
     // property.images.map((image: string) => console.log('image:', {id: image.split('/').pop(), url: image}))
     return {
@@ -26,10 +26,9 @@ export async function getProperty(id: string){
 }
 
 export async function getAllProperties(): Promise<IpropertyType[]>{
-
+  console.log('ENTERING GET ALL PROPERTIES')
   try {
     const res = await axios.get(`${siteUrl}/api/propriedades`);
-    console.log('this is res for getAll properties:', res.data);
   
     return res.data;
   } catch (error) {

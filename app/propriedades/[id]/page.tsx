@@ -1,5 +1,5 @@
 // app/propriedades/[id]/page.tsx (Server Component)
-import { getProperty } from '@/lib/properties';
+import { getProperty } from '@/utils/properties';
 import PropertyClientWrapper from './propertyClientWrapper';
 import { redirect } from 'next/navigation';
 import PropertyForm from '@/components/property/PropertyForm';
@@ -8,10 +8,8 @@ import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { mockProperties } from '@/mockData';
 import { siteUrl } from '@/config';
 
-
 // Generate static paths for all properties to be pre-rendered
 export async function generateStaticParams() {
-
   try {
     const res = await fetch(`${siteUrl}/api/propriedades`);
     const properties = await res.json();
@@ -22,10 +20,13 @@ export async function generateStaticParams() {
     console.error('Error fetching properties:', error);
     return [];
   }
-
 }
 
-export default async function PropertyPage({ params }: { params: { id: string } }) {
+export default async function PropertyPage({
+  params,
+}: {
+  params: { id: string };
+}) {
   // const property = await getProperty(params.id);
   const session = await getServerSession(authOptions);
 
@@ -38,7 +39,7 @@ export default async function PropertyPage({ params }: { params: { id: string } 
 
   if (!property) {
     return <p>Property not found.</p>;
-  }     
+  }
   return <PropertyClientWrapper property={property} />;
 }
 

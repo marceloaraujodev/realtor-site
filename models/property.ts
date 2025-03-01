@@ -57,6 +57,7 @@ const PropertySchema: Schema<IPropertyModel> = new Schema<IPropertyModel>(
     features: [{ 
       name: { type: String } 
     }], 
+    condominio: Number,
   },
   {
     timestamps: true, // Automatically adds `createdAt` and `updatedAt`

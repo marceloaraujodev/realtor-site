@@ -25,6 +25,7 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
 
   console.log("Raw FormData entries:", Array.from(formData.entries()));
   const formEntries = Object.fromEntries(formData.entries());
+
   // Prepare to capture all the images from the form data
   const imagesObjectsArr: { id: string; file: File | null }[] = [];
   const propertyId = params.id;
@@ -45,17 +46,20 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
       cover,
       suites,
       listingType,
+      condominio,
     } = formEntries;
 
-    // loops throuth existing features
-    const features: string[] = [];
+    // loops throuth each features [] from formdata and creates an array of features objects
+    const features: {name: string}[] = [];
     for (const [key, value] of Array.from(formData.entries())) {
       const match = key.match(/^features\[(\d+)\]$/);
       if (match) {
-        const index = Number(match[1]);
-        features[index] = value as string;
+        features.push({name: value as string})
       }
     }
+
+
+    console.log('features', features)
 
     // loops through images 
     for (const [key, value] of Array.from(formData.entries())) {
@@ -72,7 +76,7 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
       if (type === "image" && value instanceof File) imagesObjectsArr[index].file = value;
     }
 
-    console.log("Extracted images:", imagesObjectsArr); // correct 
+    // console.log("Extracted images:", imagesObjectsArr); // correct 
     
     // uploads all images and returns a array of objects ready for the database upload
     const images = await Promise.all(imagesObjectsArr.map( async (image) => {
@@ -102,12 +106,13 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
 
     const filteredImages = images.filter(Boolean); 
         
-    // add images to the property data and updata property data as the data in the findone and updadt
+    // add images to the property data and update property data as the data in the findone and updadte
     const testDoc = await Property.findOne({propertyId: params.id});
     const i = testDoc?.images
     if(!i){
       return
     }
+
     // const images = testDoc.images;
     const propertyData = {
       title,
@@ -122,7 +127,8 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
       garage: Number(garage),
       totalArea: Number(totalArea),
       privateArea: Number(privateArea),
-      features,
+      condominio: Number(condominio),
+      features, // adds the entire features array
       listingType,
       images: [...i, ...filteredImages] // Include new images only
     };
@@ -135,19 +141,19 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
     console.log('test doc this will not be uploaded to db will work here', testDoc)
     console.log('propertyData:', propertyData)
 
+    console.log('CONDOMINIO', propertyData.condominio)
 
-
-    // // update property 
-    // const newProperty = await Property.findOneAndUpdate( 
-    //   { propertyId: params.id }, 
-    //   { $push: { images: { $each: filteredImages } } }, 
-    //   { new: true }
-    // );
+    // update property 
+    const updatedProperty = await Property.findOneAndUpdate( 
+      { propertyId: params.id }, 
+      { ...propertyData }, 
+      { new: true }
+    );
 
     return NextResponse.json({
       message: "Success",
-      // newProperty,
-      // s3Key: images,
+      updatedProperty,
+      s3Key: images,
     });
   } catch (error) {
     console.error("Error creating property:", error);

@@ -14,6 +14,7 @@ export interface FormData {
   garage: string;
   totalArea: string;
   privateArea: string;
+  condominio?: number;
   features?: { name: string }[];
   images: { imgId: string; file?: File; url?: string }[];
   cover: string;

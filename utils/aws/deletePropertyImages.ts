@@ -9,7 +9,9 @@ const s3Client = new S3Client({
 });
 
 export async function deletePropertyImages(propertyId: string){
-  const buckeName = process.env.AWS_BUCKET_NAME
+  const buckeName = process.env.AWS_BUCKET_NAME;
+
+  // gets all objects starting with this prefix
   const prefix = `propriedades/${propertyId}`
   if(!propertyId) throw new Error('Please provide a valid propertyId')
 
