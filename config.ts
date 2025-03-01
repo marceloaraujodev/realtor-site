@@ -1,17 +1,10 @@
 // config.js
 const NODE_ENV = process.env.NODE_ENV || 'production';
 
-// // Determine the base URL based on the environment
-// const siteUrl = NODE_ENV === 'development' 
-//   ? process.env.NEXT_PUBLIC_BASE_URL_DEV 
-//   : process.env.NEXT_PUBLIC_BASE_URL;
-
-// const siteUrl = process.env.NODE_ENV === 'development' 
-//   ? process.env.NEXT_PUBLIC_BASE_URL_DEV 
-//   : process.env.NEXT_PUBLIC_BASE_URL;
-const siteUrl = process.env.NODE_ENV === 'development' 
+// Determine the base URL based on the environment
+const siteUrl = NODE_ENV === 'development' 
   ? process.env.NEXT_PUBLIC_BASE_URL_DEV 
-  : process.env.NEXT_PUBLIC_BASE_URL_DEV ;
+  : process.env.NEXT_PUBLIC_BASE_URL;
 
 // Validate that the siteUrl is defined
 if (!siteUrl) {
