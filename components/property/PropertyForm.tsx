@@ -116,7 +116,7 @@ export default function PropertyForm({
     console.log('this is data-=-=-', data);
     // Append non-file fields
     Object.entries(data).forEach(([key, value]) => {
-      console.log('----', key, value);
+      // console.log('----', key, value);
       if (key !== 'images') {
         formData.append(key, value);
       }
@@ -144,11 +144,11 @@ export default function PropertyForm({
         : `/api/propriedades/create`;
       const method = isEditingForm ? 'PATCH' : 'POST';
 
-      console.log('this is the endpoint', endpoint)
-
+      console.log('this is the endpoint', siteUrl + endpoint)
+      console.log('this is metod',method)
       // make this request url dynamic so I can send create or edit requests
       const res = await axios({
-        method,
+        method: 'POST',
         url: siteUrl + endpoint,
         data: formData, // Send form data as FormData object
         headers: {
@@ -157,6 +157,7 @@ export default function PropertyForm({
       });
 
       if (res.status === 200) {
+        console.log('should redirect')
         router.push('/propriedades');
         toast({
           title: 'Propriedade salva!',
