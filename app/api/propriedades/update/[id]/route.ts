@@ -159,9 +159,10 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
     console.error("Error creating property:", error);
     await Promise.all(imagesObjectsArr.map(async (image) => {
       if (image.id) {
-        // await deletePropertyImages(propertyId); // Ensure images are deleted
+        await deletePropertyImages(propertyId); // Ensure images are deleted
       }
     }));
+    // return NextResponse.json({ error: "Internal server error" }, { status: 400 });
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 
