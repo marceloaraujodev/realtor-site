@@ -1,8 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { mongooseConnect } from "@/lib/mongooseConnect";
 import Property from "@/models/property";
-import { FormData } from "@/types/formTypes";
-import { S3Client, PutObjectCommand, ListBucketsCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
+import { S3Client} from "@aws-sdk/client-s3";
 import { compressImage } from "@/utils/compressImages";
 import { deletePropertyImages } from "@/utils/aws/deletePropertyImages";
 
@@ -106,12 +105,12 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
 
     const filteredImages = images.filter(Boolean); 
         
-    // add images to the property data and update property data as the data in the findone and updadte
-    const testDoc = await Property.findOne({propertyId: params.id});
-    const i = testDoc?.images
-    if(!i){
-      return
-    }
+    // // add images to the property data and update property data as the data in the findone and updadte
+    // const testDoc = await Property.findOne({propertyId: params.id});
+    // const i = testDoc?.images
+    // if(!i){
+    //   return NextResponse.json({message: 'No images found'})
+    // }
 
     // const images = testDoc.images;
     const propertyData = {
@@ -130,7 +129,8 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
       condominio: Number(condominio),
       features, // adds the entire features array
       listingType,
-      images: [...i, ...filteredImages] // Include new images only
+      // images: [...i, ...filteredImages] // Include new images only
+      images: [...filteredImages] // Include new images only
     };
 
     if (!title || !location || !price || !propertyType) {
@@ -138,7 +138,7 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
     }
 
 
-    console.log('test doc this will not be uploaded to db will work here', testDoc)
+
     console.log('propertyData:', propertyData)
 
     console.log('CONDOMINIO', propertyData.condominio)
