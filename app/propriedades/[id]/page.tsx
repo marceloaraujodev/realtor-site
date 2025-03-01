@@ -9,6 +9,7 @@ import { siteUrl } from '@/config';
 // Generate static paths for all properties to be pre-rendered
 export async function generateStaticParams() {
   try {
+    console.log(`${siteUrl}/api/propriedades`)
     const res = await fetch(`${siteUrl}/api/propriedades`);
     const properties = await res.json();
     return properties.map((property: { propertyId: string }) => ({
