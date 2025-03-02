@@ -9,7 +9,7 @@ import { useProperty } from './context/PropertyContext';
 // import { getAllProperties } from '@/utils/properties';
 
 
-export default async function Home() {
+export default function Home() {
   const { propertyList } = useProperty();
   // const properties = await getAllProperties(); // Fetch properties
   console.log('Here')
