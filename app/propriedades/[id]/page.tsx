@@ -14,19 +14,18 @@ export default function PropertyPage({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+
   const propertyId: string = params.id;
   const property = propertyList.find((p) => p.propertyId === propertyId);
 
   // Fetch properties on page load if not already available
-  // useEffect(() => {
-  //   if (propertyList.length === 0) {
-  //     fetchProperties();
-  //   } else {
-  //     setLoading(false);
-  //   }
-  // }, [fetchProperties, propertyList]);
-
-
+  useEffect(() => {
+    if (propertyList.length === 0) {
+      fetchProperties();
+    } else {
+      setLoading(false);
+    }
+  }, [fetchProperties, propertyList]);
 
   // If the property isn't found, show an error message
   if (loading) {
