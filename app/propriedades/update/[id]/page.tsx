@@ -50,5 +50,4 @@ export default async function EditPropertyPage({
   );
 }
 
-// 🚀 Forces Next.js to fetch fresh data on every request (SSR)
-export const dynamic = 'force-dynamic';
+

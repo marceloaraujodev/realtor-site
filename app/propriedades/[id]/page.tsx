@@ -42,5 +42,3 @@ export default async function PropertyPage({
   return <PropertyClientWrapper property={property} />;
 }
 
-// 🚀 Forces Next.js to fetch fresh data on every request (SSR)
-export const dynamic = 'force-dynamic';

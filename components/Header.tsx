@@ -10,13 +10,12 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: session, status } = useSession();
 
-  // console.log(session);
 
   const navigation = [
     { name: "Início", href: "/" },
     { name: "Propriedades", href: "/propriedades" },
     // { name: 'Sobre Nós', href: '/sobre' },
-    // { name: "Contato", href: "/contato" },
+    { name: "Contato", href: "/contato" },
   ];
 
   return (
