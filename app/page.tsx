@@ -1,4 +1,5 @@
 'use client'
+import { useEffect } from 'react';
 import Hero from '@/components/Hero';
 import PropertyGrid from '@/components/PropertyGrid';
 import AboutSection from '@/components/AboutSection';
@@ -10,9 +11,12 @@ import { useProperty } from './context/PropertyContext';
 
 
 export default function Home() {
-  const { propertyList } = useProperty();
+  const { propertyList, fetchProperties } = useProperty();
   // const properties = await getAllProperties(); // Fetch properties
   console.log('Here')
+  useEffect(() => {
+    fetchProperties();
+  }, []); // Empty dependency array will ensure it runs once when the component mounts
   return (
     <div className="pt-16">
       <Hero />
