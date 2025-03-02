@@ -28,12 +28,6 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  useEffect(() => {
-    if (propertyList.length === 0) {
-      fetchProperties(); // ✅ Fetch only if SSR data was empty
-    }
-  }, []);
-
   // Function to add a new property
   const addProperty = (newProperty: IpropertyType) => {
     setPropertyList((prev) => [...prev, newProperty]);
