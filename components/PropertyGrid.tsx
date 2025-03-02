@@ -10,6 +10,7 @@ import { IpropertyType, PropertiesProps } from '@/types/propertyType';
 // properties grid only displays all the properties
 
 export default function PropertyGrid({properties}: PropertiesProps) {
+  const { propertyList } = useProperty();
 
   console.log('propertyGrid inside propertyGrid', properties)
   return (
@@ -20,7 +21,7 @@ export default function PropertyGrid({properties}: PropertiesProps) {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       
-          {properties.map((property: IpropertyType, index: number) => {
+          {propertyList.map((property: IpropertyType, index: number) => {
             const urlpath = `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/`;
             const imageUrl = property.images?.map(i => i.url)[0]
               ? `${urlpath}${property.images.map(i => i.url)[0]}`

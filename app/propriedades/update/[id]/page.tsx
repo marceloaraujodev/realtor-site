@@ -1,4 +1,4 @@
-// 'use client'; fetch the property and pass to propertyForm
+'use client';// fetch the property and pass to propertyForm
 
 import { redirect } from 'next/navigation';
 import PropertyForm from '@/components/property/PropertyForm';
