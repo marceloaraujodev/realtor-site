@@ -10,8 +10,11 @@ import { PropertyGalleryProps } from '@/types/propertyType';
 
 export default function PropertyGallery({ images }: PropertyGalleryProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  console.log('S3 URL:', process.env.NEXT_PUBLIC_S3_BUCKET_URL);
 
   const imageUrls:string[] = images?.map(imageKey => `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${imageKey.url}`) || [];
+
+  console.log('images urls', imageUrls)
 
   const mainImages = imageUrls.slice(0, 5);
   const thumbnailImages = imageUrls.slice(5);
@@ -70,12 +73,12 @@ export default function PropertyGallery({ images }: PropertyGalleryProps) {
                 className="relative w-24 aspect-square flex-none cursor-pointer overflow-hidden rounded-lg"
                 onClick={() => setSelectedImageIndex(index + 5)}
               >
-                <Image
+                {/* <Image
                   src={image}
                   alt={`Imagem ${index + 6}`}
                   fill
                   className="object-cover hover:scale-110 transition-transform duration-300"
-                />
+                /> */}
               </div>
             ))}
           </div>

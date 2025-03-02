@@ -6,7 +6,7 @@ interface PropertyDetailsProps extends PropertyProps {
 }
 
 export default function PropertyDetails({ property, features }: PropertyDetailsProps) {
-  console.log('property details ', property); 
+  // console.log('property details ', property); 
   // Transform backend features (array of strings) into frontend format (array of objects)
 
   // const features: { name: string; _id: string }[] | undefined =
@@ -15,7 +15,7 @@ export default function PropertyDetails({ property, features }: PropertyDetailsP
   //   _id: `${feature}-${index}`,
   // })) || undefined;
 
-  console.log('features', features);
+  // console.log('features', features);
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

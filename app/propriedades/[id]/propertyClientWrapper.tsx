@@ -1,26 +1,37 @@
 // app/propriedades/[id]/PropertyClientWrapper.tsx
 'use client';
-
+import { useParams } from "next/navigation";
 import PropertyHeader from '@/components/property/PropertyHeader';
 import PropertyGallery from '@/components/property/PropertyGallery';
 import PropertyDetails from '@/components/property/PropertyDetails';
 import PropertyContact from '@/components/property/PropertyContact';
-import { IpropertyType } from '@/types/propertyType';
+import { useProperty } from '@/app/context/PropertyContext';
 
-interface Props {
-  property: IpropertyType;
-}
 
-export default function PropertyClientWrapper({ property }: Props) {
+export default function PropertyClientWrapper() {
+  const { propertyList, fetchProperties } = useProperty();
+  const { id } = useParams(); // Get the property ID from the URL
   // console.log('this is property at PropertyClientWrapper', property)  
+  const property = propertyList.find((p) => p.propertyId === id);
 
-  const images = property.images?.map((image) => ({ id: image.id, url: image.url })) || [];
+  // const images = property.images?.map((image) => ({ id: image.id, url: image.url })) || [];
+
+  // console.log('images', images);
   // const features = property.features?.map((feature, index) => ({name: feature, _id: feature + index.toString()}) ) 
 
-    // Transform features
+    // // Transform features
+    // const features = property.features?.map((feature) => ({
+    //   name: feature.name, 
+    //   // _id: feature._id,
+    // })) ?? [];
+
+    if (!property) {
+      return <p>Loading property...</p>; // Handle loading state
+    }
+
+    const images = property.images?.map((image) => ({ id: image.id, url: image.url })) || [];
     const features = property.features?.map((feature) => ({
-      name: feature.name, 
-      // _id: feature._id,
+      name: feature.name,
     })) ?? [];
 
   return (

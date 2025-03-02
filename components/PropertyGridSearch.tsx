@@ -5,17 +5,17 @@ import { Button } from "./ui/button";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { formatCurrency } from "@/lib/utils";
-import { PropertiesProps } from '@/types/propertyType';
+import { IpropertyType, PropertiesProps } from '@/types/propertyType';
 import { useProperty } from "@/app/context/PropertyContext";
 
-export default function PropertyGridSearch() {
-  const { propertyList, fetchProperties } = useProperty();
-  console.log('properties on grid search', propertyList)
+export default function PropertyGridSearch({ properties}: PropertiesProps) {
+  // const { propertyList: properties, fetchProperties } = useProperty();
+  // console.log('properties on grid search', propertyList)
 
-    // Load properties when the app starts
-    useEffect(() => {
-      fetchProperties();
-    }, []);
+  //   // Load properties when the app starts
+  //   useEffect(() => {
+  //     fetchProperties();
+  //   }, []);
 
   const searchParams = useSearchParams();
 
@@ -28,7 +28,7 @@ export default function PropertyGridSearch() {
   // console.log(propertyType);
 
   // Filter properties based on query params
-  const filteredProperties = propertyList.filter((property) => {
+  const filteredProperties = properties.filter((property) => {
     // Check propertyType
     const isPropertyTypeMatch = !propertyType || property.propertyType === propertyType;
 

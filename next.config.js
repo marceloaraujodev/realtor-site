@@ -16,6 +16,14 @@ module.exports = {
     // Remove mongoose from here. Only include modules that are problematic on the client.
     serverComponentsExternalPackages: ['@mongodb-js/zstd', 'kerberos', 'snappy'],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "realtor-site.s3.us-east-2.amazonaws.com",
+      },
+    ],
+  },
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
