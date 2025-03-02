@@ -3,9 +3,7 @@
 import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import PropertyForm from '@/components/property/PropertyForm';
-import { getProperty } from '@/utils/properties';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { useSession } from 'next-auth/react';
 import { siteUrl } from '@/config';
 import { useProperty } from '@/app/context/PropertyContext';
 import { useRouter } from 'next/navigation';
@@ -13,7 +11,7 @@ import { IpropertyType } from '@/types/propertyType';
 
 // this just grabs the information so next builds the routes, it does not pass data to the component
 
-export default async function EditPropertyPage({
+export default function EditPropertyPage({
   params,
 }: {
   params: { id: string };
@@ -22,7 +20,7 @@ export default async function EditPropertyPage({
   const router = useRouter();
   const { propertyList, fetchProperties } = useProperty();
   // when this page loads we need to grab the props, figure it out a way to get it form the propertyHeader or fetch on page load.
-  const session = await getServerSession(authOptions);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     // Fetch properties if not already fetched

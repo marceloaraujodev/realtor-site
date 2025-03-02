@@ -17,8 +17,8 @@ export default function Testimonials() {
               </div>
             </div>
             <p className="text-gray-600">
-              "Excelente experiência na compra do meu apartamento. A equipe foi muito profissional
-              e atenciosa durante todo o processo."
+            &quot;Excelente experiência na compra do meu apartamento. A equipe foi muito profissional
+              e atenciosa durante todo o processo.&quot;
             </p>
           </div>
           <div className="bg-white p-6 rounded-lg shadow">
@@ -34,8 +34,8 @@ export default function Testimonials() {
               </div>
             </div>
             <p className="text-gray-600">
-              "Ótimo atendimento e profissionalismo. Consegui fazer um excelente investimento
-              graças às recomendações da equipe."
+            &quot;Ótimo atendimento e profissionalismo. Consegui fazer um excelente investimento
+              graças às recomendações da equipe.&quot;
             </p>
           </div>
         </div>

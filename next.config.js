@@ -9,19 +9,33 @@
 
 // module.exports = nextConfig;
 
-const nextConfig = {
-  webpack(config, { isServer }) {
-    // Exclude native modules from Webpack processing
+const webpack = require('webpack');
+
+module.exports = {
+  experimental: {
+    // Remove mongoose from here. Only include modules that are problematic on the client.
+    serverComponentsExternalPackages: ['@mongodb-js/zstd', 'kerberos', 'snappy'],
+  },
+  webpack: (config, { isServer }) => {
     if (!isServer) {
-      config.module.rules.push({
-        test: /\.node$/,
-        use: 'noop-loader', // Ignores these files during the build
-      });
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        '@mongodb-js/zstd': false,
+        kerberos: false,
+        snappy: false,
+        // Do NOT set mongoose: false here
+      };
     }
+    // Only ignore modules on the client-side if needed
+    config.plugins.push(
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^(?:@mongodb-js\/zstd|kerberos|snappy)$/,
+      })
+    );
     return config;
   },
 };
 
-module.exports = nextConfig;
+
 
 

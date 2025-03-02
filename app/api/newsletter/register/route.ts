@@ -26,3 +26,5 @@ export async function POST(req: NextRequest){
     throw new Error('Could not save email')
   }
 }
+
+export const runtime = 'nodejs';
