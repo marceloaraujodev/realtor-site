@@ -13,9 +13,12 @@ import { useProperty } from './context/PropertyContext';
 export default function Home() {
   const { propertyList, fetchProperties } = useProperty();
   // const properties = await getAllProperties(); // Fetch properties
-  console.log('Here')
+  console.log('Here', propertyList)
   useEffect(() => {
+    console.log(propertyList)
+
     fetchProperties();
+    console.log('fetching properties')
   }, []); // Empty dependency array will ensure it runs once when the component mounts
   return (
     <div className="pt-16">
