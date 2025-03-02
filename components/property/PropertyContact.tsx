@@ -29,22 +29,22 @@ export default function PropertyContact({ property }: PropertyProps) {
       message: `Olá, gostaria de mais informações sobre o imóvel "${property.title}".`
     });
     
-    // const res = await axios.post('/api/propriedades/contact', {
-    //   ...formData,
-    // })
-    // console.log(res)
+    const res = await axios.post('/api/propriedades/contact', {
+      ...formData,
+    })
+    console.log(res)
 
-    // if (res.status === 200) {
-    //   toast({
-    //     title: "Mensagem enviada!",
-    //     description: "Em breve entraremos em contato.",
-    //   });
-    // }else{
-    //   toast({
-    //     title: "Erro ao enviar a mensagem!",
-    //     description: "Por favor, tente novamente.",
-    //   });
-    // }
+    if (res.status === 200) {
+      toast({
+        title: "Mensagem enviada!",
+        description: "Em breve entraremos em contato.",
+      });
+    }else{
+      toast({
+        title: "Erro ao enviar a mensagem!",
+        description: "Por favor, tente novamente.",
+      });
+    }
   };
 
   return (

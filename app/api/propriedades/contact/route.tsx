@@ -6,16 +6,13 @@ export async function POST(req: NextRequest){
 
   console.log(name, email, phone, message)
 
-
-
-
   return NextResponse.json({
     success: true,
     data: {
-      // name,
-      // email,
-      // phone,
-      // message,
+      name,
+      email,
+      phone,
+      message,
     },
     message: "Data received successfully"
   })
