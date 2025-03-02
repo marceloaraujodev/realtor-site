@@ -1,20 +1,23 @@
+'use client'
 import Hero from '@/components/Hero';
 import PropertyGrid from '@/components/PropertyGrid';
 import AboutSection from '@/components/AboutSection';
 import Testimonials from '@/components/Testimonials';
 import Newsletter from '@/components/Newsletter';
 import SearchProperties from '@/components/SearchProperties';
-import { getAllProperties } from '@/utils/properties';
+import { useProperty } from './context/PropertyContext';
+// import { getAllProperties } from '@/utils/properties';
 
 
 export default async function Home() {
-  const properties = await getAllProperties(); // Fetch properties
+  const { propertyList } = useProperty();
+  // const properties = await getAllProperties(); // Fetch properties
   console.log('Here')
   return (
     <div className="pt-16">
       <Hero />
-      <SearchProperties properties={properties} />
-      <PropertyGrid />
+      <SearchProperties />
+      <PropertyGrid properties={propertyList}/>
       <AboutSection />
       <Testimonials />
       <Newsletter />

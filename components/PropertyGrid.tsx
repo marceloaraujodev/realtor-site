@@ -11,7 +11,6 @@ import { IpropertyType, PropertiesProps } from '@/types/propertyType';
 
 export default function PropertyGrid({properties}: PropertiesProps) {
 
- 
   console.log('propertyGrid hit')
   return (
     <section className="py-16 bg-gray-50">
