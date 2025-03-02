@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useProperty } from '@/app/context/PropertyContext';
 import PropertyClientWrapper from './propertyClientWrapper';
+import { IpropertyType } from '@/types/propertyType';
 
 
 export default function PropertyPage({
@@ -40,6 +41,6 @@ export default function PropertyPage({
     return <p>Property not found.</p>;
   }
 
-  return <PropertyClientWrapper property={property} />;
+  return <PropertyClientWrapper />;
 }
 

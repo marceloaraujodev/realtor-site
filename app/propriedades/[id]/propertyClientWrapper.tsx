@@ -6,6 +6,7 @@ import PropertyGallery from '@/components/property/PropertyGallery';
 import PropertyDetails from '@/components/property/PropertyDetails';
 import PropertyContact from '@/components/property/PropertyContact';
 import { useProperty } from '@/app/context/PropertyContext';
+import { PropertyProps } from "@/types/propertyType";
 
 
 export default function PropertyClientWrapper() {
