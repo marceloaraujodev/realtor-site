@@ -5,6 +5,7 @@ import { deletePropertyImages } from "@/utils/aws/deletePropertyImages";
 
 export async function DELETE(req: NextRequest, { params }:{params: { id: string}}){
   try {
+    console.log('delete request in')
     await mongooseConnect();
     console.log(params)
     const { id } = params;

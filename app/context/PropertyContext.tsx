@@ -22,22 +22,23 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
   const fetchProperties = async () => {
     try {
       const res = await axios.get(`${siteUrl}/api/propriedades`);
+      console.log('res context', res)
       setPropertyList(res.data);
-      console.log('properties fetched and saved as porpertyList', propertyList)
     } catch (error) {
       console.error("Failed to fetch properties", error);
     }
   };
-
+  
   // Function to add a new property
   const addProperty = (newProperty: IpropertyType) => {
     setPropertyList((prev) => [...prev, newProperty]);
   };
-
+  
   // Load properties when the app starts
   useEffect(() => {
     fetchProperties();
   }, []);
+
 
   return (
     <PropertyContext.Provider value={{propertyList, fetchProperties, addProperty, setPropertyList }}>

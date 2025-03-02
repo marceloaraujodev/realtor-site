@@ -3,7 +3,7 @@ import { JWT } from "next-auth/jwt"; // Import JWT from next-auth/jwt
 import CredentialsProvider from "next-auth/providers/credentials";
 import { mongooseConnect } from "@/lib/mongooseConnect";
 import User from "@/models/user";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 // AdapterUser type can be imported if you are using an adapter
 import { AdapterUser } from "next-auth/adapters"; 
