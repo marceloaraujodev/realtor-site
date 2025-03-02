@@ -1,4 +1,5 @@
 'use client';
+import { useEffect } from 'react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import Link from 'next/link';
@@ -10,7 +11,12 @@ import { IpropertyType, PropertiesProps } from '@/types/propertyType';
 // properties grid only displays all the properties
 
 export default function PropertyGrid({properties}: PropertiesProps) {
-  const { propertyList } = useProperty();
+  const { propertyList, fetchProperties } = useProperty();
+  
+    // Load properties when the app starts
+    useEffect(() => {
+      fetchProperties();
+    }, []);
 
   console.log('propertyGrid inside propertyGrid', properties)
   return (

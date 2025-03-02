@@ -23,7 +23,7 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
     try {
       const res = await axios.get(`${siteUrl}/api/propriedades`);
       setPropertyList(res.data);
-      console.log('properties fetched and saved as porpertyList')
+      console.log('properties fetched and saved as porpertyList', propertyList)
     } catch (error) {
       console.error("Failed to fetch properties", error);
     }

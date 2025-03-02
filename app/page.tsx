@@ -19,7 +19,8 @@ export default function Home() {
 
     fetchProperties();
     console.log('fetching properties')
-  }, []); // Empty dependency array will ensure it runs once when the component mounts
+  }, []); 
+  // Empty dependency array will ensure it runs once when the component mounts
   return (
     <div className="pt-16">
       <Hero />

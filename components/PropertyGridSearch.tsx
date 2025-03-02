@@ -9,8 +9,13 @@ import { PropertiesProps } from '@/types/propertyType';
 import { useProperty } from "@/app/context/PropertyContext";
 
 export default function PropertyGridSearch() {
-  const { propertyList } = useProperty();
+  const { propertyList, fetchProperties } = useProperty();
   console.log('properties on grid search', propertyList)
+
+    // Load properties when the app starts
+    useEffect(() => {
+      fetchProperties();
+    }, []);
 
   const searchParams = useSearchParams();
 
