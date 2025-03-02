@@ -29,11 +29,13 @@ export default function PropertyHeader({ property }: PropertyProps) {
   const handleEdit = () => {
    // grab id and redirect to the form basic info page
    router.push(`${siteUrl}/propriedades/update/${property.propertyId}`);
-
   }
+
   const handleDelete = async () => {
     // grab id and send request to delete property to the backend
+    console.log(`${siteUrl}/api/propriedades/delete/${property.propertyId}`)
     const res = await axios.delete(`${siteUrl}/api/propriedades/delete/${property.propertyId}`)
+
     if (res.status === 200) {
       setPropertyList(propertyList.filter(p => p.propertyId !== property.propertyId))
       toast({
