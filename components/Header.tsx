@@ -16,7 +16,7 @@ export default function Header() {
     { name: "Início", href: "/" },
     { name: "Propriedades", href: "/propriedades" },
     // { name: 'Sobre Nós', href: '/sobre' },
-    { name: "Contato", href: "/contato" },
+    // { name: "Contato", href: "/contato" },
   ];
 
   return (
