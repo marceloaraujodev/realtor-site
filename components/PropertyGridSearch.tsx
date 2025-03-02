@@ -67,8 +67,8 @@ export default function PropertyGridSearch({ properties}: PropertiesProps) {
                     <img src={`${urlpath}${property.images?.map(i => i.url)[0]}`} alt={property.title} className="object-cover w-full h-full" />
                   </div>
                   <div className="p-4">
-                    <h3 className="text-xl font-semibold mb-2 overflow-hidden whitespace-nowrap text-ellipsis">
-                    {property.title.length > 30 ? `${property.title}` : property.title}
+                  <h3 className="text-xl font-semibold mb-2 overflow-hidden whitespace-nowrap text-ellipsis">
+                      {property.title}
                     </h3>
                     <p data-name="venda ou aluguel" className='text-xs'>{property.listingType === 'venda' ? `${property.propertyType} á ${property.listingType}` : `${property.propertyType} para ${property.listingType}` }</p>
                     <div data-name="icons div" className='flex justify-start mt-6 mb-4 space-x-6'>

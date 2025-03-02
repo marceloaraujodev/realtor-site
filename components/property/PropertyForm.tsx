@@ -114,12 +114,12 @@ export default function PropertyForm({
   // is submiting is not really being used, but have already sert up for in case I neee it
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log('this is data from on submit', data)
+    // console.log('this is data from on submit', data)
 
     const formData = new FormData();
 
     // append non-file data
-    console.log('this is data-=-=-', data);
+    // console.log('this is data-=-=-', data);
     // Append non-file fields
     Object.entries(data).forEach(([key, value]) => {
       // console.log('----', key, value);
@@ -165,7 +165,7 @@ export default function PropertyForm({
       if (res.status === 200) {
         addProperty(res.data)
         fetchProperties()
-        console.log('property added in if 200 block');
+        // console.log('property added in if 200 block');
         toast({
           title: 'Propriedade salva!',
           description: 'Propriedade salva com sucesso!',

@@ -16,7 +16,7 @@ export default function PropertyGrid({properties}: PropertiesProps) {
     // Load properties when the app starts
     useEffect(() => {
       fetchProperties();
-      console.log('propertyGrid inside propertyGrid', properties)
+      // console.log('propertyGrid inside propertyGrid', properties)
     }, []);
 
   return (

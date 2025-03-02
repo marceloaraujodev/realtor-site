@@ -13,7 +13,7 @@ import { useProperty } from '../context/PropertyContext';
 export default function PropertiesPage() {
 
   const { propertyList } = useProperty(); //if I need to pass the property list to those components
-   console.log('this is PropertiesPage');
+  //  console.log('this is PropertiesPage');
   return (
     <div className="pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">

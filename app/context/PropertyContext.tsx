@@ -22,7 +22,6 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
   const fetchProperties = async () => {
     try {
       const res = await axios.get(`${siteUrl}/api/propriedades`);
-      console.log('res context', res)
       setPropertyList(res.data);
     } catch (error) {
       console.error("Failed to fetch properties", error);
