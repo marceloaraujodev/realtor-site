@@ -8,15 +8,15 @@
 //         .toBuffer();
 //  }
 
-import * as Jimp from 'jimp';
+// import * as Jimp from 'jimp';
 
 
-export async function compressImage(fileBuffer: Buffer) {
-  const image = await Jimp.read(fileBuffer); // Read the image from the buffer
-  await image
-    .resize(1200, Jimp.AUTO) // Resize to 1200px wide, keeping aspect ratio
-    .quality(80); // Set JPEG quality to 80%
+// export async function compressImage(fileBuffer: Buffer) {
+//   const image = await Jimp.read(fileBuffer); // Read the image from the buffer
+//   await image
+//     .resize(1200, Jimp.AUTO) // Resize to 1200px wide, keeping aspect ratio
+//     .quality(80); // Set JPEG quality to 80%
 
-  return image.getBufferAsync(Jimp.MIME_JPEG); // Return the compressed image as a Buffer
-}
+//   return image.getBufferAsync(Jimp.MIME_JPEG); // Return the compressed image as a Buffer
+// }
 

@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 import { mongooseConnect } from "@/lib/mongooseConnect";
 import Property from "@/models/property";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { compressImage } from "@/utils/compressImages";
+// import { compressImage } from "@/utils/compressImages";
 import { deletePropertyImages } from "@/utils/aws/deletePropertyImages";
 
 const s3Client = new S3Client({
@@ -82,13 +82,13 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
       if (!image.file) return null;
       const arrayBuffer = await image.file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
-      const optimizedImage = await compressImage(buffer);
+      // const optimizedImage = await compressImage(buffer); // skip compression
       const s3Key = `propriedades/${propertyId}/${image.id}`; // generate 
 
       const uploadParams = {
         Bucket: bucketName,
         Key: s3Key,
-        Body: optimizedImage,
+        Body: buffer, // skip compression
         ContentType: image.file.type,
       };
 
