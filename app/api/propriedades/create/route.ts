@@ -4,9 +4,9 @@ import { mongooseConnect } from "@/lib/mongooseConnect";
 import Property from "@/models/property";
 import { S3Client, PutObjectCommand, ListBucketsCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from 'uuid';
-import { compressImage } from "@/utils/compressImages";
+// import { compressImage } from "@/utils/compressImages";
 import { deletePropertyImages } from "@/utils/aws/deletePropertyImages";
-
+import sharp from 'sharp';
 
 const s3Client = new S3Client({
   region: process.env.AWS_REGION!,
@@ -151,3 +151,9 @@ export async function POST(req: NextRequest) {
 
 
 
+export async function compressImage(fileBuffer: Buffer): Promise<Buffer>{
+  return await sharp(fileBuffer)
+        .resize({ width: 1200 }) // Resize to a max width (optional) move to .env
+        .toFormat("webp", { quality: 80 }) // Convert to WebP with 80% quality
+        .toBuffer();
+ }
