@@ -1,38 +1,18 @@
 'use client';
-import { useEffect, useState } from 'react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import Link from 'next/link';
 import { formatCurrency } from '@/lib/utils';
-import { PropertiesProps } from '@/types/propertyType';
-
+import { useProperty } from '@/app/context/PropertyContext';
+import { IpropertyType, PropertiesProps } from '@/types/propertyType';
 
 // properties grid search is the one which actually searches for properties
 // properties grid only displays all the properties
 
-export default function PropertyGrid({ properties }: PropertiesProps) {
-  const [refreshedProperties, setRefreshedProperties] = useState(properties);
-  const [loading, setLoading] = useState(true);
+export default function PropertyGrid({properties}: PropertiesProps) {
 
-   // Fetch properties and set state
-   useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        console.log('Properties updated in PropertyGrid:', properties);
-      } catch (error) {
-        console.error('Failed to fetch properties:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProperties();
-  }, [refreshedProperties]);  // Empty dependency array means this runs only once when the component mounts
-
-  // You can also add a dependency on properties if you want to trigger fetching when the properties change
-  // }, [properties]);
-
-console.log('propertyGrid hit')
+ 
+  console.log('propertyGrid hit')
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -41,14 +21,14 @@ console.log('propertyGrid hit')
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       
-          {properties.map((property, index) => {
+          {properties.map((property: IpropertyType, index: number) => {
             const urlpath = `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/`;
             const imageUrl = property.images?.map(i => i.url)[0]
               ? `${urlpath}${property.images.map(i => i.url)[0]}`
               : undefined;
 
             return (
-              <Card key={property.propertyId} className="overflow-hidden">
+              <Card key={property.propertyId + index} className="overflow-hidden">
                 <Link href={`/propriedades/${property.propertyId}`} className="block">
                   <div className="aspect-video relative">
                     {imageUrl ? (

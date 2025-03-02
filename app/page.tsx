@@ -14,7 +14,7 @@ export default async function Home() {
     <div className="pt-16">
       <Hero />
       <SearchProperties properties={properties} />
-      <PropertyGrid properties={properties}/>
+      <PropertyGrid />
       <AboutSection />
       <Testimonials />
       <Newsletter />

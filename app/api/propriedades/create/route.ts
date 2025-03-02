@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
       if (type === "image" && value instanceof File) imagesObjectsArr[index].file = value;
     }
 
-    console.log("Extracted images:", imagesObjectsArr); // correct 
+    // console.log("Extracted images:", imagesObjectsArr); // correct 
     
     // uploads all images and returns a array of objects ready for the database upload
     const images = await Promise.all(imagesObjectsArr.map( async (image) => {
@@ -131,7 +131,7 @@ export async function POST(req: NextRequest) {
       ...propertyData,
     });
 
-    console.log("-- newProperty", newProperty)
+    // console.log("-- newProperty", newProperty)
 
     return NextResponse.json({
       message: "Success",

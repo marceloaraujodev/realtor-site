@@ -6,18 +6,11 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { formatCurrency } from "@/lib/utils";
 import { PropertiesProps } from '@/types/propertyType';
+import { useProperty } from "@/app/context/PropertyContext";
 
-export default function PropertyGridSearch({ properties}: PropertiesProps) {
-  console.log('properties on grid search', properties)
-  // const [propertiesCount, setPropertiesCount] = useState(properties.length);
-
-  // useEffect(() => {
-  //   console.log('useeffect on property grid search')
-  //   if(properties.length !== propertiesCount){
-  //     setPropertiesCount(properties.length)
-  //     console.log('should re render, properties changed')
-  //   }
-  // }, [properties])
+export default function PropertyGridSearch() {
+  const { propertyList } = useProperty();
+  console.log('properties on grid search', propertyList)
 
   const searchParams = useSearchParams();
 
@@ -30,7 +23,7 @@ export default function PropertyGridSearch({ properties}: PropertiesProps) {
   // console.log(propertyType);
 
   // Filter properties based on query params
-  const filteredProperties = properties.filter((property) => {
+  const filteredProperties = propertyList.filter((property) => {
     // Check propertyType
     const isPropertyTypeMatch = !propertyType || property.propertyType === propertyType;
 

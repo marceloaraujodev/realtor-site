@@ -1,4 +1,4 @@
-// 'use client';
+'use client';
 
 import { Building2, MapPin, Share2, Pencil, Trash } from 'lucide-react';
 import { Button } from '../ui/button';
@@ -9,11 +9,14 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { siteUrl } from '@/config';
+import { useProperty } from '@/app/context/PropertyContext';
 
 export default function PropertyHeader({ property }: PropertyProps) {
+  const { setPropertyList, propertyList } = useProperty();
   const { toast } = useToast();
   const { data: session, status } = useSession();
   const router = useRouter();
+
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -26,18 +29,18 @@ export default function PropertyHeader({ property }: PropertyProps) {
   const handleEdit = () => {
    // grab id and redirect to the form basic info page
    router.push(`${siteUrl}/propriedades/update/${property.propertyId}`);
-  //  router.push(`/propriedades/update/555`);
 
-    console.log(property.propertyId)
   }
   const handleDelete = async () => {
     // grab id and send request to delete property to the backend
     const res = await axios.delete(`${siteUrl}/api/propriedades/delete/${property.propertyId}`)
     if (res.status === 200) {
+      setPropertyList(propertyList.filter(p => p.propertyId !== property.propertyId))
       toast({
         title: 'Propriedade removida!',
         description: 'Propriedade removida com sucesso.',
       });
+      console.log('pushing to page /propriedades')
       router.push('/propriedades');
     }else{
       console.log('deletion failed')
@@ -46,8 +49,6 @@ export default function PropertyHeader({ property }: PropertyProps) {
         description: 'Ocorreu um erro ao tentar excluir a propriedade.',
       });
     }
-    console.log('property id', property.propertyId)
-    console.log('res', res)
   }
 
   return (

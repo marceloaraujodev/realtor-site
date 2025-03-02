@@ -16,7 +16,7 @@ import { PropertiesProps } from '@/types/propertyType';
 // properties grid only displays all the properties
 
 
-export default function SearchProperties({properties}: PropertiesProps) {
+export default function SearchProperties() {
   const router = useRouter();
   const [filters, setFilters] = useState({
     propertyType: '',
@@ -30,7 +30,7 @@ export default function SearchProperties({properties}: PropertiesProps) {
     //   router.replace('/propriedades'); // Clears all query parameters
     // }
     // console.log(properties)
-    console.log('filers', filters)
+    // console.log('filers', filters)
   }, [filters])
 
 

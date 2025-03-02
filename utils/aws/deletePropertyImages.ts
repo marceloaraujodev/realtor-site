@@ -25,7 +25,7 @@ export async function deletePropertyImages(propertyId: string){
       const listedObjects = await s3Client.send(listCommand)
 
       if(!listedObjects.Contents || listedObjects.Contents.length === 0){
-        console.log('No objects found to delete.');
+        console.log('No S3 objects found to delete.');
         return;
       }
       

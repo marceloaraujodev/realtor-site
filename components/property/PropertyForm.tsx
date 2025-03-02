@@ -14,10 +14,12 @@ import { PropertyFormProp } from '@/types/propertyType';
 import { usePathname } from 'next/navigation';
 import { siteUrl } from '@/config';
 import { useToast } from '@/hooks/use-toast';
+import { useProperty } from '@/app/context/PropertyContext';
 
 export default function PropertyForm({
   existingProperty,
 }: PropertyFormProp) {
+  const { addProperty, fetchProperties} = useProperty();
   const { toast } = useToast();
 
 
@@ -161,12 +163,15 @@ export default function PropertyForm({
       });
 
       if (res.status === 200) {
-        console.log('should redirect')
-        router.push('/propriedades');
+        addProperty(res.data)
+        fetchProperties()
+        console.log('property added in if 200 block');
         toast({
           title: 'Propriedade salva!',
           description: 'Propriedade salva com sucesso!',
         });
+
+        router.push('/propriedades');
       }
       console.log('this is data that will be sent to backend', data);
     } catch (error) {
