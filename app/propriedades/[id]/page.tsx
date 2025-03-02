@@ -1,44 +1,46 @@
-// app/propriedades/[id]/page.tsx (Server Component)
-import { getProperty } from '@/utils/properties';
+'use client'; // Ensure client-side execution
+
+import { useEffect, useState } from 'react';
+import { useProperty } from '@/app/context/PropertyContext';
 import PropertyClientWrapper from './propertyClientWrapper';
-import { redirect } from 'next/navigation';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { siteUrl } from '@/config';
 
-// Generate static paths for all properties to be pre-rendered
-export async function generateStaticParams() {
-  try {
-    console.log(`${siteUrl}/api/propriedades`)
-    const res = await fetch(`${siteUrl}/api/propriedades`);
-    const properties = await res.json();
-    return properties.map((property: { propertyId: string }) => ({
-      id: property.propertyId,
-    }));
-  } catch (error) {
-    console.error('Error fetching properties:', error);
-    return [];
-  }
-}
 
-export default async function PropertyPage({
+export default function PropertyPage({
   params,
 }: {
   params: { id: string };
 }) {
-  // const property = await getProperty(params.id);
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    redirect('/');
-  }
+  const { propertyList, fetchProperties } = useProperty();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const propertyId: string = params.id;
-  const property = await getProperty(propertyId);
+  const property = propertyList.find((p) => p.propertyId === propertyId);
+
+  // Fetch properties on page load if not already available
+  // useEffect(() => {
+  //   if (propertyList.length === 0) {
+  //     fetchProperties();
+  //   } else {
+  //     setLoading(false);
+  //   }
+  // }, [fetchProperties, propertyList]);
+
+
+
+  // If the property isn't found, show an error message
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   if (!property) {
     return <p>Property not found.</p>;
   }
+
   return <PropertyClientWrapper property={property} />;
 }
 
