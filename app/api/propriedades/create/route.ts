@@ -11,12 +11,12 @@ dotenv.config()
 const s3Client = new S3Client({
   region: process.env.AWS_REGION!,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_NUMBER!, // Replace with your AWS Access Key ID
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!, // Replace with your AWS Access Key ID
     secretAccessKey: process.env.AWS_SECRET_KEY!, // Replace with your AWS Secret Access Key
   }
 });
 
-console.log('credentials:---',process.env.AWS_REGION, process.env.AWS_ACCESS_KEY_NUMBER, process.env.AWS_SECRET_KEY, process.env.AWS_BUCKET_NAME, )
+console.log('credentials:---',process.env.AWS_REGION, process.env.AWS_ACCESS_KEY_ID, process.env.AWS_SECRET_KEY, process.env.AWS_BUCKET_NAME )
 
 export async function POST(req: NextRequest) {  
 
