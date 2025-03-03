@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 
 dotenv.config();
 
-console.log('credentials on delete:---',process.env.AWS_REGION, process.env.AWS_ACCESS_KEY_ID, process.env.AWS_SECRET_KEY, process.env.AWS_BUCKET_NAME )
+console.log('credentials on delete:---',process.env.AWS_REGION, process.env.AWS_ACCESSKEYID, process.env.AWS_SECRETKEY, process.env.AWS_BUCKET_NAME )
 
 const s3Client = new S3Client({
   region: process.env.AWS_REGION!,

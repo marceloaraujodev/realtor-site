@@ -16,7 +16,7 @@ const s3Client = new S3Client({
   }
 });
 
-console.log('credentials:---',process.env.AWS_REGION, process.env.AWS_ACCESSKEYID, process.env.AWS_SECRETKEY, process.env.AWS_BUCKET_NAME, process.env.TEST )
+console.log('credentials:---',process.env.AWS_REGION, process.env.AWS_ACCESSKEYID, process.env.AWS_SECRETKEY, process.env.AWS_BUCKET_NAME )
 
 export async function POST(req: NextRequest) {  
 
