@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { FormData } from "@/types/formTypes";
 import { mongooseConnect } from "@/lib/mongooseConnect";
 import Property from "@/models/property";
 import { S3Client, PutObjectCommand, ListBucketsCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from 'uuid';
-import { compressImage } from "@/utils/compressImages";
+// import { compressImage } from "@/utils/compressImages";
 import { deletePropertyImages } from "@/utils/aws/deletePropertyImages";
 
 
@@ -15,6 +14,8 @@ const s3Client = new S3Client({
     secretAccessKey: process.env.AWS_SECRET_KEY!, // Replace with your AWS Secret Access Key
   }
 });
+
+console.log('credentials',process.env.AWS_REGION, process.env.AWS_ACCESS_KEY, process.env.AWS_SECRET_KEY, process.env.AWS_BUCKET_NAME, )
 
 export async function POST(req: NextRequest) {  
 
@@ -80,13 +81,14 @@ export async function POST(req: NextRequest) {
       if (!image.file) return null;
       const arrayBuffer = await image.file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
-      const optimizedImage = await compressImage(buffer); // skip compression
+      // const optimizedImage = await compressImage(buffer); 
       const s3Key = `propriedades/${propertyId}/${image.id}`; // generate 
 
+      // image is passed as a buffer
       const uploadParams = {
         Bucket: bucketName,
         Key: s3Key,
-        Body: optimizedImage, // skip compression for now use buffer
+        Body: buffer, 
         ContentType: image.file.type,
       };
 

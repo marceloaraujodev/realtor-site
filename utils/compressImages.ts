@@ -8,15 +8,29 @@
 //         .toBuffer();
 //  }
 
-import * as Jimp from 'jimp';
+// import * as Jimp from 'jimp';
 
 
-export async function compressImage(fileBuffer: Buffer) {
-  const image = await Jimp.read(fileBuffer); // Read the image from the buffer
-  await image
-    .resize(1200, Jimp.AUTO) // Resize to 1200px wide, keeping aspect ratio
-    .quality(80); // Set JPEG quality to 80%
+// export async function compressImage(fileBuffer: Buffer) {
+//   const image = await Jimp.default.read(fileBuffer);
+//   const resizedImage = await image.resize(Jimp.default.AUTO, 500);
+  
+//   return resizedImage // Return the compressed image as a Buffer
+// }
 
-  return image.getBufferAsync(Jimp.MIME_JPEG); // Return the compressed image as a Buffer
-}
+import imageCompression from 'browser-image-compression';
 
+export const handleImageUpload = async (file: File) => {
+  const options = {
+    maxSizeMB: 1,
+    maxWidthOrHeight: 1024,
+    useWebWorker: true,
+  };
+
+  try {
+    return await imageCompression(file, options);
+  } catch (error) {
+    console.error('Error compressing image:', error);
+    throw error; // Re-throw the error to handle it upstream
+  }
+};

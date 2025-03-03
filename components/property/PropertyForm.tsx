@@ -15,6 +15,7 @@ import { usePathname } from 'next/navigation';
 import { siteUrl } from '@/config';
 import { useToast } from '@/hooks/use-toast';
 import { useProperty } from '@/app/context/PropertyContext';
+import { handleImageUpload } from '@/utils/compressImages';
 
 export default function PropertyForm({
   existingProperty,
@@ -134,13 +135,39 @@ export default function PropertyForm({
     });
 
     // Append images with their IDs
-    data.images?.forEach((image, index) => {
-      console.log('===', image, index);
-      if(image.file){
-        formData.append(`images[${index}][id]`, image.imgId); // Append ID
-        formData.append(`images[${index}][image]`, image.file); // Append File
-      }
-    });
+    // data.images?.forEach((image, index) => {
+    //   console.log('===', image, index);
+    //   if(image.file){
+    //     // const compressedImage = handleImageUpload(image.file) // here is where I want to compress the image
+    //     formData.append(`images[${index}][id]`, image.imgId); // Append ID
+    //     formData.append(`images[${index}][image]`, image.file); // Append File
+    //   }
+    // });
+
+    // With this:
+    if (data.images) {
+      // Process images in parallel
+      const compressedImages = await Promise.all(
+        data.images.map(async (image) => {
+          if (!image.file) return image;
+          try {
+            const compressedFile = await handleImageUpload(image.file);
+            return { ...image, file: compressedFile };
+          } catch (error) {
+            console.error("Compression failed for image:", error);
+            return image; // Fallback to original
+          }
+        })
+      );
+
+      // Append compressed images to FormData
+      compressedImages.forEach((image, index) => {
+        if (image.file) {
+          formData.append(`images[${index}][id]`, image.imgId);
+          formData.append(`images[${index}][image]`, image.file);
+        }
+      });
+    }
 
     // console.log('this is data image after appending ids', data.images);
 
