@@ -3,7 +3,7 @@ import { S3Client, ListObjectsV2Command, DeleteObjectsCommand } from "@aws-sdk/c
 const s3Client = new S3Client({
   region: process.env.AWS_REGION!,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY!, // Replace with your AWS Access Key ID
+    accessKeyId: process.env.AWS_ACCESS_KEY_NUMBER!, // Replace with your AWS Access Key ID
     secretAccessKey: process.env.AWS_SECRET_KEY!, // Replace with your AWS Secret Access Key
   }
 });
