@@ -13,12 +13,6 @@ import { IpropertyType, PropertiesProps } from '@/types/propertyType';
 export default function PropertyGrid({properties}: PropertiesProps) {
   const { propertyList, fetchProperties } = useProperty();
 
-    // Load properties when the app starts
-    // useEffect(() => {
-    //   fetchProperties();
-    //   // console.log('propertyGrid inside propertyGrid', properties)
-    // }, []);
-
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

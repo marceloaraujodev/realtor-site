@@ -12,22 +12,13 @@ import { siteUrl } from '@/config';
 
 export default function Home() {
   const { propertyList, fetchProperties, setPropertyList } = useProperty();
-  
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        console.log('Fetching properties')
-        const response = await axios.get(`${siteUrl}/api/propriedades`);
-        if(response.status === 200) {
-          setPropertyList(response.data);
-          console.log(response.data)
-        }
-      } catch (error) {
-        console.log(error)
-      }
+    if (propertyList.length > 0) {
+      console.log('Fetched properties:', propertyList);
     }
-    fetchData();
-  },[])
+  }, [propertyList]); // This will log propertyList every time it updates
+
 
   return (
     <div className="pt-16">

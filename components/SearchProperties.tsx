@@ -25,13 +25,13 @@ export default function SearchProperties() {
     location: '',
   });
 
-  useEffect(() => {
-    // if (searchParams.toString()) {
-    //   router.replace('/propriedades'); // Clears all query parameters
-    // }
-    // console.log(properties)
-    // console.log('filers', filters)
-  }, [filters])
+  // useEffect(() => {
+  //   // if (searchParams.toString()) {
+  //   //   router.replace('/propriedades'); // Clears all query parameters
+  //   // }
+  //   // console.log(properties)
+  //   // console.log('filers', filters)
+  // }, [filters])
 
 
   const handleSearch = () => {
