@@ -12,19 +12,8 @@ import { PropertyProps } from "@/types/propertyType";
 export default function PropertyClientWrapper() {
   const { propertyList, fetchProperties } = useProperty();
   const { id } = useParams(); // Get the property ID from the URL
-  // console.log('this is property at PropertyClientWrapper', property)  
   const property = propertyList.find((p) => p.propertyId === id);
-
-  // const images = property.images?.map((image) => ({ id: image.id, url: image.url })) || [];
-
-  // console.log('images', images);
-  // const features = property.features?.map((feature, index) => ({name: feature, _id: feature + index.toString()}) ) 
-
-    // // Transform features
-    // const features = property.features?.map((feature) => ({
-    //   name: feature.name, 
-    //   // _id: feature._id,
-    // })) ?? [];
+  console.log('this is property at PropertyClientWrapper', property)  
 
     if (!property) {
       return <p>Loading property...</p>; // Handle loading state

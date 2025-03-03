@@ -12,19 +12,15 @@ import { siteUrl } from '@/config';
 
 export default function Home() {
   const { propertyList, fetchProperties, setPropertyList } = useProperty();
-  // useEffect(() => {
-  //   fetchProperties();
-  //   console.log('fetching properties')
-  // }, []); 
   
   useEffect(() => {
     const fetchData = async () => {
       try {
         console.log('Fetching properties')
-        const response = await axios.get(`${siteUrl}/properties`);
+        const response = await axios.get(`${siteUrl}/api/propriedades`);
         if(response.status === 200) {
           setPropertyList(response.data);
-          return response.data;
+          console.log(response.data)
         }
       } catch (error) {
         console.log(error)
