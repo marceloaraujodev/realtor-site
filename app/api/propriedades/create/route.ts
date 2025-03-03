@@ -12,11 +12,11 @@ const s3Client = new S3Client({
   region: process.env.AWS_REGION!,
   credentials: {
     accessKeyId: process.env.AWS_ACCESSKEYID!, // Replace with your AWS Access Key ID
-    secretAccessKey: process.env.AWS_SECRET_KEY!, // Replace with your AWS Secret Access Key
+    secretAccessKey: process.env.AWS_SECRETKEY!, // Replace with your AWS Secret Access Key
   }
 });
 
-console.log('credentials:---',process.env.AWS_REGION, process.env.AWS_ACCESSKEYID, process.env.AWS_SECRET_KEY, process.env.AWS_BUCKET_NAME, process.env.TEST )
+console.log('credentials:---',process.env.AWS_REGION, process.env.AWS_ACCESSKEYID, process.env.AWS_SECRETKEY, process.env.AWS_BUCKET_NAME, process.env.TEST )
 
 export async function POST(req: NextRequest) {  
 
