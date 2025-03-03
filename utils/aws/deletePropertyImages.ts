@@ -1,7 +1,9 @@
 import { S3Client, ListObjectsV2Command, DeleteObjectsCommand } from "@aws-sdk/client-s3";
 import dotenv from 'dotenv'
 
-dotenv.config()
+dotenv.config();
+
+console.log('credentials on delete:---',process.env.AWS_REGION, process.env.AWS_ACCESS_KEY_ID, process.env.AWS_SECRET_KEY, process.env.AWS_BUCKET_NAME )
 
 const s3Client = new S3Client({
   region: process.env.AWS_REGION!,
@@ -10,6 +12,8 @@ const s3Client = new S3Client({
     secretAccessKey: process.env.AWS_SECRET_KEY!, // Replace with your AWS Secret Access Key
   }
 });
+
+console.log()
 
 export async function deletePropertyImages(propertyId: string){
   const buckeName = process.env.AWS_BUCKET_NAME;
