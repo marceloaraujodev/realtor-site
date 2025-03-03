@@ -12,10 +12,10 @@ import { useProperty } from './context/PropertyContext';
 
 export default function Home() {
   const { propertyList, fetchProperties } = useProperty();
-  // useEffect(() => {
-  //   fetchProperties();
-  //   // console.log('fetching properties')
-  // }, []); 
+  useEffect(() => {
+    fetchProperties();
+    // console.log('fetching properties')
+  }, []); 
   // Empty dependency array will ensure it runs once when the component mounts
   return (
     <div className="pt-16">

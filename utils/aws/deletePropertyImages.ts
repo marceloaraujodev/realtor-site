@@ -13,7 +13,6 @@ const s3Client = new S3Client({
   }
 });
 
-console.log()
 
 export async function deletePropertyImages(propertyId: string){
   const buckeName = process.env.AWS_BUCKET_NAME;
