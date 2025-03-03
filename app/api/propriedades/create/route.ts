@@ -140,7 +140,13 @@ export async function POST(req: NextRequest) {
       message: "Success",
       newProperty,
       s3Key: images,
-    });
+    },{
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    } );
   } catch (error) {
     console.error("Error creating property:", error);
     await Promise.all(imagesObjectsArr.map(async (image) => {
@@ -148,7 +154,14 @@ export async function POST(req: NextRequest) {
         await deletePropertyImages(propertyId); // Ensure images are deleted
       }
     }));
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: "Internal server error" }, {
+      status: 500,
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+        Pragma: "no-cache",
+        Expires: "0",
+      },
+    });
   }
 }
 
