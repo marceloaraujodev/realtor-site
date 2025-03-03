@@ -4,7 +4,7 @@ import { mongooseConnect } from "@/lib/mongooseConnect";
 import Property from "@/models/property";
 import { S3Client, PutObjectCommand, ListBucketsCommand, ListObjectsV2Command } from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from 'uuid';
-// import { compressImage } from "@/utils/compressImages";
+import { compressImage } from "@/utils/compressImages";
 import { deletePropertyImages } from "@/utils/aws/deletePropertyImages";
 
 
@@ -80,13 +80,13 @@ export async function POST(req: NextRequest) {
       if (!image.file) return null;
       const arrayBuffer = await image.file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
-      // const optimizedImage = await compressImage(buffer); // skip compression
+      const optimizedImage = await compressImage(buffer); // skip compression
       const s3Key = `propriedades/${propertyId}/${image.id}`; // generate 
 
       const uploadParams = {
         Bucket: bucketName,
         Key: s3Key,
-        Body: buffer, // skip compression for now
+        Body: optimizedImage, // skip compression for now use buffer
         ContentType: image.file.type,
       };
 

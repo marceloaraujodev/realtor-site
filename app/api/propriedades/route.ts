@@ -4,6 +4,7 @@ import { mongooseConnect } from "@/lib/mongooseConnect";
 
 export async function GET(req: NextRequest) {
   try {
+    console.log('all properties being fetched');
     await mongooseConnect();
     const properties = await Property.find();
     // console.log(properties);

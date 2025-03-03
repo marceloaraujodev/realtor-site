@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
 import { PropertyBasicInfo } from './form/PropertyBasicInfo';
 import { PropertyDetails } from './form/PropertyDetails';
