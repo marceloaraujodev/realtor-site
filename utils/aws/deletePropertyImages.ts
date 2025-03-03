@@ -8,7 +8,7 @@ console.log('credentials on delete:---',process.env.AWS_REGION, process.env.AWS_
 const s3Client = new S3Client({
   region: process.env.AWS_REGION!,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID!, // Replace with your AWS Access Key ID
+    accessKeyId: process.env.AWS_ACCESSKEYID!, // Replace with your AWS Access Key ID
     secretAccessKey: process.env.AWS_SECRET_KEY!, // Replace with your AWS Secret Access Key
   }
 });
