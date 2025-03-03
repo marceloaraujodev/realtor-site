@@ -25,6 +25,7 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
       const res = await axios.get(`${siteUrl}/api/propriedades`, {
         headers: { 'Cache-Control': 'no-store' }, // Ensure no caching
       });
+      console.log('res.data from fetch properties context', res.data)
       setPropertyList(res.data);
     } catch (error) {
       console.error("Failed to fetch properties", error);

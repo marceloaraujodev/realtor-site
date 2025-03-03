@@ -214,7 +214,7 @@ export default function PropertyForm({
     <FormProvider {...methods}>
       {' '}
       {/* Wrap everything inside FormProvider */}
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" encType="multipart/form-data">
         <Tabs defaultValue="basic" className="w-full">
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="basic">Informações Básicas</TabsTrigger>
