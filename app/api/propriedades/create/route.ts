@@ -141,6 +141,7 @@ export async function POST(req: NextRequest) {
       newProperty,
       s3Key: images,
     },{
+      status: 200,
       headers: {
         "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
         Pragma: "no-cache",
