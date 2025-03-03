@@ -42,6 +42,7 @@ module.exports = {
     );
     return config;
   },
+  output: "standalone", // Enables standalone mode for deployment
 };
 
 
