@@ -3,12 +3,13 @@ import { mongooseConnect } from "@/lib/mongooseConnect";
 import Property from "@/models/property";
 import { deletePropertyImages } from "@/utils/aws/deletePropertyImages";
 
-export async function DELETE(req: NextRequest, { params }:{params: { id: string}}){
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }){
   try {
     console.log('delete request in')
     await mongooseConnect();
-    console.log(params)
-    const { id } = params;
+
+    const {id} = await context.params;
+
     console.log(id);
   
    // propertyId is used here

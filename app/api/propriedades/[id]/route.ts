@@ -3,10 +3,12 @@ import Property from "@/models/property";
 import { mongooseConnect } from "@/lib/mongooseConnect";
 
 // gets a property by propertyId to populate the editing property form
-export async function GET(req: NextRequest, { params }: { params: { id: string } }){
+export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   await mongooseConnect();
-  console.log('params on api', params);
-  const { id } = params;
+
+  // new in nextjs 15
+  const { id } = await context.params;
+  // const { id } = params;
   console.log('id', id);
   try {
     const property = await Property.findOne({propertyId: id})

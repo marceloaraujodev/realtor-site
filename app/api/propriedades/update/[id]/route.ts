@@ -15,7 +15,7 @@ const s3Client = new S3Client({
 
 
 // re visit this route and code to make sure is working
-export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
+export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }){
   await mongooseConnect();
   const bucketName: string = process.env.AWS_BUCKET_NAME!;
   const region: string = process.env.AWS_REGION!;
@@ -27,7 +27,7 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
 
   // Prepare to capture all the images from the form data
   const imagesObjectsArr: { id: string; file: File | null }[] = [];
-  const propertyId = params.id;
+  const {id: propertyId} = await context.params;
 
   try {
     // // extract values from formData
@@ -150,7 +150,7 @@ export async function PATCH(req: NextRequest, {params}: {params: {id: string}}){
 
     // update property 
     const updatedProperty = await Property.findOneAndUpdate( 
-      { propertyId: params.id }, 
+      { propertyId: propertyId }, 
       { ...propertyData }, 
       { new: true }
     );

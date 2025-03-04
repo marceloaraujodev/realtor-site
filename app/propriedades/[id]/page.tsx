@@ -1,21 +1,17 @@
 'use client'; // Ensure client-side execution
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, use } from 'react';
 import { useProperty } from '@/app/context/PropertyContext';
 import PropertyClientWrapper from './propertyClientWrapper';
 
 
-export default function PropertyPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default function PropertyPage({ params }: { params: Promise<{ id: string }> }) {
   const { propertyList, fetchProperties } = useProperty();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const {id: propertyId} = use(params)
 
-
-  const propertyId: string = params.id;
+  // const propertyId: string = params.id;
   const property = propertyList.find((p) => p.propertyId === propertyId);
   // console.log('property',property)
 
