@@ -15,12 +15,13 @@ export default function Home() {
   useEffect(() => {
       console.log('Fetched properties:');
       fetchProperties();
-      const FetchData = async () => {
+      const fetchData = async () => {
         const res = await axios.get('api/test')
         if (res.status === 200) {
           console.log('this should be the math.random value', res.data.test)
         }
       }
+      fetchData()
   }, []); // This will log propertyList every time it updates
 
 
