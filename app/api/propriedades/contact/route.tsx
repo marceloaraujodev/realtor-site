@@ -17,3 +17,4 @@ export async function POST(req: NextRequest){
     message: "Data received successfully"
   })
 }
+export const dynamic = 'force-dynamic'; // Prevent static rendering

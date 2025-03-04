@@ -15,3 +15,4 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ success: false, message: 'Server error', err: err.message }, { status: 500 });
   }
 }
+export const dynamic = 'force-dynamic'; // Prevent static rendering

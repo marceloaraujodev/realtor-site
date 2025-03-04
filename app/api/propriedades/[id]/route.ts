@@ -23,3 +23,4 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     throw new Error('Could not find property')
   }
 }
+export const dynamic = 'force-dynamic'; // Prevent static rendering

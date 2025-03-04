@@ -142,11 +142,6 @@ export async function POST(req: NextRequest) {
       s3Key: images,
     },{
       status: 200,
-      headers: {
-        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
-        Pragma: "no-cache",
-        Expires: "0",
-      },
     } );
   } catch (error) {
     console.error("Error creating property:", error);
@@ -157,14 +152,10 @@ export async function POST(req: NextRequest) {
     }));
     return NextResponse.json({ error: "Internal server error" }, {
       status: 500,
-      headers: {
-        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
-        Pragma: "no-cache",
-        Expires: "0",
-      },
     });
   }
 }
 
 
 
+export const dynamic = 'force-dynamic'; // Prevent static rendering
