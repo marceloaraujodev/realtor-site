@@ -24,11 +24,18 @@ export async function POST(req: NextRequest) {
 
   const formData = await req.formData(); // react hook form default is json no formData
 
-  // console.log("Raw FormData entries:", Array.from(formData.entries()));
+  console.log("Raw FormData entries:", Array.from(formData.entries()));
   const formEntries = Object.fromEntries(formData.entries());
   // Prepare to capture all the images from the form data
   const imagesObjectsArr: { id: string; file: File | null }[] = [];
   const propertyId = uuidv4();
+
+
+
+  // return NextResponse.json({
+  //   message: "Success",
+
+  // })
 
   try {
     // // extract values from formData
@@ -99,6 +106,7 @@ export async function POST(req: NextRequest) {
       return {
         id: image.id,
         url: s3Key,
+        cover: image.id === cover ? s3Key : undefined,  // Mark cover image
       };
     }))
         

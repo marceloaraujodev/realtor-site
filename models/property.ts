@@ -45,7 +45,7 @@ const PropertySchema: Schema<IPropertyModel> = new Schema<IPropertyModel>(
       enum: ["Casa", "Apartamento", "Galpão", "Sala", "Loft", "Terreno"],
       required: true,
     },
-    images: [{ id: String, url: String }],
+    images: [{ id: String, url: String, cover: String }],
     cover: { type: String }, // Store the `id` of the cover image
     description: {
       type: String,

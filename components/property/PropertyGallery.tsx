@@ -5,22 +5,32 @@ import Image from 'next/image';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '../ui/dialog';
 import { cn } from '@/lib/utils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { PropertyGalleryProps } from '@/types/propertyType';
+import { PropertyProps } from '@/types/propertyType';
 
 
-export default function PropertyGallery({ images }: PropertyGalleryProps) {
+export default function PropertyGallery({ property }: PropertyProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-  console.log('S3 URL:', process.env.NEXT_PUBLIC_S3_BUCKET_URL);
+  // console.log('S3 URL:', process.env.NEXT_PUBLIC_S3_BUCKET_URL);
+  // console.log('this is images', images)
+  // const images = properties.images
+  console.log(',,,,', property)
+  console.log('test')
+  // const images = property.images;
+  // console.log('images', images)
 
-  const imageUrls:string[] = images?.map(imageKey => `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${imageKey.url}`) || [];
+  const imageUrls:string[] = property.images?.map(imageKey => `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${imageKey?.url}`) || [];
+  const cover = property.images?.filter(i => i.cover !== undefined)
 
   console.log('images urls', imageUrls)
+  console.log('cover', cover)
+
 
   const mainImages = imageUrls.slice(0, 5);
   const thumbnailImages = imageUrls.slice(5);
 
   const combinedImages = [...mainImages, ...thumbnailImages];
 
+  // url path : `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${imageKey?.url}`)
 
   const showNext = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -40,8 +50,11 @@ export default function PropertyGallery({ images }: PropertyGalleryProps) {
     <>
       {/* Main Images Grid */}
       <div className="grid grid-cols-4 gap-4 mb-4">
-        {mainImages.map((image, index) => (
-          <div
+        
+        {mainImages.map((image, index) => {
+        const isCoverImage = index === 0;
+        return(  
+        <div
             key={image + index}
             className={cn(
               "relative cursor-pointer overflow-hidden rounded-lg",
@@ -60,8 +73,9 @@ export default function PropertyGallery({ images }: PropertyGalleryProps) {
               className="object-cover hover:scale-110 transition-transform duration-300"
             />
           </div>
-        ))}
-      </div>
+          )
+          })}
+        </div>
 
       {/* Scrollable Thumbnails */}
       {thumbnailImages.length > 0 && (
@@ -73,12 +87,12 @@ export default function PropertyGallery({ images }: PropertyGalleryProps) {
                 className="relative w-24 aspect-square flex-none cursor-pointer overflow-hidden rounded-lg"
                 onClick={() => setSelectedImageIndex(index + 5)}
               >
-                {/* <Image
+                <Image
                   src={image}
                   alt={`Imagem ${index + 6}`}
                   fill
                   className="object-cover hover:scale-110 transition-transform duration-300"
-                /> */}
+                />
               </div>
             ))}
           </div>
@@ -87,7 +101,7 @@ export default function PropertyGallery({ images }: PropertyGalleryProps) {
 
       {/* Image Dialog */}
       <Dialog open={selectedImageIndex !== null} onOpenChange={() => setSelectedImageIndex(null)}>
-        <DialogTitle>Imagem ampliada</DialogTitle>
+        <DialogTitle></DialogTitle>
         <DialogContent className="max-w-4xl">
           <div className="relative aspect-[16/9]">
           {selectedImageIndex !== null && (

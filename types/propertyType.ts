@@ -11,7 +11,7 @@ export interface IpropertyType {
   totalArea?: number;
   privateArea?: number;
   features?: { name: string }[];
-  images?: { id: string; url: string }[];
+  images?: { id: string; url: string, cover?: string }[];
   description?: string;
   cover?: string;
   condominio?: number;

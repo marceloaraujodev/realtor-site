@@ -28,7 +28,7 @@ export default function RootLayout({
       <body className={`${inter.className} min-h-full flex flex-col`}>
         <SessionProviderWrapper>
           <Header />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 flex flex-col">{children}</main>
           <Footer />
           <Toaster />
         </SessionProviderWrapper>

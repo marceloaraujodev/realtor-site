@@ -22,21 +22,6 @@ export function PropertyImages({ register, control }: PropertyImagesProps) {
   });
   console.log('this is fields', fields);
 
-  // was working just keeping for reference until i finish testing
-  // useEffect(() => {
-  //   // Create preview objects for each field
-  //   const newPreviews = fields.map((field) => {
-  //     if (!field.file) return null; // Skip fields without a file
-
-  //     // Generate a preview URL for the file
-  //     const previewUrl = URL.createObjectURL(field.file);
-  //     return { id: field.imgId, url: previewUrl }; // here is the issue rhf ids!!!
-  //   }).filter(Boolean); // Remove any null values
-
-  //   // Update the previews state
-  //   setPreviews(newPreviews as { id: string; url: string }[]);
-  // }, [fields]); // Trigger this effect whenever `fields` changes
-
 
   useEffect(() => {
     const newPreviews = fields.map((field) => {

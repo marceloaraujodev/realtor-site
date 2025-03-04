@@ -1,10 +1,10 @@
-import PropertyContact from "@/components/property/PropertyContact";
-import { PropertyProps } from "@/types/propertyType";
+'use client'
+import Contato from "@/components/Contato/Contato";
 
-export default function Contato({property}: PropertyProps){
+export default function ContatoPage(){
   return (
     <>
-    <PropertyContact property={property}/>
+    <Contato />
     </>
   )
  

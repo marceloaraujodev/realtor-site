@@ -6,7 +6,6 @@ import PropertyGallery from '@/components/property/PropertyGallery';
 import PropertyDetails from '@/components/property/PropertyDetails';
 import PropertyContact from '@/components/property/PropertyContact';
 import { useProperty } from '@/app/context/PropertyContext';
-import { PropertyProps } from "@/types/propertyType";
 
 
 export default function PropertyClientWrapper() {
@@ -28,7 +27,7 @@ export default function PropertyClientWrapper() {
     <div className="pt-24 pb-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <PropertyHeader property={property} />
-        <PropertyGallery images={images} />
+        <PropertyGallery property={property} />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
           <div className="lg:col-span-2">
             <PropertyDetails property={property} features={features}/>

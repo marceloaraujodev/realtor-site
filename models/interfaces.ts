@@ -11,8 +11,8 @@ export interface IPropertyModel {
   totalArea?: number;
   privateArea?: number;
   propertyType: "Casa" | "Apartamento" | "Galpão" | "Sala" | "Loft" | "Terreno";
-  features?: string[];
-  images?: { id: string; url: string }[]; // frontend only  backend is a rray of strings
+  features?: {name: string, _id?: string}[];
+  images?: { id: string; url: string, cover?: string }[]; // frontend only  backend is a rray of strings
   cover?: string;
   description?: string;
   createdAt?: Date;

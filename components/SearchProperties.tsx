@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
-import { PropertiesProps } from '@/types/propertyType';
+
 
 // properties grid search is the one which actually searches for properties
 // properties grid only displays all the properties
@@ -40,7 +40,7 @@ export default function SearchProperties() {
   };
 
   const clearSearch = () => {
-    router.replace('/propriedades'); // Clears all query parameters
+    router.push('/propriedades'); // Clears all query parameters
     setFilters({ propertyType: '', bedrooms: '', priceRange: '', location: '' });
   }
 

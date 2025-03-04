@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import Link from 'next/link';
@@ -11,8 +11,11 @@ import { IpropertyType, PropertiesProps } from '@/types/propertyType';
 // properties grid only displays all the properties
 
 export default function PropertyGrid({properties}: PropertiesProps) {
+  
   const { propertyList, fetchProperties } = useProperty();
 
+  const showProperties = propertyList.length > 6 ? propertyList.slice(0, 6) : propertyList
+console.log(showProperties)
   useEffect(() => {
       fetchProperties();
   }, []); // This will log propertyList every time it updates
@@ -25,11 +28,12 @@ export default function PropertyGrid({properties}: PropertiesProps) {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
       
-          {propertyList.map((property: IpropertyType, index: number) => {
+          {showProperties.map((property: IpropertyType, index: number) => {
             const urlpath = `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/`;
-            const imageUrl = property.images?.map(i => i.url)[0]
-              ? `${urlpath}${property.images.map(i => i.url)[0]}`
-              : undefined;
+            // const imageUrl = property.images?.map(i => i.url)[0]
+            //   ? `${urlpath}${property.images.map(i => i.url)[0]}`
+            //   : undefined;
+              const imageUrl = `${urlpath}propriedades/${property.propertyId}/${property.cover}`
 
             return (
               <Card key={property.propertyId + index} className="overflow-hidden">
@@ -113,6 +117,13 @@ export default function PropertyGrid({properties}: PropertiesProps) {
             );
           })}
         </div>
+      {propertyList.length > 6 ? (
+              <div className='text-center mt-10'>
+        <Link href='/propriedades'>Propriedades</Link>
+      </div>
+      ) : null}
+
+
       </div>
     </section>
   );
