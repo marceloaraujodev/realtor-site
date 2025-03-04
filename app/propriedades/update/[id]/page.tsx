@@ -4,7 +4,6 @@ import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import PropertyForm from '@/components/property/PropertyForm';
 import { useSession } from 'next-auth/react';
-import { siteUrl } from '@/config';
 import { useProperty } from '@/app/context/PropertyContext';
 import { useRouter } from 'next/navigation';
 import { IpropertyType } from '@/types/propertyType';
@@ -42,8 +41,7 @@ export default function EditPropertyPage({
     redirect('/'); // Redirect to home page if user is not logged in
   }
 
-  // const property = await getProperty(params.id);
-  // console.log(property);
+
 
   if (!property) {
     return <p>Propriedade não encontrada.</p>;

@@ -13,6 +13,11 @@ import { IpropertyType, PropertiesProps } from '@/types/propertyType';
 export default function PropertyGrid({properties}: PropertiesProps) {
   const { propertyList, fetchProperties } = useProperty();
 
+  useEffect(() => {
+      console.log('Fetching properties property grid');
+      fetchProperties();
+  }, []); // This will log propertyList every time it updates
+
   return (
     <section className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

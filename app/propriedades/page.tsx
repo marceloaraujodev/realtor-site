@@ -25,7 +25,7 @@ export default function PropertiesPage() {
         <SearchProperties />
         <div className="mt-8">
           <PropertyGrid properties={propertyList} />
-          <PropertyGridSearch properties={propertyList} />
+          {/* <PropertyGridSearch properties={propertyList} /> */}
         </div>
       </div>
     </div>

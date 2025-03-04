@@ -7,6 +7,7 @@ import Testimonials from '@/components/Testimonials';
 import Newsletter from '@/components/Newsletter';
 import SearchProperties from '@/components/SearchProperties';
 import { useProperty } from './context/PropertyContext';
+import axios from 'axios';
 
 export default function Home() {
   const { propertyList, fetchProperties, setPropertyList } = useProperty();
@@ -14,6 +15,12 @@ export default function Home() {
   useEffect(() => {
       console.log('Fetched properties:');
       fetchProperties();
+      const FetchData = async () => {
+        const res = await axios.get('api/test')
+        if (res.status === 200) {
+          console.log('this should be the math.random value', res.data.test)
+        }
+      }
   }, []); // This will log propertyList every time it updates
 
 

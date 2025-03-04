@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import { useProperty } from '@/app/context/PropertyContext';
 import PropertyClientWrapper from './propertyClientWrapper';
-import { IpropertyType } from '@/types/propertyType';
 
 
 export default function PropertyPage({
