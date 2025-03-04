@@ -8,8 +8,7 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
 
   // new in nextjs 15
   const { id } = await context.params;
-  // const { id } = params;
-  console.log('id', id);
+
   try {
     const property = await Property.findOne({propertyId: id})
   

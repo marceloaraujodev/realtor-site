@@ -142,12 +142,6 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
       return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
     }
 
-
-
-    console.log('propertyData:', propertyData)
-
-    console.log('CONDOMINIO', propertyData.condominio)
-
     // update property 
     const updatedProperty = await Property.findOneAndUpdate( 
       { propertyId: propertyId }, 

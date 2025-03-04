@@ -14,7 +14,6 @@ export default function PropertyGrid({properties}: PropertiesProps) {
   const { propertyList, fetchProperties } = useProperty();
 
   useEffect(() => {
-      console.log('Fetching properties property grid');
       fetchProperties();
   }, []); // This will log propertyList every time it updates
 

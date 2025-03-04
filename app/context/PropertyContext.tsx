@@ -21,11 +21,8 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
   // Fetch properties from the API
   const fetchProperties = async () => {
     try {
-      console.log('fetching properties after first fetch')
-      const res = await axios.get(`${siteUrl}/api/propriedades`, {
-        headers: { 'Cache-Control': 'no-store' }, // Ensure no caching
-      });
-      console.log('res.data from fetch properties context', res.data)
+      const res = await axios.get(`${siteUrl}/api/propriedades`);
+
       setPropertyList(res.data);
     } catch (error) {
       console.error("Failed to fetch properties", error);
@@ -39,7 +36,6 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
   
   // Load properties when the app starts
   useEffect(() => {
-    console.log('fetching properties on first load')
     fetchProperties();
   }, []);
 

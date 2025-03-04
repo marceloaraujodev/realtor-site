@@ -12,7 +12,6 @@ export default function PropertyGridSearch({ properties}: PropertiesProps) {
   const { propertyList, fetchProperties } = useProperty();
 
   useEffect(() => {
-      console.log('Fetching properties property grid search...');
       fetchProperties();
   }, []); // This will log propertyList every time it updates
 

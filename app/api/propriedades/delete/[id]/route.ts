@@ -5,12 +5,10 @@ import { deletePropertyImages } from "@/utils/aws/deletePropertyImages";
 
 export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }){
   try {
-    console.log('delete request in')
+
     await mongooseConnect();
 
     const {id} = await context.params;
-
-    console.log(id);
   
    // propertyId is used here
    if (!id) {
