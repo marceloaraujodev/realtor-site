@@ -34,7 +34,7 @@ export default function PropertyGrid({properties}: PropertiesProps) {
           
             const cover = property.images?.filter(c => c.cover)[0];
             const imageUrl = `${urlpath}${cover?.url}`;
-            console.log('each property', property)
+
             return (
               <Card key={property.propertyId + index} className="overflow-hidden">
                 <Link href={`/propriedades/${property.propertyId}`} className="block">
