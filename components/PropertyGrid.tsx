@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { formatCurrency } from '@/lib/utils';
 import { useProperty } from '@/app/context/PropertyContext';
 import { IpropertyType, PropertiesProps } from '@/types/propertyType';
+import handleWhatsClick from '@/utils/whatsAppClick';
 
 // properties grid search is the one which actually searches for properties
 // properties grid only displays all the properties
@@ -106,12 +107,12 @@ export default function PropertyGrid({properties}: PropertiesProps) {
                     </p>
                     <p className='text-sm'>Condominío</p>
                     <p className='text-xs font-bold mt-1 mb-4 min-h-[20px]'>R${property.condominio}</p>
-                    <div className='w-full'>
-                      <Button className="w-1/2 mr-6">Ver Detalhes</Button>
-                      <Button className="px-5">WhatsApp</Button>
-                    </div>
                   </div>
                 </Link>
+                    <div className='w-full flex justify-center mb-5'>
+                      <Button className="w-1/2 mr-6">Ver Detalhes</Button>
+                      <Button className="px-5" onClick={handleWhatsClick}>WhatsApp</Button>
+                    </div>
               </Card>
             );
           })}

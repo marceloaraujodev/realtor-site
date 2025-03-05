@@ -63,7 +63,7 @@ export default function PropertyGridSearch({ properties}: PropertiesProps) {
               const imageUrl = `${urlpath}${cover?.url}`;
              return (
              <Card key={property.propertyId} className="overflow-hidden">
-                <Link href={`/propriedades/${property.propertyId}`} className="block">
+                {/* <Link href={`/propriedades/${property.propertyId}`} className="block"> */}
                   <div className="aspect-video relative">
                     <img src={imageUrl} alt={property.title} className="object-cover w-full h-full" />
                   </div>
@@ -124,12 +124,12 @@ export default function PropertyGridSearch({ properties}: PropertiesProps) {
                     <p className="text-primary font-bold mb-4">{formatCurrency(property.price)}</p>
                     <p className='text-sm'>Condominío</p>
                     <p className='text-xs font-bold mt-1 mb-4 min-h-[20px]'>R${property.condominio}</p>
-                    <div className='w-full'>
+                  </div>
+                {/* </Link> */}
+                <div className='w-full flex justify-center mb-5'>
                       <Button className="w-1/2 mr-6">Ver Detalhes</Button>
                       <Button className="px-5">WhatsApp</Button>
                     </div>
-                  </div>
-                </Link>
               </Card>
               )
             })
