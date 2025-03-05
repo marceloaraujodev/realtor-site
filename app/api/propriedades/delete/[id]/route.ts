@@ -17,8 +17,7 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
   
     // // delete database property record
     const deletedProperty = await Property.deleteOne({propertyId: id});
-    // const property = await Property.findOne({ propertyId: id }); test
-    // console.log(property)
+
 
     // Check if the property was actually deleted before proceeding
     if (deletedProperty.deletedCount === 0) {

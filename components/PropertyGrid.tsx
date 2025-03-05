@@ -14,9 +14,9 @@ import handleWhatsClick from '@/utils/whatsAppClick';
 export default function PropertyGrid({properties}: PropertiesProps) {
   
   const { propertyList, fetchProperties } = useProperty();
-  console.log('porpertyList', propertyList)
+  // console.log('porpertyList', propertyList)
   const showProperties = propertyList.length > 6 ? propertyList.slice(0, 6) : propertyList
-  console.log('show', showProperties)
+
   useEffect(() => {
       fetchProperties();
   }, []); // This will log propertyList every time it updates

@@ -28,8 +28,6 @@ export default function LoginForm() {
       console.log('login error', res.error)
       return;
     }
-
-    console.log('Logged in successfully this should be session available:', res)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,7 +36,6 @@ export default function LoginForm() {
     setError('');
 
     const { email, password } = formData;
-    console.log(email, password);
 
     try {
       // Here you would integrate with your backend
@@ -54,8 +51,7 @@ export default function LoginForm() {
         console.log('login error', res.error)
         return;
       }
-      
-      console.log(res)
+
       // Temporary simulation
       await new Promise(resolve => setTimeout(resolve, 1000));
       router.push('/');

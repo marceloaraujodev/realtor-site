@@ -34,7 +34,6 @@ export default async function sendMail(config: IemailMessage) {
 
   try {
     let info = await transporter.sendMail(mailOptions);
-    // console.log('Email sent: ' + info.response);
     return info
   } catch (error) {
     console.error('Error sending email: ', error);

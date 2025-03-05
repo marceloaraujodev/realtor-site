@@ -12,7 +12,6 @@ export default function Newsletter() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-      console.log('submit')
     try {
       await axios.post(`/api/newsletter/register`, {
         email

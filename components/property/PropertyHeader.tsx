@@ -33,7 +33,6 @@ export default function PropertyHeader({ property }: PropertyProps) {
 
   const handleDelete = async () => {
     // grab id and send request to delete property to the backend
-    console.log(`${siteUrl}/api/propriedades/delete/${property.propertyId}`)
     const res = await axios.delete(`${siteUrl}/api/propriedades/delete/${property.propertyId}`)
 
     if (res.status === 200) {
@@ -42,10 +41,8 @@ export default function PropertyHeader({ property }: PropertyProps) {
         title: 'Propriedade removida!',
         description: 'Propriedade removida com sucesso.',
       });
-      console.log('pushing to page /propriedades')
       router.push('/propriedades');
     }else{
-      console.log('deletion failed')
       toast({
         title: 'Falha ao excluir!',
         description: 'Ocorreu um erro ao tentar excluir a propriedade.',

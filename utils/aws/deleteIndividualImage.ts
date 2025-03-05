@@ -33,7 +33,6 @@ export async function deleteImageByUrl(url: string) {
 
     await s3Client.send(deleteCommand);
 
-    console.log(`Successfully deleted the object with key: ${key}`);
   } catch (error) {
     console.log(`Error deleting object with URL ${url}: ${error}`);
     throw new Error(`Error deleting object with URL ${url}`);

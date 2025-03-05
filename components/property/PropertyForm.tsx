@@ -120,11 +120,9 @@ export default function PropertyForm({
 
     const formData = new FormData();
 
-    // append non-file data
-    // console.log('this is data-=-=-', data);
     // Append non-file fields
     Object.entries(data).forEach(([key, value]) => {
-      console.log('----', key, value);
+      // console.log('----', key, value);
       if (key !== 'images') {
         formData.append(key, value);
       }
@@ -137,7 +135,6 @@ export default function PropertyForm({
 
     // Append images with their IDs
     data.images?.forEach((image, index) => {
-      console.log('image', image)
       // Always include the image id
       formData.append(`images[${index}][id]`, image.imgId);
       formData.append(`images[${index}][url]`, image.url || '');
@@ -172,7 +169,7 @@ export default function PropertyForm({
         }
       });
     }
-    // console.log('this is data image after appending ids', data.images);
+
 
     try {
       const endpoint = isEditingForm
@@ -180,8 +177,6 @@ export default function PropertyForm({
         : `/api/propriedades/create`;
       const method = isEditingForm ? 'PATCH' : 'POST';
 
-      console.log('this is the endpoint', siteUrl + endpoint)
-      console.log('this is metod',method)
       // make this request url dynamic so I can send create or edit requests
       const res = await axios({
         method,
@@ -195,7 +190,6 @@ export default function PropertyForm({
       if (res.status === 200) {
         addProperty(res.data)
         fetchProperties()
-        // console.log('property added in if 200 block');
         toast({
           title: 'Propriedade salva!',
           description: 'Propriedade salva com sucesso!',
@@ -203,7 +197,6 @@ export default function PropertyForm({
 
         router.push('/propriedades');
       }
-      console.log('this is data that will be sent to backend', data);
     } catch (error) {
       toast({
         title: 'Tente novament!',

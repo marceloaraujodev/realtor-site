@@ -22,10 +22,9 @@ export function PropertyImages({ register, control }: PropertyImagesProps) {
     control,
     name: "images", // Name of the field array
   });
-  console.log('this is fields', fields);
 
   const cover = watch("cover");
-  console.log('this is cover', cover);
+
 
   useEffect(() => {
     const newPreviews = fields.map((field) => {

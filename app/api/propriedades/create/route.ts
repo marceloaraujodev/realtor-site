@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
   const formData = await req.formData(); // react hook form default is json no formData
 
-  console.log("Raw FormData entries:", Array.from(formData.entries()));
+  // console.log("Raw FormData entries:", Array.from(formData.entries()));
   const formEntries = Object.fromEntries(formData.entries());
   // Prepare to capture all the images from the form data
   const imagesObjectsArr: { id: string; file: File | null }[] = [];
@@ -80,7 +80,7 @@ export async function POST(req: NextRequest) {
       if (type === "image" && value instanceof File) imagesObjectsArr[index].file = value;
     }
 
-    console.log("Extracted images:", imagesObjectsArr); // correct 
+    // console.log("Extracted images:", imagesObjectsArr); // correct 
     
     // uploads all images and returns a array of objects ready for the database upload
     const images = await Promise.all(imagesObjectsArr.map( async (image) => {
@@ -100,7 +100,7 @@ export async function POST(req: NextRequest) {
 
       // // upload file to s3 bucket
       await s3Client.send(new PutObjectCommand(uploadParams));
-      console.log('image uploaded successfully', s3Key);
+      // console.log('image uploaded successfully', s3Key);
 
       // format for the database 
       return {
@@ -119,7 +119,7 @@ export async function POST(req: NextRequest) {
         firstValidImage.cover = firstValidImage.url;
       }
 
-      console.log("Images after cover logic:", images); // Check the updated images array
+      // console.log("Images after cover logic:", images); // Check the updated images array
     }
     
         
@@ -153,7 +153,7 @@ export async function POST(req: NextRequest) {
       ...propertyData,
     });
 
-    console.log("-- newProperty", newProperty)
+    // console.log("-- newProperty", newProperty)
 
     return NextResponse.json({
       message: "Success",

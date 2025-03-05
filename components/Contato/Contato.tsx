@@ -20,11 +20,10 @@ const { toast } = useToast();
 const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   setIsLoading(true);
-  console.log('submitted form', formData)
   const res = await axios.post('/api/contato', {
     ...formData,
   })
-  console.log('res from api', res)
+
 
   if (res.status === 200) {
     toast({

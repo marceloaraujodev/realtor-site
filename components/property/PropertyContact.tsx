@@ -35,7 +35,7 @@ export default function PropertyContact({ property }: PropertyProps) {
       ...formData,
       propertyId: property.propertyId,
     })
-    console.log(res)
+
 
     if (res.status === 200) {
       toast({

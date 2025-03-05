@@ -5,8 +5,6 @@ import sendMail from "@/utils/sendEmail";
 export async function POST(req: NextRequest){
   const {name, email, phone, message, propertyId} = (await req.json()) as PropertyContactForm
 
-  console.log(name, email, phone, message, propertyId)
-
   if(!email || !phone){
     return NextResponse.json({
       success: false,

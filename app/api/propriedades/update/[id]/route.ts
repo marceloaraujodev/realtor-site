@@ -24,10 +24,10 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
 
   const formData = await req.formData(); // react hook form default is json no formData
 
-  console.log("Raw FormData entries:", Array.from(formData.entries()));
+  // console.log("Raw FormData entries:", Array.from(formData.entries()));
 
   const formEntries = Object.fromEntries(formData.entries());
-  console.log("FormData entries:", formEntries)
+  // console.log("FormData entries:", formEntries)
   
   // Prepare to capture all the images from the form data
   const imagesObjectsArr: { id: string; file: File | null, url?: string }[] = [];
@@ -84,7 +84,7 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
     }
     
     // all images will be here and have at least the id, url and file are optional here
-    console.log("Extracted images:", imagesObjectsArr);
+    // console.log("Extracted images:", imagesObjectsArr);
     
     // uploads all images and returns a array of objects ready for the database upload
     const imagesToUpload = await Promise.all(imagesObjectsArr.map( async (image) => {
@@ -104,7 +104,7 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
       // upload file to s3 bucket
       try {
         await s3Client.send(new PutObjectCommand(uploadParams));
-        console.log('image uploaded successfully', s3Key);
+        // console.log('image uploaded successfully', s3Key);
       } catch (error) {
         console.error("Error uploading image to S3:", error);
         throw new Error("Failed to upload image to S3");
@@ -120,23 +120,17 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
 
 
     const filteredImages = imagesToUpload.filter(Boolean); 
-    // console.log('filteredImages', filteredImages)
-        
+
     // add images to the property data and update property data as the data in the findone and updadte
     const currentProperty = await Property.findOne({propertyId: propertyId});
-    // console.log('currentProperty', currentProperty);
-    
+
     // set the current images to the database images
     let currentImages = currentProperty?.images ?? [];
-    // console.log('currentImages', currentImages);
 
     // set the images to be deleted from s3 and db
     const imagesToDelete = currentImages.filter( i => !imagesObjectsArr.some(img => img.id === i.id))
-    console.log('imagesToDelete', imagesToDelete)
 
     currentImages = currentImages.filter( i => imagesObjectsArr.some(img => img.id === i.id))
-
-    console.log('currentImages after setting to the images that are left', currentImages)
 
     // Delete removed images from S3
     if (imagesToDelete.length > 0) {

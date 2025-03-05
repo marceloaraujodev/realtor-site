@@ -14,7 +14,7 @@ export function PropertyFeatures({ register, control }: PropertyFeaturesProps) {
     control,
     name: 'features', 
   });
- console.log(fields)
+
   // Function to handle adding a feature
   const addFeature = () => {
     const inputElement = document.getElementById('newFeature') as HTMLInputElement;

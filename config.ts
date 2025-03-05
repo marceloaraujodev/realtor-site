@@ -15,6 +15,6 @@ if (!siteUrl) {
 }
 
 console.log('Running in environment:', NODE_ENV);
-console.log('Resolved siteUrl:', siteUrl);
+// console.log('Resolved siteUrl:', siteUrl);
 
 export { siteUrl };

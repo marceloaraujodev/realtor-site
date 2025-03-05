@@ -1,5 +1,4 @@
 export default function handleWhatsClick() {
-  console.log('click');
   const phone = 554799370126;
 
   const message = '';

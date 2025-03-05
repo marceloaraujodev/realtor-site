@@ -13,7 +13,6 @@ function PropertiesPageInner() {
 
   useEffect(() => {
     fetchProperties();
-    console.log('fetching properties');
   }, []);
 
   return (

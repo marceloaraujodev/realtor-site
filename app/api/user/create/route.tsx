@@ -24,11 +24,8 @@ export async function POST(req: NextRequest){
     if (!SECRET) {
       throw new Error("JWT_SECRET is not defined in the environment variables.");
     }
-  
 
     const data: CreateUserForm = await req.json();
-    console.log(data);
-    console.log(SECRET)
   
     if(!data.name ||!data.email ||!data.username ||!data.password){
       return NextResponse.json({

@@ -23,24 +23,20 @@ export default function PropertyGallery({ property }: PropertyProps) {
     cover: image.cover ? `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${image.cover}` : null,
   })) || [];
 
-  console.log('total images', images)
  // Find the image that has the cover field
   const coverImage = images.find((image) => image.cover !== null);
-  // console.log('coverImage', coverImage)
 
   // images without cover
   const imagesNoCover = images.filter(i => i.cover === null)
-  console.log('imagesNoCover', imagesNoCover)
 
   // main images
   // Ensure the image with the 'cover' field is always the first in the array
   const mainImages = [coverImage, ...imagesNoCover].slice(0,5)
-  console.log('mainImages', mainImages)
 
   // thumbnail starts after the 4th no cover image
   const thumbnailImages = imagesNoCover.slice(4);
   const combinedImages = [...mainImages, ...thumbnailImages];
-  console.log('combinedImages', combinedImages)
+
 
   // url path : `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${imageKey?.url}`)
 

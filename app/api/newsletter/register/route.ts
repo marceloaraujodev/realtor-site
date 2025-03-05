@@ -7,7 +7,6 @@ import * as EmailValidator from 'email-validator';
 export async function POST(req: NextRequest){
   await mongooseConnect();
   const {email} = await req.json();
- console.log(email);
   try {
 
     const isEmail = EmailValidator.validate(email);
