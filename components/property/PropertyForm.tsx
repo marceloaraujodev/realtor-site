@@ -101,7 +101,8 @@ export default function PropertyForm({
           existingProperty.images?.map((image) => ({
             imgId: image.id, // Convert 'id' to 'imgId'
             file: undefined, // No File object available for existing images
-            url: image.url
+            url: image.url,
+            cover: image.cover
           })) || [],
         features: existingProperty.features?.map((feature) => {
           return {
@@ -123,7 +124,7 @@ export default function PropertyForm({
     // console.log('this is data-=-=-', data);
     // Append non-file fields
     Object.entries(data).forEach(([key, value]) => {
-      // console.log('----', key, value);
+      console.log('----', key, value);
       if (key !== 'images') {
         formData.append(key, value);
       }
@@ -135,16 +136,19 @@ export default function PropertyForm({
     });
 
     // Append images with their IDs
-    // data.images?.forEach((image, index) => {
-    //   console.log('===', image, index);
-    //   if(image.file){
-    //     // const compressedImage = handleImageUpload(image.file) // here is where I want to compress the image
-    //     formData.append(`images[${index}][id]`, image.imgId); // Append ID
-    //     formData.append(`images[${index}][image]`, image.file); // Append File
-    //   }
-    // });
+    data.images?.forEach((image, index) => {
+      console.log('image', image)
+      // Always include the image id
+      formData.append(`images[${index}][id]`, image.imgId);
+      formData.append(`images[${index}][url]`, image.url || '');
+    
+      // If there is a new file, include it…
+      if (image.file) {
+        formData.append(`images[${index}][image]`, image.file);
+      } 
+    });
 
-    // With this:
+    // 
     if (data.images) {
       // Process images in parallel
       const compressedImages = await Promise.all(
@@ -168,7 +172,6 @@ export default function PropertyForm({
         }
       });
     }
-
     // console.log('this is data image after appending ids', data.images);
 
     try {

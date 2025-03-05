@@ -43,7 +43,7 @@ export default function EditPropertyPage({ params }: { params: Promise<{ id: str
   if (!property) {
     return <p>Propriedade não encontrada.</p>;
   }
-
+  // console.log('this is proptery', property)
   // console.log(session)
   return (
     <div className="pt-24 pb-12">

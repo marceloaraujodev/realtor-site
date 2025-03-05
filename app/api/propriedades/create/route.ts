@@ -109,6 +109,19 @@ export async function POST(req: NextRequest) {
         cover: image.id === cover ? s3Key : undefined,  // Mark cover image
       };
     }))
+
+    // Check if there's no cover image, then set the default cover to the first image
+    if (images.length > 0) {
+      let firstValidImage = images[0];
+
+      // Ensure the first valid image has a cover if no cover is found
+      if (firstValidImage && !firstValidImage.cover) {
+        firstValidImage.cover = firstValidImage.url;
+      }
+
+      console.log("Images after cover logic:", images); // Check the updated images array
+    }
+    
         
     // Creates the propertyData to submit to db
     const propertyData = {

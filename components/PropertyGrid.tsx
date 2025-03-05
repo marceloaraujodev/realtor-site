@@ -13,9 +13,9 @@ import { IpropertyType, PropertiesProps } from '@/types/propertyType';
 export default function PropertyGrid({properties}: PropertiesProps) {
   
   const { propertyList, fetchProperties } = useProperty();
-
+  console.log('porpertyList', propertyList)
   const showProperties = propertyList.length > 6 ? propertyList.slice(0, 6) : propertyList
-console.log(showProperties)
+  console.log('show', showProperties)
   useEffect(() => {
       fetchProperties();
   }, []); // This will log propertyList every time it updates
@@ -30,11 +30,10 @@ console.log(showProperties)
       
           {showProperties.map((property: IpropertyType, index: number) => {
             const urlpath = `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/`;
-            // const imageUrl = property.images?.map(i => i.url)[0]
-            //   ? `${urlpath}${property.images.map(i => i.url)[0]}`
-            //   : undefined;
-              const imageUrl = `${urlpath}propriedades/${property.propertyId}/${property.cover}`
-
+          
+            const cover = property.images?.filter(c => c.cover)[0];
+            const imageUrl = `${urlpath}${cover?.url}`;
+            console.log('each property', property)
             return (
               <Card key={property.propertyId + index} className="overflow-hidden">
                 <Link href={`/propriedades/${property.propertyId}`} className="block">

@@ -23,18 +23,24 @@ export default function PropertyGallery({ property }: PropertyProps) {
     cover: image.cover ? `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${image.cover}` : null,
   })) || [];
 
-  console.log(images)
+  console.log('total images', images)
  // Find the image that has the cover field
   const coverImage = images.find((image) => image.cover !== null);
-  console.log('coverImage', coverImage)
+  // console.log('coverImage', coverImage)
 
+  // images without cover
+  const imagesNoCover = images.filter(i => i.cover === null)
+  console.log('imagesNoCover', imagesNoCover)
+
+  // main images
   // Ensure the image with the 'cover' field is always the first in the array
-  const mainImages = images.slice(0, 5);
+  const mainImages = [coverImage, ...imagesNoCover].slice(0,5)
+  console.log('mainImages', mainImages)
 
-  console.log('main images', mainImages);
-
-  const thumbnailImages = images.slice(5);
+  // thumbnail starts after the 4th no cover image
+  const thumbnailImages = imagesNoCover.slice(4);
   const combinedImages = [...mainImages, ...thumbnailImages];
+  console.log('combinedImages', combinedImages)
 
   // url path : `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${imageKey?.url}`)
 
@@ -58,9 +64,11 @@ export default function PropertyGallery({ property }: PropertyProps) {
       <div className="grid grid-cols-4 gap-4 mb-4">
         
         {mainImages.map((image, index) => {
+          // console.log('image', image)
+          if(!image) return null;
         return(  
         <div
-            key={image.id}
+            key={image?.id}
             className={cn(
               "relative cursor-pointer overflow-hidden rounded-lg",
               index === 0 ? "col-span-2 row-span-2 aspect-square" : "aspect-[4/3]",
@@ -111,7 +119,7 @@ export default function PropertyGallery({ property }: PropertyProps) {
           <div className="relative aspect-[16/9]">
           {selectedImageIndex !== null && (
               <Image
-                src={combinedImages[selectedImageIndex].url}
+                src={combinedImages[selectedImageIndex]?.url || ""}
                 alt="Imagem ampliada"
                 fill
                 className="object-contain"

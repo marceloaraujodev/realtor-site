@@ -16,7 +16,7 @@ export interface FormData {
   privateArea: string;
   condominio?: number;
   features?: { name: string }[];
-  images: { imgId: string; file?: File; url?: string }[];
+  images: { imgId: string; file?: File; url?: string, cover?: string }[];
   cover: string;
 }
 

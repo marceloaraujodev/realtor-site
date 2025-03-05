@@ -8,12 +8,14 @@ import { ImagePlus, X } from "lucide-react";
 import { PropertyImagesProps } from "../../../types/formTypes";
 import { useFieldArray, useFormContext  } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
+import { useProperty } from "@/app/context/PropertyContext";
 
 export function PropertyImages({ register, control }: PropertyImagesProps) {
+  const { propertyList } = useProperty();
   const { setValue, watch } = useFormContext();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previews, setPreviews] = useState<{ id: string; url: string }[]>([]);
-  const [selectedFiles, setSelectedFiles] = useState<{ id: string; file: File }[]>([]);
+
 
   // react hook form elements
   const { fields, append, remove } = useFieldArray({
@@ -22,6 +24,8 @@ export function PropertyImages({ register, control }: PropertyImagesProps) {
   });
   console.log('this is fields', fields);
 
+  const cover = watch("cover");
+  console.log('this is cover', cover);
 
   useEffect(() => {
     const newPreviews = fields.map((field) => {
@@ -36,11 +40,17 @@ export function PropertyImages({ register, control }: PropertyImagesProps) {
       return null;
     }).filter(Boolean) as { id: string; url: string }[];
     setPreviews(newPreviews);
-    
+
+    // find image that has the cover
+    const coverImage = fields.find( field => field.cover)
+
+    if(coverImage){
+      // console.log('setting cover', coverImage.imgId)
+      // sets the cover to the imgId
+      setValue('cover', coverImage.imgId)
+    }
   }, [fields]);
 
-  const cover = watch("cover");
-  console.log('this is cover', cover);
 
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -62,21 +72,24 @@ export function PropertyImages({ register, control }: PropertyImagesProps) {
     }
   };
 
-    const removeImage = (id: string) => {
-      const previewToRemove = previews.find((p) => p.id === id);
-      if (previewToRemove) {
-        URL.revokeObjectURL(previewToRemove.url);
-      }
-
-      setPreviews((prev) => prev.filter((p) => p.id !== id));
-      // setSelectedFiles((prev) => prev.filter((p) => p.id !== id));
-
-      remove(fields.findIndex((field) => field.id === id));
-
-      if (cover === id) {
-        setValue("cover", null); // Reset cover if it was the removed image
-      }
-    };
+  const removeImage = (id: string) => {
+    const previewToRemove = previews.find((p) => p.id === id);
+    if (previewToRemove) {
+      URL.revokeObjectURL(previewToRemove.url);
+    }
+  
+    setPreviews((prev) => prev.filter((p) => p.id !== id));
+  
+    // Find the correct index using imgId
+    const indexToRemove = fields.findIndex((field) => field.imgId === id);
+    if (indexToRemove !== -1) {
+      remove(indexToRemove);
+    }
+  
+    if (cover === id) {
+      setValue("cover", null); // Reset cover if it was the removed image
+    }
+  };
 
 
   return (
@@ -105,6 +118,7 @@ export function PropertyImages({ register, control }: PropertyImagesProps) {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {previews.map(({ id, url }, index) => {
             // console.log('this is id', id)
+            // console.log('id === cover', cover === id)
             return (
               <div key={id} className="relative group aspect-[4/3]">
               <img src={url} alt={`Preview ${index + 1}`} className="w-full h-full object-cover rounded-lg" />

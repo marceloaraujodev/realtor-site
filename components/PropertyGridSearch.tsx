@@ -58,11 +58,14 @@ export default function PropertyGridSearch({ properties}: PropertiesProps) {
         <h2 className="text-3xl font-bold text-center mb-12">Imóveis</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {filteredProperties.length > 0 ? (
-            filteredProperties.map((property) => (
-              <Card key={property.propertyId} className="overflow-hidden">
+            filteredProperties.map((property) => {
+              const cover = property.images?.filter(c => c.cover)[0];
+              const imageUrl = `${urlpath}${cover?.url}`;
+             return (
+             <Card key={property.propertyId} className="overflow-hidden">
                 <Link href={`/propriedades/${property.propertyId}`} className="block">
                   <div className="aspect-video relative">
-                    <img src={`${urlpath}${property.images?.map(i => i.url)[0]}`} alt={property.title} className="object-cover w-full h-full" />
+                    <img src={imageUrl} alt={property.title} className="object-cover w-full h-full" />
                   </div>
                   <div className="p-4">
                   <h3 className="text-xl font-semibold mb-2 overflow-hidden whitespace-nowrap text-ellipsis">
@@ -128,7 +131,8 @@ export default function PropertyGridSearch({ properties}: PropertiesProps) {
                   </div>
                 </Link>
               </Card>
-            ))
+              )
+            })
           ) : (
             <p className="col-span-full text-center">Nenhum imóvel encontrado</p>
           )}

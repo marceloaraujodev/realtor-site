@@ -3,8 +3,9 @@ import { mongooseConnect } from "@/lib/mongooseConnect";
 import Property from "@/models/property";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 // import { compressImage } from "@/utils/compressImages";
+import { deleteImageByUrl } from "@/utils/aws/deleteIndividualImage";
 import { deletePropertyImages } from "@/utils/aws/deletePropertyImages";
-import { IpropertyType } from "@/types/propertyType";
+
 
 const s3Client = new S3Client({
   region: process.env.AWS_REGION!,
@@ -23,12 +24,13 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
 
   const formData = await req.formData(); // react hook form default is json no formData
 
-  // console.log("Raw FormData entries:", Array.from(formData.entries()));
+  console.log("Raw FormData entries:", Array.from(formData.entries()));
 
   const formEntries = Object.fromEntries(formData.entries());
+  console.log("FormData entries:", formEntries)
   
   // Prepare to capture all the images from the form data
-  const imagesObjectsArr: { id: string; file: File | null }[] = [];
+  const imagesObjectsArr: { id: string; file: File | null, url?: string }[] = [];
   const {id: propertyId} = await context.params;
   
   try {
@@ -48,6 +50,7 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
       suites,
       listingType,
       condominio,
+      
     } = formEntries;
 
     // loops throuth each features [] from formdata and creates an array of features objects
@@ -61,23 +64,30 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
     
     // loops through images 
     for (const [key, value] of Array.from(formData.entries())) {
-      const match = key.match(/images\[(\d+)\]\[(id|image)\]/);
+      const match = key.match(/images\[(\d+)\]\[(id|image|url)\]/);
       
       if (!match) continue;
       
       const index = Number(match[1]);
       const type = match[2];
       
-      if (!imagesObjectsArr[index]) imagesObjectsArr[index] = { id: "", file: null };
+      if (!imagesObjectsArr[index])
+        imagesObjectsArr[index] = { id: "", file: null, url: "" };
       
-      if (type === "id") imagesObjectsArr[index].id = value as string;
-      if (type === "image" && value instanceof File) imagesObjectsArr[index].file = value;
+      if (type === "id") {
+        imagesObjectsArr[index].id = value as string;
+      } else if (type === "image" && value instanceof File) {
+        imagesObjectsArr[index].file = value;
+      } else if (type === "url") {
+        imagesObjectsArr[index].url = value as string;
+      }
     }
     
-    // console.log("Extracted images:", imagesObjectsArr); // correct 
+    // all images will be here and have at least the id, url and file are optional here
+    console.log("Extracted images:", imagesObjectsArr);
     
     // uploads all images and returns a array of objects ready for the database upload
-    const images = await Promise.all(imagesObjectsArr.map( async (image) => {
+    const imagesToUpload = await Promise.all(imagesObjectsArr.map( async (image) => {
       if (!image.file) return null;
       const arrayBuffer = await image.file.arrayBuffer();
       const buffer = Buffer.from(arrayBuffer);
@@ -90,16 +100,15 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
         Body: buffer, // skip compression
         ContentType: image.file.type,
       };
-   
-      
-      // // upload file to s3 bucket
-      // try {
-      //   await s3Client.send(new PutObjectCommand(uploadParams));
-      //   console.log('image uploaded successfully', s3Key);
-      // } catch (error) {
-      //   console.error("Error uploading image to S3:", error);
-      //   throw new Error("Failed to upload image to S3");
-      // }
+  
+      // upload file to s3 bucket
+      try {
+        await s3Client.send(new PutObjectCommand(uploadParams));
+        console.log('image uploaded successfully', s3Key);
+      } catch (error) {
+        console.error("Error uploading image to S3:", error);
+        throw new Error("Failed to upload image to S3");
+      }
 
       // format for the database 
       return {
@@ -109,21 +118,47 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
       };
     }))
 
-    const filteredImages = images.filter(Boolean); 
-    // console.log('filteredImages', filteredImages)
 
-  // need to filter features by name
+    const filteredImages = imagesToUpload.filter(Boolean); 
+    // console.log('filteredImages', filteredImages)
         
     // add images to the property data and update property data as the data in the findone and updadte
     const currentProperty = await Property.findOne({propertyId: propertyId});
-    console.log('currentProperty', currentProperty);
+    // console.log('currentProperty', currentProperty);
     
+    // set the current images to the database images
     let currentImages = currentProperty?.images ?? [];
-    
+    // console.log('currentImages', currentImages);
+
+    // set the images to be deleted from s3 and db
+    const imagesToDelete = currentImages.filter( i => !imagesObjectsArr.some(img => img.id === i.id))
+    console.log('imagesToDelete', imagesToDelete)
+
+    currentImages = currentImages.filter( i => imagesObjectsArr.some(img => img.id === i.id))
+
+    console.log('currentImages after setting to the images that are left', currentImages)
+
+    // Delete removed images from S3
+    if (imagesToDelete.length > 0) {
+      try {
+        await Promise.all(
+          imagesToDelete.map(async (img) => {
+            await deleteImageByUrl(img.url); // Ensure this function removes from S3
+            console.log(`Deleted from S3: ${img.url}`);
+          })
+        );
+      } catch (error) {
+        console.error("Error deleting images from S3:", error);
+      }
+    }
+
     let newImages = filteredImages.length > 0 ? [...filteredImages, ...currentImages] : currentImages;
 
-    console.log('new images before changes', newImages);
-    console.log('current cover ID', cover);
+    console.log('New images:', newImages)
+
+    // Remove deleted images from the database before saving
+    newImages = newImages.filter(img => !imagesToDelete.some(removed => removed.id === img?.id));
+    
     
     // Reset all covers first
     newImages.forEach(image => {
@@ -145,9 +180,7 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
       }
     });
     
-    console.log('newImages after changes', newImages);
-
-    // filter the current properties images and compare agains the current cover
+    // console.log('newImages after changes', newImages);
 
     const propertyData: any = {
       title,
@@ -168,18 +201,18 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
       images: newImages,
     }
 
-    console.log('propertyData', propertyData)
+    // console.log('propertyData', propertyData)
 
     if (!title || !location || !price || !propertyType) {
       return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
     }
 
-    // // update property 
-    // const updatedProperty = await Property.findOneAndUpdate( 
-    //   { propertyId: propertyId }, 
-    //   { $set: propertyData }, // Use $set to update only the changed fields
-    //   { new: true }
-    // );
+    // update property 
+    const updatedProperty = await Property.findOneAndUpdate( 
+      { propertyId: propertyId }, 
+      { $set: propertyData }, // Use $set to update only the changed fields
+      { new: true }
+    );
 
     return NextResponse.json({
       message: "Success",
