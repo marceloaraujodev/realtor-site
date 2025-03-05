@@ -1,22 +1,20 @@
-'use client'
-import { useEffect } from 'react';
+'use client';
+import { Suspense, useEffect } from 'react';
 import SearchProperties from '@/components/SearchProperties';
 import PropertyGridSearch from '@/components/PropertyGridSearch';
 import PropertyGrid from '@/components/PropertyGrid';
 import { useProperty } from '../context/PropertyContext';
 
-// properties grid search is the one which actually searches for properties
+// properties grid search is the one that actually searches for properties
 // properties grid only displays all the properties
 
-export default function PropertiesPage() {
-
-  const { propertyList, fetchProperties } = useProperty(); //if I need to pass the property list to those components
-  //  console.log('this is PropertiesPage');
+function PropertiesPageInner() {
+  const { propertyList, fetchProperties } = useProperty();
 
   useEffect(() => {
     fetchProperties();
-    console.log('fetching properties')
-  }, []); 
+    console.log('fetching properties');
+  }, [fetchProperties]);
 
   return (
     <div className="pt-24 pb-12">
@@ -28,5 +26,13 @@ export default function PropertiesPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PropertiesPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PropertiesPageInner />
+    </Suspense>
   );
 }

@@ -11,23 +11,26 @@ import { PropertyProps } from '@/types/propertyType';
 export default function PropertyGallery({ property }: PropertyProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   // console.log('S3 URL:', process.env.NEXT_PUBLIC_S3_BUCKET_URL);
-  // console.log('this is images', images)
-  // const images = properties.images
-  console.log(',,,,', property)
-  console.log('test')
-  // const images = property.images;
-  // console.log('images', images)
 
-  const imageUrls:string[] = property.images?.map(imageKey => `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${imageKey?.url}`) || [];
-  const cover = property.images?.filter(i => i.cover !== undefined)
+  const images = property.images?.map((image) => ({
+    id: image.id,
+    url: `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${image.url}`,
+    cover: image.cover ? `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${image.cover}` : null,
+  })) || [];
 
-  console.log('images urls', imageUrls)
-  console.log('cover', cover)
+  console.log(images)
+ // Find the image that has the cover field
+  const coverImage = images.find((image) => image.cover !== null);
+  console.log('coverImage', coverImage)
 
+  // Ensure the image with the 'cover' field is always the first in the array
+  const mainImages = coverImage
+    ? [ coverImage,...images.filter((img) => img.id !== coverImage.id)].slice(0, 5) // Cover image first, then the rest
+    : images.slice(0, 5); // No cover image, so take the first 5 images
 
-  const mainImages = imageUrls.slice(0, 5);
-  const thumbnailImages = imageUrls.slice(5);
+  console.log('main images', mainImages);
 
+  const thumbnailImages = images.slice(5);
   const combinedImages = [...mainImages, ...thumbnailImages];
 
   // url path : `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/${imageKey?.url}`)
@@ -52,10 +55,9 @@ export default function PropertyGallery({ property }: PropertyProps) {
       <div className="grid grid-cols-4 gap-4 mb-4">
         
         {mainImages.map((image, index) => {
-        const isCoverImage = index === 0;
         return(  
         <div
-            key={image + index}
+            key={image.id}
             className={cn(
               "relative cursor-pointer overflow-hidden rounded-lg",
               index === 0 ? "col-span-2 row-span-2 aspect-square" : "aspect-[4/3]",
@@ -66,10 +68,10 @@ export default function PropertyGallery({ property }: PropertyProps) {
             onClick={() => setSelectedImageIndex(index)}
           >
             <Image
-              src={image}
+              src={image.url}
               alt={`Imagem ${index + 1}`}
               fill
-              priority={index === 0 ? true : false}
+              priority={index === 0}
               className="object-cover hover:scale-110 transition-transform duration-300"
             />
           </div>
@@ -83,12 +85,12 @@ export default function PropertyGallery({ property }: PropertyProps) {
           <div className="flex gap-2 min-w-min">
             {thumbnailImages.map((image, index) => (
               <div
-                key={image + index}
+                key={image.id}
                 className="relative w-24 aspect-square flex-none cursor-pointer overflow-hidden rounded-lg"
                 onClick={() => setSelectedImageIndex(index + 5)}
               >
                 <Image
-                  src={image}
+                  src={image.url}
                   alt={`Imagem ${index + 6}`}
                   fill
                   className="object-cover hover:scale-110 transition-transform duration-300"
@@ -106,7 +108,7 @@ export default function PropertyGallery({ property }: PropertyProps) {
           <div className="relative aspect-[16/9]">
           {selectedImageIndex !== null && (
               <Image
-                src={combinedImages[selectedImageIndex]}
+                src={combinedImages[selectedImageIndex].url}
                 alt="Imagem ampliada"
                 fill
                 className="object-contain"

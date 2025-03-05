@@ -23,7 +23,7 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
 
   const formData = await req.formData(); // react hook form default is json no formData
 
-  console.log("Raw FormData entries:", Array.from(formData.entries()));
+  // console.log("Raw FormData entries:", Array.from(formData.entries()));
 
   const formEntries = Object.fromEntries(formData.entries());
   
@@ -74,7 +74,7 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
       if (type === "image" && value instanceof File) imagesObjectsArr[index].file = value;
     }
     
-    console.log("Extracted images:", imagesObjectsArr); // correct 
+    // console.log("Extracted images:", imagesObjectsArr); // correct 
     
     // uploads all images and returns a array of objects ready for the database upload
     const images = await Promise.all(imagesObjectsArr.map( async (image) => {
@@ -90,16 +90,16 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
         Body: buffer, // skip compression
         ContentType: image.file.type,
       };
-      console.log('cover comparison', image.id === cover)
+   
       
-      // upload file to s3 bucket
-      try {
-        await s3Client.send(new PutObjectCommand(uploadParams));
-        console.log('image uploaded successfully', s3Key);
-      } catch (error) {
-        console.error("Error uploading image to S3:", error);
-        throw new Error("Failed to upload image to S3");
-      }
+      // // upload file to s3 bucket
+      // try {
+      //   await s3Client.send(new PutObjectCommand(uploadParams));
+      //   console.log('image uploaded successfully', s3Key);
+      // } catch (error) {
+      //   console.error("Error uploading image to S3:", error);
+      //   throw new Error("Failed to upload image to S3");
+      // }
 
       // format for the database 
       return {
@@ -110,7 +110,7 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
     }))
 
     const filteredImages = images.filter(Boolean); 
-    console.log('filteredImages', filteredImages)
+    // console.log('filteredImages', filteredImages)
 
   // need to filter features by name
         
@@ -118,20 +118,36 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
     const currentProperty = await Property.findOne({propertyId: propertyId});
     console.log('currentProperty', currentProperty);
     
-    const currentImages = currentProperty?.images ?? [];
+    let currentImages = currentProperty?.images ?? [];
     
     let newImages = filteredImages.length > 0 ? [...filteredImages, ...currentImages] : currentImages;
 
-    // Ensure cover is correctly assigned to the existing images
-    if (filteredImages.length === 0) {
-      newImages = currentImages.map((img) => ({
-        ...img,
-        cover: img.id === String(cover) ? img.url : undefined,
-      }));
-    } else {
-      newImages = filteredImages.length > 0 ? [...filteredImages, ...currentImages] : currentImages;
-    }
+    console.log('new images before changes', newImages);
+    console.log('current cover ID', cover);
+    
+    // Reset all covers first
+    newImages.forEach(image => {
+      if(image){
+        image.cover = undefined;
+      }
+    });
+    
+    // Find and set the new cover based on URL match
+    newImages.forEach(image => {
+      if(image){
+        const urlParts = image.url.split('/');
+        const lastPart = urlParts[urlParts.length - 1]; // Extract ID from URL
+        
+        if (lastPart === cover) {
+          image.cover = image.url;
+          console.log(`Set cover for image ${lastPart}`);
+        }
+      }
+    });
+    
+    console.log('newImages after changes', newImages);
 
+    // filter the current properties images and compare agains the current cover
 
     const propertyData: any = {
       title,
@@ -158,17 +174,17 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
       return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
     }
 
-    // update property 
-    const updatedProperty = await Property.findOneAndUpdate( 
-      { propertyId: propertyId }, 
-      { $set: propertyData }, // Use $set to update only the changed fields
-      { new: true }
-    );
+    // // update property 
+    // const updatedProperty = await Property.findOneAndUpdate( 
+    //   { propertyId: propertyId }, 
+    //   { $set: propertyData }, // Use $set to update only the changed fields
+    //   { new: true }
+    // );
 
     return NextResponse.json({
       message: "Success",
-      updatedProperty,
-      s3Key: images,
+      // updatedProperty,
+      // s3Key: images,
     });
   } catch (error) {
     console.error("Error creating property:", error);
