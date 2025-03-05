@@ -25,8 +25,13 @@ export default function PropertyGallery({ property }: PropertyProps) {
 
   // Ensure the image with the 'cover' field is always the first in the array
   const mainImages = coverImage
-    ? [ coverImage,...images.filter((img) => img.id !== coverImage.id)].slice(0, 5) // Cover image first, then the rest
-    : images.slice(0, 5); // No cover image, so take the first 5 images
+  ? [
+      coverImage,
+      ...images
+        .filter(img => img.id !== coverImage.id)
+        .sort((a, b) => a.id.localeCompare(b.id)) // Optional: Add any sorting you need
+    ].slice(0, 5)
+  : images.slice(0, 5);
 
   console.log('main images', mainImages);
 
@@ -61,9 +66,9 @@ export default function PropertyGallery({ property }: PropertyProps) {
             className={cn(
               "relative cursor-pointer overflow-hidden rounded-lg",
               index === 0 ? "col-span-2 row-span-2 aspect-square" : "aspect-[4/3]",
-              index === 0 ? "col-span-2 row-span-2" : 
-              index === 1 ? "col-start-3" :
-              index === 2 ? "col-start-4" : ""
+              // index === 0 ? "col-span-2 row-span-2" : 
+              // index === 1 ? "col-start-3" :
+              // index === 2 ? "col-start-4" : ""
             )}
             onClick={() => setSelectedImageIndex(index)}
           >

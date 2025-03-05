@@ -14,7 +14,7 @@ function PropertiesPageInner() {
   useEffect(() => {
     fetchProperties();
     console.log('fetching properties');
-  }, [fetchProperties]);
+  }, []);
 
   return (
     <div className="pt-24 pb-12">
