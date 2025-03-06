@@ -14,7 +14,10 @@ const TabsList = React.forwardRef<
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-      'inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground',
+// Original desktop styles
+'inline-flex sm:h-20 md:h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground',
+// Mobile grid layout
+'max-md:grid max-md:w-full max-md:grid-cols-2 max-md:grid-rows-2 max-md:auto-rows-[2.5rem]',
       className
     )}
     {...props}
@@ -29,7 +32,10 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
+      // Original styles
       'inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm',
+      // Mobile adjustments
+      'max-md:w-full max-md:h-[2.5rem] max-md:whitespace-normal',
       className
     )}
     {...props}
