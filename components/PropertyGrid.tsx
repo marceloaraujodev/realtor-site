@@ -109,10 +109,15 @@ export default function PropertyGrid({properties}: PropertiesProps) {
                     <p className='text-xs font-bold mt-1 mb-4 min-h-[20px]'>R${property.condominio}</p>
                   </div>
                 </Link>
-                    <div className='w-full flex justify-center mb-5'>
-                      <Button className="w-1/2 mr-6">Ver Detalhes</Button>
-                      <Button className="px-5" onClick={handleWhatsClick}>WhatsApp</Button>
+                <div className='w-full flex justify-center mb-5'>
+                  <div className="w-1/2 mr-4">
+                    <Link href={`/propriedades/${property.propertyId}`} >
+                      <Button className="w-40">Ver Detalhes</Button>
+                    </Link>
+
                     </div>
+                    <Button className="px-5" onClick={handleWhatsClick}>WhatsApp</Button>
+                </div>
               </Card>
             );
           })}
