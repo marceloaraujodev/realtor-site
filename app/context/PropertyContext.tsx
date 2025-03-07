@@ -34,7 +34,7 @@ export function PropertyProvider({ children, initialProperties = [] }: { childre
     fetchProperties();
   };
   
-  // ✅ Ensure properties update when re-entering the page (e.g., after a redirect)
+  // ✅ Ensure properties update when re-entering the page (e.x., after a redirect)
   useEffect(() => {
     fetchProperties();
   }, []);
