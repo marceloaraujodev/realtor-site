@@ -1,9 +1,10 @@
 
 import Home from "./HomeClient";
 import { PropertyProvider } from "./context/PropertyContext";
+import { serverUrl } from "@/config";
 
 async function fetchProperties() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_DEV}/api/propriedades`, {
+  const res = await fetch(`${serverUrl}/api/propriedades`, {
     cache: "no-store", // Ensures fresh data every time
   });
 
