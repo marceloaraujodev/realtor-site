@@ -14,10 +14,10 @@ const TabsList = React.forwardRef<
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-// Original desktop styles
-'inline-flex sm:h-20 md:h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground',
-// Mobile grid layout
-'max-md:grid max-md:w-full max-md:grid-cols-2 max-md:grid-rows-2 max-md:auto-rows-[2.5rem]',
+    // Original desktop styles
+    'inline-flex sm:h-20 md:h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground',
+    // Mobile grid layout
+    'max-md:grid max-md:w-full max-md:grid-cols-2 max-md:grid-rows-2 max-md:auto-rows-[2.5rem]',
       className
     )}
     {...props}

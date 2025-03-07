@@ -61,7 +61,7 @@ export default function PropertyHeader({ property }: PropertyProps) {
       </div>
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-3xl font-bold mb-2">{property.title}</h1>
+          <h1 className="sm: text-2xl md:text-3xl font-bold mb-2 pr-3">{property.title}</h1>
           <p className="text-2xl font-bold text-primary">
             {formatCurrency(property.price)}
           </p>
@@ -71,7 +71,7 @@ export default function PropertyHeader({ property }: PropertyProps) {
           {session ? (
             <>
               <Button
-                className=""
+                className="ml-2 sm:ml-0"
                 variant="outline"
                 size="icon"
                 onClick={handleEdit}>
