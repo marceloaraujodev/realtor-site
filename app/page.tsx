@@ -1,7 +1,7 @@
 
 import Home from "./HomeClient";
 import { PropertyProvider } from "./context/PropertyContext";
-import { serverUrl } from "@/config";
+import { serverUrl } from "@/configServer";
 
 async function fetchProperties() {
   const res = await fetch(`${serverUrl}/api/propriedades`, {
