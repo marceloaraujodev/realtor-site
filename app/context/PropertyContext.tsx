@@ -15,8 +15,8 @@ interface PropertyContextType {
 
 const PropertyContext = createContext<PropertyContextType | undefined>(undefined);
 
-export function PropertyProvider({ children }: { children: React.ReactNode }) {
-  const [propertyList, setPropertyList] = useState<IpropertyType[]>([]);
+export function PropertyProvider({ children, initialProperties }: { children: React.ReactNode, initialProperties: IpropertyType[] }) {
+  const [propertyList, setPropertyList] = useState<IpropertyType[]>(initialProperties || []);
 
   // Fetch properties from the API
   const fetchProperties = async () => {
@@ -31,9 +31,10 @@ export function PropertyProvider({ children }: { children: React.ReactNode }) {
   // Function to add a new property
   const addProperty = (newProperty: IpropertyType) => {
     setPropertyList((prev) => [...prev, newProperty]);
+    fetchProperties();
   };
   
-  // Load properties when the app starts
+  // ✅ Ensure properties update when re-entering the page (e.g., after a redirect)
   useEffect(() => {
     fetchProperties();
   }, []);

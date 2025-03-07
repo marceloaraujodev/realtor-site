@@ -1,24 +1,24 @@
-'use client'
-import Hero from '@/components/Hero';
-import PropertyGrid from '@/components/PropertyGrid';
-import AboutSection from '@/components/AboutSection';
-import Testimonials from '@/components/Testimonials';
-import Newsletter from '@/components/Newsletter';
-import SearchProperties from '@/components/SearchProperties';
-import { useProperty } from './context/PropertyContext';
 
+import Home from "./HomeClient";
+import { PropertyProvider } from "./context/PropertyContext";
 
-export default function Home() {
-  const { propertyList } = useProperty();
+async function fetchProperties() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_DEV}/api/propriedades`, {
+    cache: "no-store", // Ensures fresh data every time
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch properties");
+  return res.json();
+}
+
+export default async function App() {
+  const properties = await fetchProperties();
+  // console.log("🚀 [SERVER] Fetched properties:", properties);
+
 
   return (
-    <div className="pt-16">
-      <Hero />
-      <SearchProperties />
-      <PropertyGrid key={propertyList.length} properties={propertyList}/>
-      <AboutSection />
-      <Testimonials />
-      <Newsletter />
-    </div>
+    <PropertyProvider initialProperties={properties}>
+      <Home properties={properties}/>
+    </PropertyProvider>
   );
 }
