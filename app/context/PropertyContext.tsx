@@ -15,7 +15,7 @@ interface PropertyContextType {
 
 const PropertyContext = createContext<PropertyContextType | undefined>(undefined);
 
-export function PropertyProvider({ children, initialProperties }: { children: React.ReactNode, initialProperties: IpropertyType[] }) {
+export function PropertyProvider({ children, initialProperties = [] }: { children: React.ReactNode, initialProperties: IpropertyType[] }) {
   const [propertyList, setPropertyList] = useState<IpropertyType[]>(initialProperties || []);
 
   // Fetch properties from the API

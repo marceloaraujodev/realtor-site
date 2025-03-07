@@ -10,7 +10,7 @@ export default function SessionProviderWrapper({
 }) {
   return (
   <SessionProvider>
-    <PropertyProvider>
+    <PropertyProvider initialProperties={[]}>
       {children}
     </PropertyProvider>
   </SessionProvider>
