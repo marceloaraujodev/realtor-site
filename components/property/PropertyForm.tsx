@@ -118,6 +118,7 @@ export default function PropertyForm({
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     // console.log('this is data from on submit', data)
 
+    console.log('formData before submittion', data);
     const formData = new FormData();
 
     // Append non-file fields

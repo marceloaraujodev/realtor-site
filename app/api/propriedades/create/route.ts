@@ -31,12 +31,6 @@ export async function POST(req: NextRequest) {
   const propertyId = uuidv4();
 
 
-
-  // return NextResponse.json({
-  //   message: "Success",
-
-  // })
-
   try {
     // // extract values from formData
     const {
@@ -55,6 +49,10 @@ export async function POST(req: NextRequest) {
       listingType,
       condominio,
     } = formEntries;
+
+    // transform price string into number
+    const formattedString: string = price as string;
+    const numericValue = Number(formattedString.replace(/\./g, "")); 
 
       // loops throuth each features [] from formdata and creates an array of features objects
     const features: {name: string}[] = [];
@@ -130,7 +128,7 @@ export async function POST(req: NextRequest) {
       location,
       description,
       propertyId: propertyId,
-      price: Number(price),
+      price: numericValue,
       cover: cover,
       bedrooms: Number(bedrooms),
       suites: Number(suites),
