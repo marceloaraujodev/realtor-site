@@ -18,6 +18,7 @@ export function PropertyDetails({ register, errors }: PropertyDetailsProps) {
               type="number"
               {...register('bedrooms')}
             />
+            {errors.bedrooms && <span className="text-xs text-red-600">{errors.bedrooms.message}</span>}
           </div>
           <div className="space-y-2">
             <Label htmlFor="suites">Suites</Label>
@@ -26,6 +27,7 @@ export function PropertyDetails({ register, errors }: PropertyDetailsProps) {
               type="number"
               {...register('suites')}
             />
+            {errors.suites && <span className="text-xs text-red-600">{errors.suites.message}</span>}
           </div>
 
           <div className="space-y-2">
@@ -35,6 +37,7 @@ export function PropertyDetails({ register, errors }: PropertyDetailsProps) {
               type="number"
               {...register('bathrooms')}
             />
+            {errors.bathrooms && <span className="text-xs text-red-600">{errors.bathrooms.message}</span>}
           </div>
 
           <div className="space-y-2">

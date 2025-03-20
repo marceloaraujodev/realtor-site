@@ -1,65 +1,69 @@
-'use client';
-import { useEffect } from 'react';
-import { useForm, SubmitHandler, FormProvider } from 'react-hook-form';
-import { PropertyBasicInfo } from './form/PropertyBasicInfo';
-import { PropertyDetails } from './form/PropertyDetails';
-import { PropertyFeatures } from './form/PropertyFeatures';
-import { PropertyImages } from './form/PropertyImages';
-import { Button } from '../ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import type { FormData } from '@/types/formTypes';
-import { useRouter } from 'next/navigation';
-import axios from 'axios';
-import { PropertyFormProp } from '@/types/propertyType';
-import { usePathname } from 'next/navigation';
-import { siteUrl } from '@/config';
-import { useToast } from '@/hooks/use-toast';
-import { useProperty } from '@/app/context/PropertyContext';
-import { handleImageUpload } from '@/utils/compressImages';
+"use client";
+import { useEffect, useState } from "react";
+import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
+import { PropertyBasicInfo } from "./form/PropertyBasicInfo";
+import { PropertyDetails } from "./form/PropertyDetails";
+import { PropertyFeatures } from "./form/PropertyFeatures";
+import { PropertyImages } from "./form/PropertyImages";
+import { Button } from "../ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import type { FormData } from "@/types/formTypes";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { PropertyFormProp } from "@/types/propertyType";
+import { usePathname } from "next/navigation";
+import { siteUrl } from "@/config";
+import { useToast } from "@/hooks/use-toast";
+import { useProperty } from "@/app/context/PropertyContext";
+import { handleImageUpload } from "@/utils/compressImages";
 
-export default function PropertyForm({
-  existingProperty,
-}: PropertyFormProp) {
-  const { addProperty, fetchProperties} = useProperty();
+const tabOrder = ["basic", "details", "features", "images"];
+
+export default function PropertyForm({ existingProperty }: PropertyFormProp) {
+  const { addProperty, fetchProperties } = useProperty();
   const { toast } = useToast();
+  const [activeTab, setActiveTab] = useState(tabOrder[0]); // Start at "basic"
 
+  useEffect(() => {
+    console.log("this is active tab", activeTab);
+  }, [activeTab]);
 
   const methods = useForm<FormData>({
     // form default values should be empty strings
-    // defaultValues: {
-    //   title: '',
-    //   location: '',
-    //   price: '',
-    //   description: '',
-    //   propertyType: undefined,
-    //   bedrooms: '',
-    //   bathrooms: '',
-    //   garage: '',
-    //   totalArea: '',
-    //   privateArea: '',
-    //   features: [], // Initialize as an empty array
-    //   images: [], // Initialize as an empty array
-    // },
-    // thos below are just for testing purposes
     defaultValues: {
-      title: 'Apartamento vista mar avenida Atlântica',
-      location: 'Centro, Balneário Camboriú',
-      price: '5000000',
-      description: 'lindo apartamento completo, vista pro mar',
-      // propertyType: undefined,
-      bedrooms: '4',
-      bathrooms: '5',
-      garage: '3',
-      suites: 2,
-      condominio: 800,
-      listingType: 'aluguel',
-      propertyType: 'Casa',
-      totalArea: '120',
-      privateArea: '120',
+      title: "",
+      location: "",
+      price: "",
+      description: "",
+      propertyType: undefined,
+      bedrooms: "",
+      bathrooms: "",
+      garage: "",
+      totalArea: "",
+      privateArea: "",
       features: [], // Initialize as an empty array
-      images: [],   // Initialize as an empty array
+      images: [], // Initialize as an empty array
     },
-    mode: 'onBlur',
+    // thos below are just for testing purposes
+    // defaultValues: {
+    //   title: 'Apartamento vista mar avenida Atlântica',
+    //   location: 'Centro, Balneário Camboriú',
+    //   price: '5000000',
+    //   description: 'lindo apartamento completo, vista pro mar',
+    //   // propertyType: undefined,
+    //   bedrooms: '4',
+    //   bathrooms: '5',
+    //   garage: '3',
+    //   suites: 2,
+    //   condominio: 800,
+    //   listingType: 'aluguel',
+    //   propertyType: 'Casa',
+    //   totalArea: '120',
+    //   privateArea: '120',
+    //   features: [], // Initialize as an empty array
+    //   images: [],   // Initialize as an empty array
+    // },
+    mode: "onBlur",
   });
   // console.log('this is property', existingProperty);
 
@@ -77,22 +81,22 @@ export default function PropertyForm({
 
   // grabs the url path and checks if the form is being edit
   const pathname = usePathname();
-  const isEditingForm = pathname.includes('/update/');
+  const isEditingForm = pathname.includes("/update/");
 
   // pre loads the data from property props when the user is editing
   useEffect(() => {
     if (existingProperty) {
       reset({
-        title: existingProperty.title || '',
-        location: existingProperty.location || '',
-        price: existingProperty.price?.toString() || '',
-        description: existingProperty.description || '',
+        title: existingProperty.title || "",
+        location: existingProperty.location || "",
+        price: existingProperty.price?.toString() || "",
+        description: existingProperty.description || "",
         propertyType: existingProperty.propertyType || undefined,
-        bedrooms: existingProperty.bedrooms?.toString() || '',
-        bathrooms: existingProperty.bathrooms?.toString() || '',
-        garage: existingProperty.garage?.toString() || '',
-        totalArea: existingProperty.totalArea?.toString() || '',
-        privateArea: existingProperty.privateArea?.toString() || '',
+        bedrooms: existingProperty.bedrooms?.toString() || "",
+        bathrooms: existingProperty.bathrooms?.toString() || "",
+        garage: existingProperty.garage?.toString() || "",
+        totalArea: existingProperty.totalArea?.toString() || "",
+        privateArea: existingProperty.privateArea?.toString() || "",
         listingType: existingProperty.listingType,
         cover: existingProperty.cover,
         suites: existingProperty.suites,
@@ -102,7 +106,7 @@ export default function PropertyForm({
             imgId: image.id, // Convert 'id' to 'imgId'
             file: undefined, // No File object available for existing images
             url: image.url,
-            cover: image.cover
+            cover: image.cover,
           })) || [],
         features: existingProperty.features?.map((feature) => {
           return {
@@ -118,13 +122,13 @@ export default function PropertyForm({
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     // console.log('this is data from on submit', data)
 
-    console.log('formData before submittion', data);
+    console.log("formData before submittion", data);
     const formData = new FormData();
 
     // Append non-file fields
     Object.entries(data).forEach(([key, value]) => {
       // console.log('----', key, value);
-      if (key !== 'images') {
+      if (key !== "images") {
         formData.append(key, value);
       }
     });
@@ -138,15 +142,15 @@ export default function PropertyForm({
     data.images?.forEach((image, index) => {
       // Always include the image id
       formData.append(`images[${index}][id]`, image.imgId);
-      formData.append(`images[${index}][url]`, image.url || '');
-    
+      formData.append(`images[${index}][url]`, image.url || "");
+
       // If there is a new file, include it…
       if (image.file) {
         formData.append(`images[${index}][image]`, image.file);
-      } 
+      }
     });
 
-    // 
+    //
     if (data.images) {
       // Process images in parallel
       const compressedImages = await Promise.all(
@@ -171,12 +175,11 @@ export default function PropertyForm({
       });
     }
 
-
     try {
       const endpoint = isEditingForm
         ? `/api/propriedades/update/${existingProperty?.propertyId}`
         : `/api/propriedades/create`;
-      const method = isEditingForm ? 'PATCH' : 'POST';
+      const method = isEditingForm ? "PATCH" : "POST";
 
       // make this request url dynamic so I can send create or edit requests
       const res = await axios({
@@ -184,35 +187,46 @@ export default function PropertyForm({
         url: siteUrl + endpoint,
         data: formData, // Send form data as FormData object
         headers: {
-          'Content-Type': 'multipart/form-data', // Specify content type
+          "Content-Type": "multipart/form-data", // Specify content type
         },
       });
 
       if (res.status === 200) {
-        addProperty(res.data)
-        fetchProperties()
+        addProperty(res.data);
+        fetchProperties();
         toast({
-          title: 'Propriedade salva!',
-          description: 'Propriedade salva com sucesso!',
+          title: "Propriedade salva!",
+          description: "Propriedade salva com sucesso!",
         });
 
-        router.push('/propriedades');
+        router.push("/propriedades");
       }
     } catch (error) {
       toast({
-        title: 'Tente novament!',
-        description: 'Não foi possivel salvar a propriedade.',
+        title: "Tente novament!",
+        description: "Não foi possivel salvar a propriedade.",
       });
-      console.error('Error saving property:', error);
+      console.error("Error saving property:", error);
+    }
+  };
+
+  // tab navigation
+  const handleTabNavigation = (direction: "next" | "prev") => {
+    const currentIndex = tabOrder.indexOf(activeTab);
+    if (direction === "next" && currentIndex < tabOrder.length - 1) {
+      setActiveTab(tabOrder[currentIndex + 1]);
+    } else if (direction === "prev" && currentIndex > 0) {
+      setActiveTab(tabOrder[currentIndex - 1]);
     }
   };
 
   return (
     <FormProvider {...methods}>
-      {' '}
+      {" "}
       {/* Wrap everything inside FormProvider */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" encType="multipart/form-data">
-        <Tabs defaultValue="basic" className="w-full">
+      {/* Tabs is what controls the navigation with its  */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="basic">Informações Básicas</TabsTrigger>
             <TabsTrigger value="details">Detalhes</TabsTrigger>
@@ -221,37 +235,61 @@ export default function PropertyForm({
           </TabsList>
 
           <TabsContent value="basic">
-            <PropertyBasicInfo
-              register={register}
-              errors={errors}
-              setValue={setValue}
-            />
+            <PropertyBasicInfo register={register} errors={errors} setValue={setValue} />
+            <div className="flex justify-end mt-4">
+              <Button type="button" onClick={() => handleTabNavigation("next")}>
+                Next
+              </Button>
+            </div>
           </TabsContent>
 
           <TabsContent value="details">
             <PropertyDetails register={register} errors={errors} />
+            <div className="flex justify-between mt-4">
+              <Button type="button" onClick={() => handleTabNavigation("prev")}>
+                Previous
+              </Button>
+              <Button type="button" onClick={() => handleTabNavigation("next")}>
+                Next
+              </Button>
+            </div>
           </TabsContent>
 
           <TabsContent value="features">
             <PropertyFeatures register={register} control={control} />
+            <div className="flex justify-between mt-4">
+              <Button type="button" onClick={() => handleTabNavigation("prev")}>
+                Previous
+              </Button>
+              <Button type="button" onClick={() => handleTabNavigation("next")}>
+                Next
+              </Button>
+            </div>
           </TabsContent>
 
           <TabsContent value="images">
             <PropertyImages register={register} control={control} />
+            <div className="flex justify-between mt-4">
+              <Button type="button" onClick={() => handleTabNavigation("prev")}>
+                Previous
+              </Button>
+            </div>
           </TabsContent>
         </Tabs>
 
-        <div className="flex justify-end">
-          {isEditingForm ? (
-            <Button type="submit" size="lg" disabled={isSubmitting}>
-              {isSubmitting ? 'Salvando...' : 'Salvar Edição'}
-            </Button>
-          ) : (
-            <Button type="submit" size="lg" disabled={isSubmitting}>
-              {isSubmitting ? 'Salvando...' : 'Salvar Propriedade'}
-            </Button>
-          )}
-        </div>
+        {activeTab === "images" && (
+          <div className="flex justify-end">
+            {isEditingForm ? (
+              <Button type="submit" size="lg" disabled={isSubmitting}>
+                {isSubmitting ? "Salvando..." : "Salvar Edição"}
+              </Button>
+            ) : (
+              <Button type="submit" size="lg" disabled={isSubmitting}>
+                {isSubmitting ? "Salvando..." : "Salvar Propriedade"}
+              </Button>
+            )}
+          </div>
+        )}
       </form>
     </FormProvider>
   );

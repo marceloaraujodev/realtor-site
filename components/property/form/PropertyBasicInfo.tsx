@@ -78,7 +78,7 @@ export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicI
             {...register("title", { required: "Título é obrigatório" })}
             placeholder="Ex: Apartamento de Luxo com Vista para o Mar"
           />
-          {errors.title && <span>{errors.title.message}</span>}
+          {errors.title && <span className="text-xs text-red-600">{errors.title.message}</span>}
         </div>
 
         <div className="space-y-2">
@@ -88,7 +88,7 @@ export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicI
             {...register("location", { required: "Localização é obrigatória" })}
             placeholder="Ex: Centro, Balneário Camboriú"
           />
-          {errors.location && <span>{errors.location.message}</span>}
+          {errors.location && <span className="text-xs text-red-600">{errors.location.message}</span>}
         </div>
 
         <div data-name="price" className="space-y-2">
@@ -106,7 +106,7 @@ export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicI
         <div data-name="condominio" className="space-y-2">
           <Label htmlFor="condominio">Condomínio</Label>
           <Input id="condominio" type="number" {...register("condominio")} placeholder="Valor em reais" />
-          {errors.condominio && <span>{errors.condominio.message}</span>}
+          {errors.condominio && <span className="text-xs text-red-600">{errors.condominio.message}</span>}
         </div>
 
         <div className="space-y-2">
@@ -124,6 +124,7 @@ export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicI
               <SelectItem value="Terreno">Terreno</SelectItem>
             </SelectContent>
           </Select>
+          
         </div>
 
         <div className="space-y-2" data-name="listying type sale or rent">
