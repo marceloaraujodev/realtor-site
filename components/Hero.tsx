@@ -17,11 +17,11 @@ export default function Hero() {
         initial={{y: '-450px', opacity: 0}}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
-        className="relative -mt-4 sm:mt-0 h-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-center items-center text-center">
-        <h1 className="text-2xl sm:text-4xl md:text-6xl font-bold text-white mb-3">
+        className="relative justify-center sm:mt-0 h-full max-w-4xl mx-auto px-4 sm:px-2 lg:px-8 flex flex-col sm:items-center md:items-start md:justify-center md:text-left lg:text-center md:pl-3">
+        <h1 className="text-4xl sm:text-4xl md:text-5xl  max-w-[590px] font-bold text-white mb-3">
           Encontre o imóvel dos seus sonhos em Balneário Camboriú
         </h1>
-        <p className="max-w-xs sm:text-xl md:text-2xl text-white mb-10">
+        <p className="hidden sm:block max-w-xs sm:max-w-md sm:text-xl md:text-2xl text-white mb-10">
           Casas, apartamentos e terrenos disponíveis para venda ou locação
         </p>
       </motion.div>
@@ -30,7 +30,7 @@ export default function Hero() {
         initial={{ y: "100%", opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
-        className="absolute h-[250px]  sm:h-[550px] bottom-0 sm:right-0"
+        className="absolute right-0 h-[250px]  sm:h-[550px] bottom-0 sm:right-0 md:-right-6"
       >
         <img className="h-full" src="/profile-cutout.png" />
       </motion.div>
