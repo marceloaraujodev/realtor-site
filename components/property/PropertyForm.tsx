@@ -30,39 +30,39 @@ export default function PropertyForm({ existingProperty }: PropertyFormProp) {
 
   const methods = useForm<FormData>({
     // form default values should be empty strings
-    defaultValues: {
-      title: "",
-      location: "",
-      price: "",
-      description: "",
-      propertyType: undefined,
-      bedrooms: "",
-      bathrooms: "",
-      garage: "",
-      totalArea: "",
-      privateArea: "",
-      features: [], // Initialize as an empty array
-      images: [], // Initialize as an empty array
-    },
-    // thos below are just for testing purposes
     // defaultValues: {
-    //   title: 'Apartamento vista mar avenida Atlântica',
-    //   location: 'Centro, Balneário Camboriú',
-    //   price: '5000000',
-    //   description: 'lindo apartamento completo, vista pro mar',
-    //   // propertyType: undefined,
-    //   bedrooms: '4',
-    //   bathrooms: '5',
-    //   garage: '3',
-    //   suites: 2,
-    //   condominio: 800,
-    //   listingType: 'aluguel',
-    //   propertyType: 'Casa',
-    //   totalArea: '120',
-    //   privateArea: '120',
+    //   title: "",
+    //   location: "",
+    //   price: "",
+    //   description: "",
+    //   propertyType: undefined,
+    //   bedrooms: "",
+    //   bathrooms: "",
+    //   garage: "",
+    //   totalArea: "",
+    //   privateArea: "",
     //   features: [], // Initialize as an empty array
-    //   images: [],   // Initialize as an empty array
+    //   images: [], // Initialize as an empty array
     // },
+    // thos below are just for testing purposes
+    defaultValues: {
+      title: 'Apartamento vista mar avenida Atlântica',
+      location: 'Centro, Balneário Camboriú',
+      price: '5000000',
+      description: 'lindo apartamento completo, vista pro mar',
+      // propertyType: undefined,
+      bedrooms: '4',
+      bathrooms: '5',
+      garage: '3',
+      suites: 2,
+      condominio: 800,
+      listingType: 'aluguel',
+      propertyType: 'Casa',
+      totalArea: '120',
+      privateArea: '120',
+      features: [], // Initialize as an empty array
+      images: [],   // Initialize as an empty array
+    },
     mode: "onBlur",
   });
   // console.log('this is property', existingProperty);
@@ -86,12 +86,14 @@ export default function PropertyForm({ existingProperty }: PropertyFormProp) {
   // pre loads the data from property props when the user is editing
   useEffect(() => {
     if (existingProperty) {
+      console.log('existing property:', existingProperty);
+      console.log('existing property:', existingProperty.propertyType);
       reset({
         title: existingProperty.title || "",
         location: existingProperty.location || "",
         price: existingProperty.price?.toString() || "",
         description: existingProperty.description || "",
-        propertyType: existingProperty.propertyType || undefined,
+        propertyType: existingProperty.propertyType || '',
         bedrooms: existingProperty.bedrooms?.toString() || "",
         bathrooms: existingProperty.bathrooms?.toString() || "",
         garage: existingProperty.garage?.toString() || "",
@@ -115,9 +117,9 @@ export default function PropertyForm({ existingProperty }: PropertyFormProp) {
         }), // or however you want to initialize features
       });
     }
+
   }, [existingProperty, reset]);
 
-  // is submiting is not really being used, but have already sert up for in case I neee it
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     // console.log('this is data from on submit', data)
@@ -156,12 +158,18 @@ export default function PropertyForm({ existingProperty }: PropertyFormProp) {
       const compressedImages = await Promise.all(
         data.images.map(async (image) => {
           if (!image.file) return image;
-          try {
-            const compressedFile = await handleImageUpload(image.file);
-            return { ...image, file: compressedFile };
-          } catch (error) {
-            console.error("Compression failed for image:", error);
-            return image; // Fallback to original
+           // Check the file size (in bytes)
+          const fileSizeInKB = image.file.size / 1024; // Convert from bytes to KB
+          if (fileSizeInKB > 600){
+            try {
+              const compressedFile = await handleImageUpload(image.file);
+              return { ...image, file: compressedFile };
+            } catch (error) {
+              console.error("Compression failed for image:", error);
+              return image; // Fallback to original
+            }
+          }else{
+            return image;
           }
         })
       );
@@ -201,10 +209,12 @@ export default function PropertyForm({ existingProperty }: PropertyFormProp) {
 
         router.push("/propriedades");
       }
-    } catch (error) {
+    } catch (error: any) {
+       // Check if the error has a message and use it
+      const errorMessage = error?.message || error?.toString() || 'Ocorreu um erro desconhecido.';
       toast({
         title: "Tente novament!",
-        description: "Não foi possivel salvar a propriedade.",
+        description: `Não foi possivel salvar a propriedade. Error: ${errorMessage}`,
       });
       console.error("Error saving property:", error);
     }
@@ -228,10 +238,10 @@ export default function PropertyForm({ existingProperty }: PropertyFormProp) {
       {/* Tabs is what controls the navigation with its  */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="basic">Informações Básicas</TabsTrigger>
-            <TabsTrigger value="details">Detalhes</TabsTrigger>
-            <TabsTrigger value="features">Características</TabsTrigger>
-            <TabsTrigger value="images">Imagens</TabsTrigger>
+            <TabsTrigger disabled value="basic">Informações Básicas</TabsTrigger>
+            <TabsTrigger disabled value="details">Detalhes</TabsTrigger>
+            <TabsTrigger disabled value="features">Características</TabsTrigger>
+            <TabsTrigger disabled value="images">Imagens</TabsTrigger>
           </TabsList>
 
           <TabsContent value="basic">

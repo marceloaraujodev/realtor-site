@@ -111,7 +111,7 @@ export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicI
 
         <div className="space-y-2">
           <Label htmlFor="propertyType">Tipo de Imóvel</Label>
-          <Select value={propertyType || ""} onValueChange={handleSelect("propertyType")}>
+          <Select key={propertyType} value={propertyType || ""} onValueChange={handleSelect("propertyType")}>
             <SelectTrigger>
               <SelectValue placeholder="Selecione o tipo" />
             </SelectTrigger>
@@ -129,7 +129,7 @@ export function PropertyBasicInfo({ register, errors, setValue }: PropertyBasicI
 
         <div className="space-y-2" data-name="listying type sale or rent">
           <Label htmlFor="listingType">Tipo de Listagem</Label>
-          <Select value={listingType || ""} onValueChange={handleSelect("listingType")}>
+          <Select key={listingType} value={listingType || ""} onValueChange={handleSelect("listingType")}>
             <SelectTrigger>
               <SelectValue placeholder="Selecione o tipo" />
             </SelectTrigger>
