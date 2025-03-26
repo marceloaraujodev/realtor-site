@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 export default function Hero() {
   return (
-    <div className="relative h-[600px]">
+    <div className="relative h-[600px] overflow-hidden">
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{
@@ -17,7 +17,7 @@ export default function Hero() {
         initial={{y: '-450px', opacity: 0}}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
-        className="relative justify-center sm:mt-0 h-full max-w-4xl mx-auto px-4 sm:px-2 lg:px-8 flex flex-col sm:items-center md:items-start md:justify-center md:text-left lg:text-center md:pl-3">
+        className=" relative justify-center sm:mt-0 h-full max-w-4xl mx-auto px-4 sm:px-2 lg:px-8 flex flex-col sm:items-center md:items-start md:justify-center md:text-left lg:text-center md:pl-3">
         <h1 className="text-4xl sm:text-4xl md:text-5xl  max-w-[590px] font-bold text-white mb-3">
           Encontre o imóvel dos seus sonhos em Balneário Camboriú
         </h1>

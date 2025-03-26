@@ -139,14 +139,14 @@ export default function PropertyGallery({ property }: PropertyProps) {
       {/* Image Dialog */}
       <Dialog open={selectedImageIndex !== null} onOpenChange={() => setSelectedImageIndex(null)}>
         <DialogTitle></DialogTitle>
-        <DialogContent className="max-w-4xl">
-          <div className="relative aspect-[16/9]">
+        <DialogContent className="w-full max-w-lg sm:max-w-4xl h-[70vh] sm:h-[90vh]">
+          <div className="relative">
           {selectedImageIndex !== null && (
               <Image
                 src={combinedImages[selectedImageIndex]?.url || ""}
                 alt="Imagem ampliada"
                 fill
-                className="object-cover sm:object-contain"
+                className="object-contain"
               />
             )}
             
@@ -170,7 +170,6 @@ export default function PropertyGallery({ property }: PropertyProps) {
               </button>
             )}
           </div>
-          <DialogDescription></DialogDescription>
         </DialogContent>
       </Dialog>
     </>
