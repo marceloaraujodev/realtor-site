@@ -82,6 +82,12 @@ export default function PropertyGallery({ property }: PropertyProps) {
             fill
             className="object-cover"
             priority
+            onClick={() => {
+              const index = combinedImages.findIndex((img) => img?.id === coverImage.id);
+              if (index !== -1) {
+                setSelectedImageIndex(index);
+              }
+            }}
           />
         </div>
       )}
