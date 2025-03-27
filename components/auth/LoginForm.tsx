@@ -54,7 +54,7 @@ export default function LoginForm() {
 
       // Temporary simulation
       await new Promise(resolve => setTimeout(resolve, 1000));
-      router.push('/');
+      router.push('/propriedades/novo');
     } catch (err) {
       setError('Credenciais inválidas. Por favor, tente novamente.');
     } finally {
