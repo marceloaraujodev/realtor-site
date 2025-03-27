@@ -23,11 +23,13 @@ export default function PropertyGrid({properties}: PropertiesProps) {
 
   return (
     <section className="py-16 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex flex-col max-w-7xl justify-center px-4 sm:px-6 lg:px-8">
         <h2 className="text-3xl font-bold text-center mb-12">
           Imóveis em Destaque
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8 mx-auto"
+        data-name='propertyGrid card container'
+        >
       
           {showProperties.map((property: IpropertyType, index: number) => {
             const urlpath = `https://${process.env.NEXT_PUBLIC_AWS_BUCKET_NAME}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/`;
@@ -109,10 +111,10 @@ export default function PropertyGrid({properties}: PropertiesProps) {
                     <p className='text-xs font-bold mt-1 mb-4 min-h-[20px]'>R${property.condominio}</p>
                   </div>
                 </Link>
-                <div className='w-full flex justify-center mb-5'>
-                  <div className="w-1/2 mr-4">
+                <div className='w-full flex justify-center gap-5 mb-5'>
+                  <div className="">
                     <Link href={`/propriedades/${property.propertyId}`} >
-                      <Button className="w-40">Ver Detalhes</Button>
+                      <Button className="px-8">Ver Detalhes</Button>
                     </Link>
 
                     </div>
