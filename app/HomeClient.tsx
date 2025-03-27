@@ -24,7 +24,7 @@ export default function Home({properties}: PropertiesProps) {
       <SearchProperties />
       <PropertyGrid key={propertyList.length} properties={propertyList}/>
       <AboutSection />
-      <Testimonials />
+      {/* <Testimonials /> */}
       <Newsletter />
     </div>
   );

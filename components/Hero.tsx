@@ -12,25 +12,31 @@ export default function Hero() {
       >
         <div className="absolute inset-0 bg-black/50" />
       </div>
+      {/* px-4 sm:px-2 lg:px-8  sm:items-center md:items-start md:justify-center md:text-left lg:text-center md:pl-3 max-w-4xl 
+      sm:mt-0
+      */}
       
       <motion.div
-        initial={{y: '-450px', opacity: 0}}
-        animate={{ y: 0, opacity: 1 }}
+        initial={{y: '-450px', x: '0px', opacity: 0}}
+        animate={{ y: 300, x:'0px', opacity: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
-        className=" relative justify-center sm:mt-0 h-full max-w-4xl mx-auto px-4 sm:px-2 lg:px-8 flex flex-col sm:items-center md:items-start md:justify-center md:text-left lg:text-center md:pl-3">
-        <h1 className="text-4xl sm:text-4xl md:text-5xl  max-w-[590px] font-bold text-white mb-3">
+        className=" relative h-full  z-20 sm:z-0">
+
+       <div className='flex flex-col  z-10 items-start md:justify-center lg:items-center lg:-ml-10' data-name='title subtitle div'>
+        <h1 className=" sm:max-w-[460px] md:max-w-[480px]  text-3xl sm:text-5xl lg:max-w-[650px] text-center md:text-5xl font-bold text-white">
           Encontre o imóvel dos seus sonhos em Balneário Camboriú
         </h1>
-        <p className="hidden sm:block max-w-xs sm:max-w-md sm:text-xl md:text-2xl text-white mb-10">
+        {/* <div className="hidden max-w-md sm:text-xl md:text-2xl text-white mb-10 sm:max-w-[400px] lg:text-center">
           Casas, apartamentos e terrenos disponíveis para venda ou locação
-        </p>
+        </div> */}
+       </div>
       </motion.div>
 
         <motion.div
         initial={{ y: "100%", opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 1, ease: "easeOut" }}
-        className="absolute right-0 h-[250px]  sm:h-[550px] bottom-0 sm:right-0 md:-right-6"
+        className=" absolute h-[500px] sm:h-[550px] bottom-0 left-0 right-0 mx-auto w-fit sm:left-auto sm:-right-6 sm:mx-0 "
       >
         <img className="h-full" src="/profile-cutout.png" />
       </motion.div>
